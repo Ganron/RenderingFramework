@@ -166,12 +166,12 @@ Vector3 Vector3::CompDiv(const Vector3 & v1, const Vector3 & v2)
 	return Vector3(v1.x/v2.x, v1.y/v2.y, v1.z/v2.z);
 }
 
-Vector3 Vector3::GetNormalized(const Vector3& v)
+Vector3 Vector3::GetNormalized() const
 {
-	float length = v.GetLength();
-	if (length != 0.0f)
+	float length = GetLength();
+	if (!NearlyEqual(length,0.0f))
 	{
-		return (v / length);
+		return (*this / length);
 	}
 	else return Vector3();
 }
@@ -199,8 +199,8 @@ float Vector3::GetDistanceSquared(const Vector3 & v1, const Vector3 & v2)
 
 float Vector3::GetAngle(const Vector3 & v1, const Vector3 & v2)
 {
-	Vector3 a = GetNormalized(v1);
-	Vector3 b = GetNormalized(v2);
+	Vector3 a = v1.GetNormalized();
+	Vector3 b = v2.GetNormalized();
 
 	return Acos(DotProduct(a, b));
 
@@ -261,8 +261,8 @@ Vector3 Vector3::Reflect(const Vector3 & light, const Vector3 & normal)
 
 Vector3 Vector3::Refract(const Vector3 & light, const Vector3 & normal, float etaLeaving, float etaEntering)
 {
-	Vector3 l = GetNormalized(light);
-	Vector3 n = GetNormalized(normal);
+	Vector3 l = light.GetNormalized();
+	Vector3 n = normal.GetNormalized();
 
 	float eta = etaLeaving / etaEntering;
 	float cos = DotProduct(l, n);
@@ -282,7 +282,7 @@ Vector3 Vector3::Refract(const Vector3 & light, const Vector3 & normal, float et
 
 void Vector3::Normalize()
 {
-	*this = GetNormalized(*this);
+	*this = this->GetNormalized();
 }
 
 void Vector3::Print() const

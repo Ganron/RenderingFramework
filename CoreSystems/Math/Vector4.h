@@ -5,7 +5,7 @@
 class Vector2;
 class Vector3;
 
-//a vector in 4D space.
+//A vector in 4D space.
 class Vector4
 {
 public:
@@ -96,6 +96,7 @@ public:
 
 	/* GETTERS */
 
+	//TODO make non-static
 	//Get a vector with unit length pointing in the same direction.
 	static Vector4 GetNormalized(const Vector4& v);
 

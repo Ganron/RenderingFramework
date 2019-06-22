@@ -119,17 +119,22 @@
     <ClCompile Include="CoreSystems\Math\Matrix2.cpp" />
     <ClCompile Include="CoreSystems\Math\Matrix3.cpp" />
     <ClCompile Include="CoreSystems\Math\Matrix4.cpp" />
+    <ClCompile Include="CoreSystems\Math\Plane.cpp" />
     <ClCompile Include="CoreSystems\Math\Quaternion.cpp" />
+    <ClCompile Include="CoreSystems\Math\Sphere.cpp" />
     <ClCompile Include="CoreSystems\Math\Vector2.cpp" />
     <ClCompile Include="CoreSystems\Math\Vector3.cpp" />
     <ClCompile Include="CoreSystems\Math\Vector4.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CoreSystems\Math\Math.h" />
     <ClInclude Include="CoreSystems\Math\Matrix2.h" />
     <ClInclude Include="CoreSystems\Math\Matrix3.h" />
     <ClInclude Include="CoreSystems\Math\Matrix4.h" />
+    <ClInclude Include="CoreSystems\Math\Plane.h" />
     <ClInclude Include="CoreSystems\Math\Quaternion.h" />
+    <ClInclude Include="CoreSystems\Math\Sphere.h" />
     <ClInclude Include="CoreSystems\Math\Vector2.h" />
     <ClInclude Include="CoreSystems\Math\Vector3.h" />
     <ClInclude Include="CoreSystems\Math\Vector4.h" />

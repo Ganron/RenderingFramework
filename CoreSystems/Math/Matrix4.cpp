@@ -466,6 +466,19 @@ Matrix4 Matrix4::GetInverse() const
 	return result;
 }
 
+Matrix3 Matrix4::GetRotation() const
+{
+	return Matrix3(
+		matrixEntry[0], matrixEntry[4], matrixEntry[8],
+		matrixEntry[1],matrixEntry[5],matrixEntry[9],
+		matrixEntry[2],matrixEntry[6],matrixEntry[10]);
+}
+
+Vector3 Matrix4::GetTranslation() const
+{
+	return Vector3(matrixEntry[12],matrixEntry[13],matrixEntry[14]);
+}
+
 Matrix4 Matrix4::GetInverseScale(const Matrix4 & m)
 {
 	Matrix4 result = m;
@@ -550,8 +563,8 @@ Matrix4 Matrix4::CreateTranslation(const Vector3 & v)
 
 Matrix4 Matrix4::CreateLookAt(const Vector3 & cameraPos, const Vector3 & POI, const Vector3 & up)
 {
-	Vector3 forward = Vector3::GetNormalized(cameraPos - POI);
-	Vector3 upN = Vector3::GetNormalized(up);
+	Vector3 forward = (cameraPos - POI).GetNormalized();
+	Vector3 upN = up.GetNormalized();
 	Vector3 right = Vector3::CrossProduct(upN, forward);
 	upN = Vector3::CrossProduct(forward, right);
 

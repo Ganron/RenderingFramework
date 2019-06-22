@@ -5,7 +5,7 @@
 class Vector2;
 class Vector4;
 
-//a vector in 3D space.
+//A vector in 3D space.
 class Vector3
 {
 public:
@@ -92,7 +92,7 @@ public:
 	/* GETTERS */
 
 	//Get a vector with unit length pointing in the same direction.
-	static Vector3 GetNormalized(const Vector3& v);
+	Vector3 GetNormalized() const;
 
 	//Calculate the magnitude of the vector.
 	float GetLength() const;
@@ -133,6 +133,8 @@ public:
 
 
 	/* ADDITIONAL OPERATIONS */
+
+	//TODO make unit version of Project on to
 
 	//Get the projection of this vector onto v.
 	Vector3 ProjectOnTo(const Vector3& v) const;

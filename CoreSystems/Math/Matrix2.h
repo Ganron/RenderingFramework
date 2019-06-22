@@ -4,7 +4,7 @@
 class Matrix3;
 class Vector2;
 
-//a 2x2 Matrix
+//A 2x2 Matrix
 class Matrix2
 {
 public:

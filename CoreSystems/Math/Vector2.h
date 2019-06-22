@@ -2,7 +2,7 @@
 
 #include "Math.h"
 
-//a vector in 2D space.
+//A vector in 2D space.
 class Vector2
 {
 public:
@@ -75,6 +75,7 @@ public:
 
 	/* GETTERS */
 
+	//TODO make non-static
 	//Get a vector with unit length pointing in the same direction.
 	static Vector2 GetNormalized(const Vector2& v);
 

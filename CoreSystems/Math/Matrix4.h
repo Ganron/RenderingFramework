@@ -7,6 +7,7 @@ class Matrix3;
 class Matrix2;
 class Quaternion;
 
+//A 4x4 matrix
 class Matrix4
 {
 public:
@@ -101,6 +102,10 @@ public:
 	Matrix4 GetTranspose() const;
 
 	Matrix4 GetInverse() const;
+
+	Matrix3 GetRotation() const;
+
+	Vector3 GetTranslation() const;
 
 	//Get the inverse of a scaling matrix.
 	static Matrix4 GetInverseScale(const Matrix4& m);

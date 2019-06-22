@@ -5,7 +5,7 @@ class Vector3;
 class Matrix4;
 class Quaternion;
 
-//a 3x3 Matrix
+//A 3x3 Matrix
 class Matrix3
 {
 public:
