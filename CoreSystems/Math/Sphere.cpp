@@ -56,6 +56,10 @@ bool Sphere::Contains(const Vector3 & point)
 bool Sphere::Contains(const Sphere & sphere)
 {
 	float radiusDiff = radius - sphere.GetRadius();
+	if (radiusDiff < 0.0f)
+	{
+		return false;
+	}
 	return (center - sphere.GetCenter()).GetLengthSquared() <= radiusDiff*radiusDiff;
 }
 

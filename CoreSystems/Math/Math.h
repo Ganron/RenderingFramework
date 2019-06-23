@@ -115,6 +115,9 @@ T Min(T a, T b, T c);
 //Compare the two numbers within a given tolerance.
 bool NearlyEqual(float a, float b, float tolerance=EPSILON_EQUAL);
 
+//Check whether a number is close to zero (within a given tolerance).
+bool NearlyZero(float a, float tolerance=EPSILON_NEAR_ZERO);
+
 //Round x to the nearest integer. Halfway cases are round away from zero.
 float Round(float x);
 

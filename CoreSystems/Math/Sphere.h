@@ -11,6 +11,7 @@ private:
 	float radius;
 
 public:
+
 	/* CONSTRUCTORS */
 
 	//Create a unit sphere.(Center=<0,0,0> and radius=1)
@@ -58,3 +59,5 @@ public:
 
 	~Sphere();
 };
+
+//TODO expand {point, aabb, sphere} ??

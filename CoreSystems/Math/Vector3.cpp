@@ -223,7 +223,7 @@ bool Vector3::IsUnit(float tolerance) const
 
 bool Vector3::NearlyEqual(const Vector3 & v, float tolerance) const
 {
-	return (Abs(x - v.x) < tolerance && Abs(y - v.y) < tolerance && Abs(z - v.z) < tolerance);
+	return (Abs(x - v.x) <= tolerance && Abs(y - v.y) <= tolerance && Abs(z - v.z) <= tolerance);
 }
 
 bool Vector3::Orthogonal(const Vector3 & v1, const Vector3 & v2, float tolerance)

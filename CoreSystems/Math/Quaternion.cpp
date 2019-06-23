@@ -155,7 +155,7 @@ bool Quaternion::IsUnit(float tolerance) const
 
 bool Quaternion::NearlyEqual(const Quaternion & q, float tolerance) const
 {
-	return Abs(w-q.w)<tolerance && Abs(x - q.x) < tolerance && Abs(y - q.y) < tolerance && Abs(z - q.z) < tolerance;
+	return Abs(w - q.w) <= tolerance && Abs(x - q.x) <= tolerance && Abs(y - q.y) <= tolerance && Abs(z - q.z) <= tolerance;
 }
 
 Quaternion Quaternion::CreateFromTwoVectors(const Vector3 & v1, const Vector3 & v2)

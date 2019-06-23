@@ -240,7 +240,7 @@ bool Vector4::IsUnit(float tolerance) const
 
 bool Vector4::NearlyEqual(const Vector4 & v, float tolerance) const
 {
-	return (Abs(x - v.x) < tolerance && Abs(y - v.y) < tolerance && Abs(z - v.z) < tolerance && Abs(w - v.w) < tolerance);
+	return (Abs(x - v.x) <= tolerance && Abs(y - v.y) <= tolerance && Abs(z - v.z) <= tolerance && Abs(w - v.w) <= tolerance);
 }
 
 bool Vector4::Orthogonal(const Vector4 & v1, const Vector4 & v2, float tolerance)

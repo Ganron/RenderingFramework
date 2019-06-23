@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CoreSystems\Math\AABB.cpp" />
     <ClCompile Include="CoreSystems\Math\Math.cpp" />
     <ClCompile Include="CoreSystems\Math\Matrix2.cpp" />
     <ClCompile Include="CoreSystems\Math\Matrix3.cpp" />
@@ -128,6 +129,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CoreSystems\Math\AABB.h" />
     <ClInclude Include="CoreSystems\Math\Math.h" />
     <ClInclude Include="CoreSystems\Math\Matrix2.h" />
     <ClInclude Include="CoreSystems\Math\Matrix3.h" />

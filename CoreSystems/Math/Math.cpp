@@ -129,12 +129,17 @@ int GCD(int a, int b)
 
 int LCM(int a, int b)
 {
-	return a*b/GCD(a,b);
+	return a * b / GCD(a, b);
 }
 
 bool NearlyEqual(float a, float b, float tolerance)
 {
-	return Abs(a-b)<tolerance;
+	return Abs(a - b) <= tolerance;
+}
+
+bool NearlyZero(float a, float tolerance)
+{
+	return Abs(a - 0.0f) <= tolerance;;
 }
 
 float Round(float x)
