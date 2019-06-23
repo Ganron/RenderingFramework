@@ -128,12 +128,12 @@ Vector2 Vector2::CompDiv(const Vector2 & v1, const Vector2 & v2)
 	return Vector2(v1.x / v2.x, v1.y / v2.y);
 }
 
-Vector2 Vector2::GetNormalized(const Vector2& v)
+Vector2 Vector2::GetNormalized() const
 {
-	float length = v.GetLength();
+	float length = GetLength();
 	if (length != 0.0f)
 	{
-		return (v / length);
+		return (*this / length);
 	}
 	else return Vector2();
 }
@@ -161,8 +161,8 @@ float Vector2::GetDistanceSquared(const Vector2 & v1, const Vector2 & v2)
 
 float Vector2::GetAngle(const Vector2 & v1, const Vector2 & v2)
 {
-	Vector2 a = GetNormalized(v1);
-	Vector2 b = GetNormalized(v2);
+	Vector2 a = v1.GetNormalized();
+	Vector2 b = v2.GetNormalized();
 
 	return Acos(DotProduct(a, b));
 }
@@ -205,7 +205,7 @@ Vector2 Vector2::ProjectOnTo(const Vector2 & v) const
 
 void Vector2::Normalize()
 {
-	*this = GetNormalized(*this);
+	*this = this->GetNormalized();
 }
 
 

@@ -177,12 +177,12 @@ Vector4 Vector4::CompDiv(const Vector4 & v1, const Vector4 & v2)
 	return Vector4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w/v2.w);
 }
 
-Vector4 Vector4::GetNormalized(const Vector4& v)
+Vector4 Vector4::GetNormalized() const
 {
-	float length = v.GetLength();
+	float length = GetLength();
 	if (length != 0.0f)
 	{
-		return (v / length);
+		return (*this / length);
 	}
 	else return Vector4();
 }
@@ -271,7 +271,7 @@ Vector4 Vector4::ProjectOnTo(const Vector4 & v) const
 
 void Vector4::Normalize()
 {
-	*this = GetNormalized(*this);
+	*this = this->GetNormalized();
 }
 
 void Vector4::Print() const

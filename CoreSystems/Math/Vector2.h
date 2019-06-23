@@ -75,9 +75,8 @@ public:
 
 	/* GETTERS */
 
-	//TODO make non-static
 	//Get a vector with unit length pointing in the same direction.
-	static Vector2 GetNormalized(const Vector2& v);
+	Vector2 GetNormalized() const;
 
 	//Calculate the magnitude of the vector.
 	float GetLength() const;
