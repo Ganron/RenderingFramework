@@ -51,6 +51,9 @@
     <ClCompile Include="CoreSystems\Math\AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CoreSystems\Math\OBB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreSystems\Math\Matrix2.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CoreSystems\Math\AABB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreSystems\Math\OBB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

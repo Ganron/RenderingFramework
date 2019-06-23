@@ -120,6 +120,7 @@
     <ClCompile Include="CoreSystems\Math\Matrix2.cpp" />
     <ClCompile Include="CoreSystems\Math\Matrix3.cpp" />
     <ClCompile Include="CoreSystems\Math\Matrix4.cpp" />
+    <ClCompile Include="CoreSystems\Math\OBB.cpp" />
     <ClCompile Include="CoreSystems\Math\Plane.cpp" />
     <ClCompile Include="CoreSystems\Math\Quaternion.cpp" />
     <ClCompile Include="CoreSystems\Math\Sphere.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="CoreSystems\Math\Matrix2.h" />
     <ClInclude Include="CoreSystems\Math\Matrix3.h" />
     <ClInclude Include="CoreSystems\Math\Matrix4.h" />
+    <ClInclude Include="CoreSystems\Math\OBB.h" />
     <ClInclude Include="CoreSystems\Math\Plane.h" />
     <ClInclude Include="CoreSystems\Math\Quaternion.h" />
     <ClInclude Include="CoreSystems\Math\Sphere.h" />

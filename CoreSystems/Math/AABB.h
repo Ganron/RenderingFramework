@@ -32,34 +32,34 @@ public:
 	/* GETTERS */
 
 	//Get the center of the AABB.
-	Vector3 GetCenter();
+	Vector3 GetCenter() const;
 
 	//Get the size of the AABB along the three dimensions.
-	Vector3 GetSize();
+	Vector3 GetSize() const;
 
 	//Get the extents (half-lengths) of the AABB along the three dimensions.
-	Vector3 GetExtents();
+	Vector3 GetExtents() const;
 
 
 	/* ADDITIONAL OPERATIONS */
 
 	//Check whether a point is inside this AABB. 
-	bool Contains(const Vector3& point);
+	bool Contains(const Vector3& point) const;
 
 	//Check whether another AABB is inside this AABB.
-	bool Contains(const AABB& aabb);
+	bool Contains(const AABB& aabb) const;
 
 	/* 
 	 Calculate the shortest distance from a given point to the surface of the AABB.
 	 Distance = 0 if the point lies on the AABB or if it is inside the AABB.
 	*/
-	float Distance(const Vector3& point);
+	float Distance(const Vector3& point) const;
 
 	/*
 	 Calculate the square of the shortest distance from a given point to the surface of the AABB.
 	 Distance = 0 if the point lies on the AABB or if it is inside the AABB.
 	*/
-	float DistanceSquared(const Vector3& point);
+	float DistanceSquared(const Vector3& point) const;
 
 	//Expand the AABB so that it includes a given point.
 	void Expand(const Vector3& point);
@@ -68,7 +68,7 @@ public:
 	void Expand(const AABB& aabb);
 
 	//Calculate a transformed AABB.
-	AABB Transform(const Matrix3 & rotation, const Vector3 & translation);
+	AABB Transform(const Matrix3 & rotation, const Vector3 & translation) const;
 
 	~AABB();
 };
