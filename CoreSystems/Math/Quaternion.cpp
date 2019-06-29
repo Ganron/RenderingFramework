@@ -127,13 +127,13 @@ Quaternion Quaternion::GetNormalized() const
 	return *this/GetNorm();
 }
 
-//TODO Assert -1<w<1 ?
+//TODO Check normalized?
 float Quaternion::GetRotationAngle() const
 {
 	return Acos(w) * 2;
 }
 
-//TODO Assert(1-w*w > 0)
+//TODO Check normalized?
 Vector3 Quaternion::GetRotationAxis() const
 {
 	float sinSquared = 1 - w * w;
@@ -220,7 +220,7 @@ Quaternion Quaternion::CreateFromMatrix(const Matrix3 & m)
 	return result;
 }
 
-
+//TODO Check normalized?
 float Quaternion::AngularDistance(const Quaternion & q) const
 {
 	return Acos(Abs(DotProduct(q,*this)));
@@ -241,6 +241,7 @@ Quaternion Quaternion::Lerp(const Quaternion & q1, const Quaternion & q2, float 
 	return result.GetNormalized();
 }
 
+//TODO Check normalized?
 Quaternion Quaternion::Slerp(const Quaternion & q1, const Quaternion & q2, float T, bool shortestPath)
 {
 	float dot = DotProduct(q1, q2);

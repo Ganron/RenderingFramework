@@ -282,5 +282,3 @@ void Vector4::Print() const
 Vector4::~Vector4()
 {
 }
-
-//TODO Vector comparisons? Abs? -> use in NearlyEqual, Step, and Smoothstep functions

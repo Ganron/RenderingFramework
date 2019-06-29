@@ -169,23 +169,23 @@ T QuadraticBezier(T a, T b, T c, float t);
 template<class T>
 T CubicBezier(T a, T b, T c, T d, float t);
 
-//a step function that returns 0.0 if x<edge and 1.0 otherwise.
+//A step function that returns 0.0 if x<edge and 1.0 otherwise.
 float Step(float x, float edge);
 
 /*
- a step function that returns 0.0 if x[i]<edge[i] and 1.0 otherwise.
+ A step function that returns 0.0 if x[i]<edge[i] and 1.0 otherwise.
  Operates componentwise.
 */
 Vector2 Step(Vector2& x, Vector2& edge);
 
 /*
- a step function that returns 0.0 if x[i]<edge[i] and 1.0 otherwise.
+ A step function that returns 0.0 if x[i]<edge[i] and 1.0 otherwise.
  Operates componentwise.
 */
 Vector3 Step(Vector3& x, Vector3& edge);
 
 /*
- a step function that returns 0.0 if x[i]<edge[i] and 1.0 otherwise.
+ A step function that returns 0.0 if x[i]<edge[i] and 1.0 otherwise.
  Operates componentwise.
 */
 Vector4 Step(Vector4& x, Vector4& edge);

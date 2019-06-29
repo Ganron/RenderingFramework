@@ -92,13 +92,13 @@ public:
 
 	/*
 	 Get the angle of rotation (in radians). 
-	 Quaternion must normalized.
+	 Quaternion must be normalized.
 	*/
 	float GetRotationAngle() const;
 
 	/*
 	 Get the axis of rotation (in radians).
-	 Quaternion must normalized.
+	 Quaternion must be normalized.
 	*/
 	Vector3 GetRotationAxis() const;
 

@@ -134,7 +134,8 @@ public:
 
 	/* ADDITIONAL OPERATIONS */
 
-	//TODO make unit version of Project on to
+	//Get the projection of this vector onto the unit vector v.
+	Vector3 ProjectOnToUnit(const Vector3& v) const;
 
 	//Get the projection of this vector onto v.
 	Vector3 ProjectOnTo(const Vector3& v) const;

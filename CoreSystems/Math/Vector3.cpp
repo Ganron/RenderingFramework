@@ -244,12 +244,15 @@ bool Vector3::Parallel(const Vector3 & v1, const Vector3 & v2, float tolerance)
 	return (Abs(absDotProd - lengthProd) < tolerance);
 }
 
+Vector3 Vector3::ProjectOnToUnit(const Vector3 & v) const
+{
+	return v * (*this * v);
+}
+
 Vector3 Vector3::ProjectOnTo(const Vector3 & v) const
 {
 	float length = v.GetLength();
-	return Vector3(
-		v * ((*this * v) / (length * length))
-	);
+	return v * ((*this * v) / (length * length));
 }
 
 Vector3 Vector3::Reflect(const Vector3 & light, const Vector3 & normal)
