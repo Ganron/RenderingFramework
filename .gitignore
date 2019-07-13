@@ -1,3 +1,7 @@
 # VISUAL STUDIO
 .vs/
 Debug/
+
+# CUSTOM FOLDERS
+Backup/
+Resources/
