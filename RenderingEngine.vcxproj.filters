@@ -13,93 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{d53b4912-cb41-4931-b83f-8c71ce888a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{3f0dd328-3c23-4d8d-a67e-10ce19e57f57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{9d891cb7-2bf4-41b3-be35-b910be6622ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{340f66b3-c1d7-4e63-8969-fa99f0b0f086}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\CoreSystems\Math\AABB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Frustum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Matrix2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Matrix3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Matrix4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\OBB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Plane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Quaternion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Vector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Vector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CoreSystems\Math\Vector4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Resources\3rd Party\glad.c">
+    <ClCompile Include="Engine\glad.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\AABB.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Frustum.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Math.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Matrix2.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Matrix3.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Matrix4.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\OBB.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Plane.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Quaternion.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Sphere.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Vector2.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Vector3.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\CoreSystems\Math\Vector4.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\Window.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\CoreSystems\Math\AABB.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Frustum.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Math.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Matrix2.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Matrix3.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Matrix4.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\OBB.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Plane.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Quaternion.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Sphere.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Vector2.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Vector3.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CoreSystems\Math\Vector4.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\Window.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

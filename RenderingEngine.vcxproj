@@ -151,8 +151,9 @@
     <ClCompile Include="Engine\CoreSystems\Math\Vector2.cpp" />
     <ClCompile Include="Engine\CoreSystems\Math\Vector3.cpp" />
     <ClCompile Include="Engine\CoreSystems\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\glad.c" />
+    <ClCompile Include="Engine\Graphics\Window.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
-    <ClCompile Include="Resources\3rd Party\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\CoreSystems\Math\AABB.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Engine\CoreSystems\Math\Vector2.h" />
     <ClInclude Include="Engine\CoreSystems\Math\Vector3.h" />
     <ClInclude Include="Engine\CoreSystems\Math\Vector4.h" />
+    <ClInclude Include="Engine\Graphics\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
