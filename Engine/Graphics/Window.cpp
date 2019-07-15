@@ -1,4 +1,6 @@
 #include"Window.h"
+#include<iostream>
+
 namespace Graphics
 {
 	void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -8,22 +10,33 @@ namespace Graphics
 
 	Window::Window(int inWidth, int inHeight, const char * inTitle, bool inFullscreen) : width(inWidth), height(inHeight), title(inTitle), bFullscreen(inFullscreen)
 	{
-		//TODO decide whether the initialization of glfw and glad should be done here
-
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 
-		window = glfwCreateWindow(width, height, title, NULL, NULL);
+		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+		if (bFullscreen)
+		{
+			window = glfwCreateWindow(mode->width, mode->height, title, monitor, NULL);
+		}
+		else
+		{
+			window = glfwCreateWindow(width, height, title, NULL, NULL);
+			glfwSetWindowPos(window, (mode->width - this->width) / 2, (mode->height - this->height) / 2);
+		}
+		
 		//TODO ASSERT(window)?
 
 		glfwMakeContextCurrent(window);
 
-		//TODO check whether glad is properly initialized
+		//TODO move to a rendering class (with proper itialization checks)
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 		glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
 
+		//TODO move to rendering class! Should precede drawing!
 		glViewport(0, 0, width, height);
 	}
 
@@ -31,16 +44,44 @@ namespace Graphics
 	{
 		width = inWidth;
 		height = inHeight;
+		glfwSetWindowSize(window, inWidth, inHeight);
 	}
 
 	void Window::SetTitle(const char * inTitle)
 	{
 		title = inTitle;
+		glfwSetWindowTitle(window, inTitle);
 	}
 
-	void Window::SetFullscreen(bool inFullscreen)
+	void Window::ToggleFullscreen()
 	{
-		bFullscreen = inFullscreen;
+		bFullscreen = !bFullscreen;
+
+		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+		
+		if (bFullscreen)
+		{
+			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+		}
+		else
+		{
+			glfwSetWindowMonitor(window, NULL, (mode->width - this->width) / 2, (mode->height - this->height) / 2, this->width, this->height, 0);
+		}
+	}
+
+	void Window::ProcessInput()
+	{
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			glfwSetWindowShouldClose(window, true);
+		}
+
+		//TODO pick another key or make it a const variable
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			ToggleFullscreen();
+		}
 	}
 
 	void Window::GetSize(int & outWidth, int & outHeight) const
@@ -66,6 +107,8 @@ namespace Graphics
 
 	void Window::Update()
 	{
+		ProcessInput();
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

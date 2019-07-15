@@ -3,7 +3,7 @@
 
 int main()
 {
-	Graphics::Window window(800,600,"Test");
+	Graphics::Window window(800,600,"Test",false);
 
 	while(!window.IsClosed())
 	{

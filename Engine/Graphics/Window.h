@@ -8,8 +8,8 @@ namespace Graphics
 	class Window
 	{
 	private:
-		GLFWwindow* window;
 		const char* title;
+		GLFWwindow* window;
 		int width;
 		int height;
 		bool bFullscreen;
@@ -19,7 +19,8 @@ namespace Graphics
 
 		void SetSize(int inWidth, int inHeght);
 		void SetTitle(const char* inTitle);
-		void SetFullscreen(bool inFullscreen);
+		void ToggleFullscreen();
+		void ProcessInput();
 
 		void GetSize(int& outWidth, int& outHeight) const;
 		const char* GetTitle() const;
