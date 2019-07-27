@@ -75,6 +75,9 @@
     <ClCompile Include="Engine\glad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\CoreSystems\Math\AABB.h">
@@ -119,5 +122,12 @@
     <ClInclude Include="Engine\Graphics\Window.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\Texture.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Engine\VertexShader.vert" />
+    <None Include="Engine\FragmentShader.frag" />
   </ItemGroup>
 </Project>
