@@ -1,4 +1,5 @@
 #include"Texture.h"
+#include"../CoreSystems/FileSystem.h"
 #include"../CoreSystems/Math/Vector4.h"
 
 #include<stb_image.h>
@@ -7,14 +8,19 @@ Texture::Texture():filePath(""), textureID(0), width(0), height(0), textureUnit(
 {
 }
 
-void Texture::Load(const char * filepath, const TexConfig & config)
+void Texture::Load(std::string filepath, const TexConfig & config)
 {
+	//TODO signal error?
+	if (!Filesystem::IsValidFilePath(filepath)) return;
+
 	int localWidth;
 	int localHeight;
 	int channels;
 
+	if (!Filesystem::IsAbsolute(filepath)) filepath = Filesystem::GetAbsolute(filepath);
+
 	stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load(filepath, &localWidth, &localHeight, &channels, 0);
+	unsigned char* data = stbi_load(filepath.c_str(), &localWidth, &localHeight, &channels, 0);
 
 	if (data)
 	{
@@ -88,7 +94,7 @@ unsigned int Texture::GetTextureUnit() const
 	return textureUnit;
 }
 
-const char * Texture::GetFilePath() const
+std::string Texture::GetFilePath() const
 {
 	return filePath;
 }

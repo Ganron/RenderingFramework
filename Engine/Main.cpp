@@ -1,6 +1,8 @@
 #include"CoreSystems/Math/Vector4.h"
+#include"CoreSystems/FileSystem.h"
 #include"Graphics/Window.h"
 #include"Graphics/Texture.h"
+
 
 /******************************
 **** FOR TESTING PURPOSES *****
@@ -42,12 +44,11 @@ int main()
 	renderingProgram = compileShaders();
 
 	/*********************/
-
 	TexConfig config(1, LINEAR, LINEAR, LINEAR, CLAMP_BORDER, CLAMP_BORDER);
 	Texture tex;
-	tex.Load("D:/Documents/Assen/Projects/RenderingEngine/Resources/COMMUNISM.png", config);
-	tex.Bind(0);
-	
+	tex.Load("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\COMMUNISM.png", config);
+	tex.Bind(0);	
+
 	glCreateVertexArrays(1, &vertexArray);
 	glBindVertexArray(vertexArray);
 

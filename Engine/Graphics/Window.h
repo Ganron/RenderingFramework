@@ -2,28 +2,29 @@
 
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include<string>
 
 namespace Graphics
 {
 	class Window
 	{
 	private:
-		const char* title;
+		std::string title;
 		GLFWwindow* window;
 		int width;
 		int height;
 		bool bFullscreen;
 
 	public:
-		Window(int inWidth, int inHeight, const char* inTitle, bool inFullscreen = 0);
+		Window(int inWidth, int inHeight, const std::string& inTitle, bool inFullscreen = 0);
 
 		void SetSize(int inWidth, int inHeght);
-		void SetTitle(const char* inTitle);
+		void SetTitle(const std::string& inTitle);
 		void ToggleFullscreen();
 		void ProcessInput();
 
 		void GetSize(int& outWidth, int& outHeight) const;
-		const char* GetTitle() const;
+		std::string GetTitle() const;
 
 		bool IsFullscreen() const;
 		bool IsClosed() const;

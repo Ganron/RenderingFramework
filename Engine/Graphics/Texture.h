@@ -1,6 +1,7 @@
 #pragma once
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include<string>
 
 class Vector4;
 
@@ -41,7 +42,7 @@ struct TexConfig
 class Texture
 {
 private:
-	const char* filePath;
+	std::string filePath;
 	GLuint textureID;
 	int width;
 	int height;
@@ -51,7 +52,7 @@ private:
 public:
 	Texture();
 
-	void Load(const char* filepath, const TexConfig& config);
+	void Load(std::string filepath, const TexConfig& config);
 	void Load(const void* data, int width, int height, const TexParams& params, const TexConfig& config);
 
 	void Bind(unsigned int texUnit);
@@ -62,7 +63,7 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 	unsigned int GetTextureUnit() const;
-	const char* GetFilePath() const;
+	std::string GetFilePath() const;
 
 	void Unload();
 	~Texture();

@@ -8,7 +8,7 @@ namespace Graphics
 		glViewport(0, 0, width, height);
 	}
 
-	Window::Window(int inWidth, int inHeight, const char * inTitle, bool inFullscreen) : width(inWidth), height(inHeight), title(inTitle), bFullscreen(inFullscreen)
+	Window::Window(int inWidth, int inHeight, const std::string& inTitle, bool inFullscreen) : width(inWidth), height(inHeight), title(inTitle), bFullscreen(inFullscreen)
 	{
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -19,11 +19,11 @@ namespace Graphics
 
 		if (bFullscreen)
 		{
-			window = glfwCreateWindow(mode->width, mode->height, title, monitor, NULL);
+			window = glfwCreateWindow(mode->width, mode->height, title.c_str(), monitor, NULL);
 		}
 		else
 		{
-			window = glfwCreateWindow(width, height, title, NULL, NULL);
+			window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 			glfwSetWindowPos(window, (mode->width - this->width) / 2, (mode->height - this->height) / 2);
 		}
 		
@@ -47,10 +47,10 @@ namespace Graphics
 		glfwSetWindowSize(window, inWidth, inHeight);
 	}
 
-	void Window::SetTitle(const char * inTitle)
+	void Window::SetTitle(const std::string& inTitle)
 	{
 		title = inTitle;
-		glfwSetWindowTitle(window, inTitle);
+		glfwSetWindowTitle(window, inTitle.c_str());
 	}
 
 	void Window::ToggleFullscreen()
@@ -90,7 +90,7 @@ namespace Graphics
 		outHeight = height;
 	}
 
-	const char * Window::GetTitle() const
+	std::string Window::GetTitle() const
 	{
 		return title;
 	}
