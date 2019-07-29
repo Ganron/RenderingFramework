@@ -93,7 +93,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions> </AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -162,6 +163,7 @@
     <ClCompile Include="Engine\CoreSystems\Math\Vector3.cpp" />
     <ClCompile Include="Engine\CoreSystems\Math\Vector4.cpp" />
     <ClCompile Include="Engine\glad.cpp" />
+    <ClCompile Include="Engine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Engine\Graphics\Window.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Engine\CoreSystems\Math\Vector2.h" />
     <ClInclude Include="Engine\CoreSystems\Math\Vector3.h" />
     <ClInclude Include="Engine\CoreSystems\Math\Vector4.h" />
+    <ClInclude Include="Engine\Graphics\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\Texture.h" />
     <ClInclude Include="Engine\Graphics\Window.h" />
   </ItemGroup>

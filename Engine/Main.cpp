@@ -44,8 +44,8 @@ int main()
 	renderingProgram = compileShaders();
 
 	/*********************/
-	TexConfig config(1, LINEAR, LINEAR, LINEAR, CLAMP_BORDER, CLAMP_BORDER);
-	Texture tex;
+	Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::CLAMP_BORDER, Graphics::TexWrap::CLAMP_BORDER);
+	Graphics::Texture tex;
 	tex.Load("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\COMMUNISM.png", config);
 	tex.Bind(0);	
 

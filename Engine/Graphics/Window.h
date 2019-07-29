@@ -34,4 +34,3 @@ namespace Graphics
 		~Window();
 	};
 }
-//TODO add fullscreen functionality
