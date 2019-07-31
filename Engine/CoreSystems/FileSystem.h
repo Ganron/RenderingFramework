@@ -4,11 +4,11 @@
 
 namespace Filesystem
 {
-	std::string ReadFile(const std::string& filePath);
+	std::string ReadFile(const std::string& filepath);
 
-	bool IsValidFilePath(const std::string& filePath);
+	bool IsValidFilePath(const std::string& filepath);
 
-	bool IsAbsolute(const std::string& filePath);
+	bool IsAbsolute(const std::string& filepath);
 
 	std::string GetExecutableDirectory();
 

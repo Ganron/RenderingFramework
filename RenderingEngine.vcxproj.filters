@@ -139,7 +139,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Engine\VertexShader.vert" />
-    <None Include="Engine\FragmentShader.frag" />
+    <None Include="Resources\Shaders\FragmentShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Shaders\VertexShader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

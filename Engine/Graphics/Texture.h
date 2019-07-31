@@ -1,8 +1,8 @@
 #pragma once
 #include<glad/glad.h>
-#include<GLFW/glfw3.h>
 #include<string>
 
+//TODO set namespace
 class Vector4;
 
 namespace Graphics 
@@ -45,7 +45,7 @@ namespace Graphics
 	class Texture
 	{
 	private:
-		std::string filePath;
+		std::string filepathInternal;
 		GLuint textureID;
 		int width;
 		int height;
@@ -54,7 +54,7 @@ namespace Graphics
 
 	public:
 		Texture();
-
+		//TODO make bool for error checking
 		void Load(std::string filepath, const TexConfig& config);
 		void Load(const void* data, int width, int height, const TexParams& params, const TexConfig& config);
 

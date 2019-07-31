@@ -2,11 +2,12 @@
 #include"../CoreSystems/FileSystem.h"
 #include"../CoreSystems/Math/Vector4.h"
 
+#define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
 
 namespace Graphics
 {
-	Texture::Texture() :filePath(""), textureID(0), width(0), height(0), textureUnit(0)
+	Texture::Texture() :filepathInternal(""), textureID(0), width(0), height(0), textureUnit(0)
 	{
 	}
 
@@ -26,7 +27,7 @@ namespace Graphics
 
 		if (data)
 		{
-			filePath = filepath;
+			filepathInternal = filepath;
 
 			//TODO find a way to handle different bit depths???
 			TexParams params((TexChannels)channels, TexFormat::UI_NORM_8);
@@ -98,12 +99,12 @@ namespace Graphics
 
 	std::string Texture::GetFilePath() const
 	{
-		return filePath;
+		return filepathInternal;
 	}
 
 	void Texture::Unload()
 	{
-		filePath = "";
+		filepathInternal = "";
 		glDeleteTextures(1, &textureID);
 	}
 
@@ -131,6 +132,7 @@ namespace Graphics
 			case TexFormat::INT_8: internalFormat = GL_R8I; type = GL_BYTE; break;
 			case TexFormat::INT_16: internalFormat = GL_R16I; type = GL_SHORT; break;
 			case TexFormat::INT_32: internalFormat = GL_R32I; type = GL_INT; break;
+			default: internalFormat = GL_INVALID_ENUM; type = GL_INVALID_ENUM; break;
 			}
 
 			return;
@@ -154,6 +156,7 @@ namespace Graphics
 			case TexFormat::INT_8: internalFormat = GL_RG8I; type = GL_BYTE; break;
 			case TexFormat::INT_16: internalFormat = GL_RG16I; type = GL_SHORT; break;
 			case TexFormat::INT_32: internalFormat = GL_RG32I; type = GL_INT; break;
+			default: internalFormat = GL_INVALID_ENUM; type = GL_INVALID_ENUM; break;
 			}
 
 			return;
@@ -177,6 +180,7 @@ namespace Graphics
 			case TexFormat::INT_8: internalFormat = GL_RGB8I; type = GL_BYTE; break;
 			case TexFormat::INT_16: internalFormat = GL_RGB16I; type = GL_SHORT; break;
 			case TexFormat::INT_32: internalFormat = GL_RGB32I; type = GL_INT; break;
+			default: internalFormat = GL_INVALID_ENUM; type = GL_INVALID_ENUM; break;
 			}
 
 			return;
@@ -200,10 +204,15 @@ namespace Graphics
 			case TexFormat::INT_8: internalFormat = GL_RGBA8I; type = GL_BYTE; break;
 			case TexFormat::INT_16: internalFormat = GL_RGBA16I; type = GL_SHORT; break;
 			case TexFormat::INT_32: internalFormat = GL_RGBA32I; type = GL_INT; break;
+			default: internalFormat = GL_INVALID_ENUM; type = GL_INVALID_ENUM; break;
 			}
 
 			return;
 		}
+
+		internalFormat = GL_INVALID_ENUM;
+		baseFormat = GL_INVALID_ENUM;
+		type = GL_INVALID_ENUM;
 	}
 
 	void Texture::TexConfigToOpenGL(const TexConfig & config, GLenum & filterMin, GLenum & filterMag, GLenum & wrapS, GLenum & wrapT)
@@ -222,12 +231,14 @@ namespace Graphics
 			else filterMin = GL_NEAREST_MIPMAP_LINEAR;
 			break;
 		}
+		default: filterMin = GL_INVALID_ENUM; break;
 		}
 
 		switch (config.mag)
 		{
 		case TexFilter::LINEAR: filterMag = GL_LINEAR; break;
 		case TexFilter::NEAREST: filterMag = GL_NEAREST; break;
+		default: filterMag = GL_INVALID_ENUM; break;
 		}
 
 		switch (config.s)
@@ -237,6 +248,7 @@ namespace Graphics
 		case TexWrap::REPEAT: wrapS = GL_REPEAT; break;
 		case TexWrap::MIRROR: wrapS = GL_MIRRORED_REPEAT; break;
 		case TexWrap::MIRROR_CLAMP_EDGE: wrapS = GL_MIRROR_CLAMP_TO_EDGE; break;
+		default: wrapS = GL_INVALID_ENUM; break;
 		}
 
 		switch (config.t)
@@ -246,6 +258,7 @@ namespace Graphics
 		case TexWrap::REPEAT: wrapT = GL_REPEAT; break;
 		case TexWrap::MIRROR: wrapT = GL_MIRRORED_REPEAT; break;
 		case TexWrap::MIRROR_CLAMP_EDGE: wrapT = GL_MIRROR_CLAMP_TO_EDGE; break;
+		default: wrapT = GL_INVALID_ENUM; break;
 		}
 	}
 

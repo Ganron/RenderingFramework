@@ -6,16 +6,16 @@
 
 namespace Filesystem
 {
-	std::string ReadFile(const std::string & filePath)
+	std::string ReadFile(const std::string & filepath)
 	{
 		std::ifstream file;
-		file.open(filePath.c_str(), std::ios::in);
+		file.open(filepath.c_str(), std::ios::in);
 		std::string source = "";
 		if (file.is_open())
 		{
 
 			file.seekg(0, std::ios::end);
-			int length = file.tellg();
+			int length = (int)file.tellg();
 			source.resize(length);
 			file.seekg(0, std::ios::beg);
 			file.read(&source[0], length);
@@ -24,14 +24,14 @@ namespace Filesystem
 		return source;
 	}
 
-	bool IsValidFilePath(const std::string& filePath)
+	bool IsValidFilePath(const std::string& filepath)
 	{
-		return std::filesystem::exists(filePath);
+		return std::filesystem::exists(filepath);
 	}
 
-	bool IsAbsolute(const std::string & filePath)
+	bool IsAbsolute(const std::string & filepath)
 	{
-		std::filesystem::path path(filePath);
+		std::filesystem::path path(filepath);
 		return path.is_absolute();
 	}
 
