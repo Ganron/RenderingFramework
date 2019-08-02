@@ -80,11 +80,6 @@ void Graphics::ShaderProgram::UseProgram()
 	glUseProgram(programID);
 }
 
-void Graphics::ShaderProgram::Delete()
-{
-	glDeleteProgram(programID);
-}
-
 std::string Graphics::ShaderProgram::GetErrorLog() const
 {
 	return errorLog;
@@ -92,42 +87,47 @@ std::string Graphics::ShaderProgram::GetErrorLog() const
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, float * value)
 {
-	glUniform1fv(index, count, value);
+	glProgramUniform1fv(programID, index, count, value);
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, int * value)
 {
-	glUniform1iv(index, count, value);
+	glProgramUniform1iv(programID, index, count, value);
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, Vector2 * value)
 {
-	glUniform2fv(index, count, reinterpret_cast<float*>(value));
+	glProgramUniform2fv(programID, index, count, reinterpret_cast<float*>(value));
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, Vector3 * value)
 {
-	glUniform3fv(index, count, reinterpret_cast<float*>(value));
+	glProgramUniform3fv(programID, index, count, reinterpret_cast<float*>(value));
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, Vector4 * value)
 {
-	glUniform4fv(index, count, reinterpret_cast<float*>(value));
+	glProgramUniform4fv(programID, index, count, reinterpret_cast<float*>(value));
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, Matrix2 * value)
 {
-	glUniformMatrix2fv(index, count, GL_FALSE, reinterpret_cast<float*>(value));
+	glProgramUniformMatrix2fv(programID, index, count, GL_FALSE, reinterpret_cast<float*>(value));
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, Matrix3 * value)
 {
-	glUniformMatrix3fv(index, count, GL_FALSE, reinterpret_cast<float*>(value));
+	glProgramUniformMatrix3fv(programID, index, count, GL_FALSE, reinterpret_cast<float*>(value));
 }
 
 void Graphics::ShaderProgram::SetUniform(int index, int count, Matrix4 * value)
 {
-	glUniformMatrix4fv(index, count, GL_FALSE, reinterpret_cast<float*>(value));
+	glProgramUniformMatrix4fv(programID, index, count, GL_FALSE, reinterpret_cast<float*>(value));
+}
+
+void Graphics::ShaderProgram::Delete()
+{
+	glDeleteProgram(programID);
 }
 
 Graphics::ShaderProgram::~ShaderProgram()

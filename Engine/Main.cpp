@@ -1,14 +1,19 @@
 #include"CoreSystems/Math/Vector4.h"
+#include"CoreSystems/Math/Vector3.h"
+#include"CoreSystems/Math/Vector2.h"
 #include"CoreSystems/FileSystem.h"
 #include"Graphics/Window.h"
 #include"Graphics/Texture.h"
 #include"Graphics/ShaderProgram.h"
-
+#include"Graphics//VertexArrayObject.h"
+#include"Graphics/VertexArrayBuffer.h"
 
 /******************************
 **** FOR TESTING PURPOSES *****
 ******************************/
 
+#include<chrono>
+#include<set>
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
@@ -32,10 +37,6 @@ int main()
 {
 	Graphics::Window window(800, 600, "Test", false);
 
-	/*FOR TESTING PURPOSES*/
-	GLuint vertexArray;
-	/*********************/
-
 	Graphics::ShaderProgram program;
 	program.AddShaderFromFile("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Shaders\\VertexShader.vert", Graphics::ShaderType::VERTEX);
 	program.AddShaderFromFile("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Shaders\\FragmentShader.frag", Graphics::ShaderType::FRAGMENT);
@@ -44,15 +45,77 @@ int main()
 	Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::CLAMP_BORDER, Graphics::TexWrap::CLAMP_BORDER);
 	Graphics::Texture tex;
 	tex.Load("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\COMMUNISM.png", config);
-	tex.Bind(0);	
+	tex.Bind(0);
 
-	glCreateVertexArrays(1, &vertexArray);
-	glBindVertexArray(vertexArray);
+	Vector3 vertices[6] = {
+		Vector3(-1.0, -1.0, 0.0), Vector3(1.0, -1.0, 0.0),  Vector3(1.0, 1.0, 0.0),
+		Vector3(-1.0, -1.0, 0.0), Vector3(1.0, 1.0, 0.0), Vector3(-1.0, 1.0, 0.0)
+	};
+
+	Vector4 colours[6]={
+		Vector4(1.0,0.0,0.0,1.0), Vector4(1.0,0.0,0.0,1.0), Vector4(1.0,0.0,0.0,1.0),
+		Vector4(1.0,0.0,0.0,1.0), Vector4(1.0,0.0,0.0,1.0), Vector4(1.0,0.0,0.0,1.0) 
+	};
+
+	struct mixed
+	{
+		Vector3 pos;
+		Vector4 color;
+	};
+
+	mixed arr[6];
+	arr[0].pos = Vector3(-1.0, -1.0, 0.0);
+	arr[1].pos = Vector3(1.0, -1.0, 0.0);
+	arr[2].pos = Vector3(1.0, 1.0, 0.0);
+	arr[3].pos = Vector3(-1.0, -1.0, 0.0);
+	arr[4].pos = Vector3(1.0, 1.0, 0.0);
+	arr[5].pos = Vector3(-1.0, 1.0, 0.0);
+	for (int i = 0; i < 6; i++)
+	{
+		arr[i].color = Vector4(0.5, 0.0, 0.0, 1.0);
+	}
+
+	float addedColor[6] = { 0.25,0.25,0.25,0.25,0.25,0.25 };
+	Vector2 added[6]={
+		Vector2(0.25, 0.0), Vector2(0.25, 0.0), Vector2(0.25, 0.0),
+		Vector2(0.25, 0.0), Vector2(0.25, 0.0), Vector2(0.25, 0.0)
+	};
+
+	auto start = std::chrono::high_resolution_clock::now();
 	
+	VertexArrayObject vao(6);
+
+	VertexAttributeBatch batch;
+	batch.AddAttribute(0, 3, API_Type::FLOAT, 0, false);
+	batch.AddAttribute(1, 4, API_Type::FLOAT, offsetof(mixed,color), false);
+	vao.AddAttributeBatch(&batch);
+
+	VertexAttributeBatch batchAddedColor;
+	batchAddedColor.AddAttribute(3, 1, API_Type::FLOAT, 0, false);
+	vao.AddAttributeBatch(&batchAddedColor);
+
+	VertexAttributeBatch batchAdded;
+	batchAdded.AddAttribute(2, 2, API_Type::FLOAT, 0, false);
+	vao.AddAttributeBatch(&batchAdded);
+
+	VertexArrayBuffer vbo1(sizeof(arr)+sizeof(addedColor), 0);
+	vbo1.SetData(0, sizeof(arr), arr);
+	vbo1.SetData(sizeof(arr), sizeof(addedColor), addedColor);
+	vao.AddArrayBuffer(0, 2, &vbo1);
+
+	VertexArrayBuffer vbo2(sizeof(added)+50, 50);
+	vbo2.SetData(50, sizeof(added), added);
+	vao.AddArrayBuffer(2, 1, &vbo2);
+
+	vao.PrepareAttributes();
+	vao.RegisterBuffers();
+
+	vao.Bind();
 	program.UseProgram();
 
-	int uniform[8] = { 10,-43,1,1,0,69,0,0 };
-	program.SetUniform(0, 8, uniform);
+	auto finish = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapsed = finish - start;
+	std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 
 	while(!window.IsClosed())
 	{
@@ -65,10 +128,7 @@ int main()
 		window.Update();
 	}
 
-	/*FOR TESTING PURPOSES*/
-	glDeleteVertexArrays(1, &vertexArray);
-	/**********************/
-
+	vao.Delete();
 	tex.Unload();
 	program.Delete();
 

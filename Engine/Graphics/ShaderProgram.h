@@ -28,7 +28,6 @@ namespace Graphics
 		bool AddShaderFromSource(const std::string& source, const ShaderType& shaderType);
 		bool LinkProgram();
 		void UseProgram();
-		void Delete();
 
 		std::string GetErrorLog() const;
 
@@ -41,9 +40,10 @@ namespace Graphics
 		void SetUniform(int index, int count, Matrix3* value);
 		void SetUniform(int index, int count, Matrix4* value);
 		
+
+		void Delete();
 		~ShaderProgram();
-	
-		
+
 	private:
 		GLenum ShaderTypeToOpenGL(const ShaderType& shaderType);
 		std::string ShaderTypeToString(const ShaderType& shaderType);

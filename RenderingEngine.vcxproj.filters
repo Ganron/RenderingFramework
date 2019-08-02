@@ -84,6 +84,12 @@
     <ClCompile Include="Engine\Graphics\ShaderProgram.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\VertexArrayBuffer.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Graphics\VertexArrayObject.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\CoreSystems\Math\AABB.h">
@@ -135,6 +141,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\ShaderProgram.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\VertexArrayBuffer.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\VertexArrayObject.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
