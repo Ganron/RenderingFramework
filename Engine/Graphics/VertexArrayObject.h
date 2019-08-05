@@ -3,7 +3,7 @@
 #include<set>
 #include<glad/glad.h>
 
-class VertexArrayBuffer;
+class Buffer;
 
 enum class API_Type { BYTE, U_BYTE, SHORT, U_SHORT, INT, U_INT, HALF_FLOAT, FLOAT, DOUBLE };
 
@@ -14,40 +14,8 @@ struct VertexAttribute
 	API_Type type;
 	size_t offset;
 	bool normalized;
-	VertexAttribute(unsigned int index);
 	VertexAttribute(unsigned int index, int numElements, API_Type type, size_t offset, bool normalized);
-	bool operator<(const VertexAttribute& attrib) const;
 };
-/*
-class VertexArrayObject
-{
-private:
-	std::set<VertexAttribute> attribs;
-	std::vector<VertexArrayBuffer*> vboList;
-	GLuint vaoID;
-	unsigned int bindingPointCounter;
-
-public:
-	VertexArrayObject();
-
-	void AddVertexAttribute(unsigned int index, int numElements, API_Type type, size_t offset, bool normalized);
-	void AddArrayBuffer(VertexArrayBuffer* vertexArrayBuffer);
-	void SetArrayBuffers(const std::vector<VertexArrayBuffer*>& arrayBuffers);
-	void PrepareVertexAttributes();
-	void BindVertexArrays();
-
-	void Bind();
-	void Unbind();
-
-	void RemoveArrayBuffers();
-	void Delete();
-	~VertexArrayObject();
-
-private:
-	size_t SizeOfType(const API_Type& type) const;
-	GLenum TypeToOpenGL(const API_Type& type);
-};
-*/
 
 struct VertexAttributeBatch
 {
@@ -58,21 +26,18 @@ struct VertexAttributeBatch
 class VertexArrayObject
 {
 private:
-	std::vector<VertexAttributeBatch*> batchList;
-	std::vector<VertexArrayBuffer*> vboList;
+	std::vector<VertexAttributeBatch*> batchList;	
 	GLuint vaoID;
 	unsigned int numVertices;
 
 public:
-	VertexArrayObject(unsigned int numverOfVertices);
+	VertexArrayObject(unsigned int numberOfVertices);
 
 	void AddAttributeBatch(VertexAttributeBatch* batch);
-	void AddArrayBuffer(unsigned int firstBatchIndex, unsigned int count, VertexArrayBuffer* buffer);
-	//TODO RemoveBuffer();
+	void RegisterBuffer(unsigned int firstBatchIndex, unsigned int indexCount, size_t attribOffset, Buffer* buffer);
 	void SetNumberOfVertices(unsigned int numberOfVertices);
 
 	void PrepareAttributes();
-	void RegisterBuffers();
 
 	void Bind();
 	void Unbind();

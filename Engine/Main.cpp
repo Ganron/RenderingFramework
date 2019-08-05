@@ -6,14 +6,13 @@
 #include"Graphics/Texture.h"
 #include"Graphics/ShaderProgram.h"
 #include"Graphics//VertexArrayObject.h"
-#include"Graphics/VertexArrayBuffer.h"
+#include"Graphics/Buffer.h"
 
 /******************************
 **** FOR TESTING PURPOSES *****
 ******************************/
 
 #include<chrono>
-#include<set>
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
@@ -98,17 +97,16 @@ int main()
 	batchAdded.AddAttribute(2, 2, API_Type::FLOAT, 0, false);
 	vao.AddAttributeBatch(&batchAdded);
 
-	VertexArrayBuffer vbo1(sizeof(arr)+sizeof(addedColor), 0);
+	vao.PrepareAttributes();
+
+	Buffer vbo1(sizeof(arr)+sizeof(addedColor));
 	vbo1.SetData(0, sizeof(arr), arr);
 	vbo1.SetData(sizeof(arr), sizeof(addedColor), addedColor);
-	vao.AddArrayBuffer(0, 2, &vbo1);
+	vao.RegisterBuffer(0, 2, 0, &vbo1);
 
-	VertexArrayBuffer vbo2(sizeof(added)+50, 50);
+	Buffer vbo2(sizeof(added)+50);
 	vbo2.SetData(50, sizeof(added), added);
-	vao.AddArrayBuffer(2, 1, &vbo2);
-
-	vao.PrepareAttributes();
-	vao.RegisterBuffers();
+	vao.RegisterBuffer(2, 1, 50, &vbo2);
 
 	vao.Bind();
 	program.UseProgram();
@@ -128,6 +126,8 @@ int main()
 		window.Update();
 	}
 
+	vbo1.Delete();
+	vbo2.Delete();
 	vao.Delete();
 	tex.Unload();
 	program.Delete();

@@ -165,7 +165,7 @@
     <ClCompile Include="Engine\glad.cpp" />
     <ClCompile Include="Engine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Texture.cpp" />
-    <ClCompile Include="Engine\Graphics\VertexArrayBuffer.cpp" />
+    <ClCompile Include="Engine\Graphics\Buffer.cpp" />
     <ClCompile Include="Engine\Graphics\VertexArrayObject.cpp" />
     <ClCompile Include="Engine\Graphics\Window.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
@@ -187,7 +187,7 @@
     <ClInclude Include="Engine\CoreSystems\Math\Vector4.h" />
     <ClInclude Include="Engine\Graphics\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\Texture.h" />
-    <ClInclude Include="Engine\Graphics\VertexArrayBuffer.h" />
+    <ClInclude Include="Engine\Graphics\Buffer.h" />
     <ClInclude Include="Engine\Graphics\VertexArrayObject.h" />
     <ClInclude Include="Engine\Graphics\Window.h" />
   </ItemGroup>

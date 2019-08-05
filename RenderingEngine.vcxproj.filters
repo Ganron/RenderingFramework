@@ -84,10 +84,10 @@
     <ClCompile Include="Engine\Graphics\ShaderProgram.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\VertexArrayBuffer.cpp">
+    <ClCompile Include="Engine\Graphics\VertexArrayObject.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\VertexArrayObject.cpp">
+    <ClCompile Include="Engine\Graphics\Buffer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,10 +143,10 @@
     <ClInclude Include="Engine\Graphics\ShaderProgram.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\VertexArrayBuffer.h">
+    <ClInclude Include="Engine\Graphics\VertexArrayObject.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\VertexArrayObject.h">
+    <ClInclude Include="Engine\Graphics\Buffer.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
