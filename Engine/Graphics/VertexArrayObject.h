@@ -5,22 +5,23 @@
 
 class Buffer;
 
-enum class API_Type { BYTE, U_BYTE, SHORT, U_SHORT, INT, U_INT, HALF_FLOAT, FLOAT, DOUBLE };
+enum class DataType { BYTE, U_BYTE, SHORT, U_SHORT, INT, U_INT, HALF_FLOAT, FLOAT, DOUBLE };
+enum class AttribType {FLOAT, FLOAT_NORM, DOUBLE, INT};
 
 struct VertexAttribute
 {
 	unsigned int index;
 	int numElements;
-	API_Type type;
-	size_t offset;
-	bool normalized;
-	VertexAttribute(unsigned int index, int numElements, API_Type type, size_t offset, bool normalized);
+	DataType dataType;
+	AttribType attribType;
+	size_t relativeOffset;
+	VertexAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset);
 };
 
 struct VertexAttributeBatch
 {
 	std::vector<VertexAttribute> attributes;
-	void AddAttribute(unsigned int index, int numElements, API_Type type, size_t offset, bool normalized);
+	void AddAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset);
 };
 
 class VertexArrayObject
@@ -46,6 +47,6 @@ public:
 	~VertexArrayObject();
 
 private:
-	size_t SizeOfType(const API_Type& type) const;
-	GLenum TypeToOpenGL(API_Type type) const;
+	size_t SizeOfType(const DataType& type) const;
+	GLenum TypeToOpenGL(DataType type) const;
 };

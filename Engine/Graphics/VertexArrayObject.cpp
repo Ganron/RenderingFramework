@@ -1,14 +1,15 @@
 #include"VertexArrayObject.h"
 #include"Buffer.h"
+#include<iostream>
 
-VertexAttribute::VertexAttribute(unsigned int index, int numElements, API_Type type, size_t offset, bool normalized):
-	index(index), numElements(numElements), type(type), offset(offset), normalized(normalized)
+VertexAttribute::VertexAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset):
+	index(index), numElements(numElements), dataType(dataType), attribType(attribType), relativeOffset(relativeOffset)
 {
 }
 
-void VertexAttributeBatch::AddAttribute(unsigned int index, int numElements, API_Type type, size_t offset, bool normalized)
+void VertexAttributeBatch::AddAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset)
 {
-	attributes.emplace_back(index, numElements, type, offset, normalized);
+	attributes.emplace_back(index, numElements, dataType, attribType, relativeOffset);
 }
 
 VertexArrayObject::VertexArrayObject(unsigned int numberOfVertices) :numVertices(numberOfVertices)
@@ -31,7 +32,7 @@ void VertexArrayObject::RegisterBuffer(unsigned int firstBatchIndex, unsigned in
 		for (it; it != batchList[j]->attributes.end(); it++)
 		{
 			VertexAttribute& currentAttrib = *it;
-			stride += currentAttrib.numElements*SizeOfType(currentAttrib.type);
+			stride += currentAttrib.numElements*SizeOfType(currentAttrib.dataType);
 		}
 		glVertexArrayVertexBuffer(vaoID, j, buffer->GetBufferID(), attribOffset, stride);
 		attribOffset += stride * numVertices;
@@ -53,7 +54,13 @@ void VertexArrayObject::PrepareAttributes()
 		for (it; it != currentBatch.end(); it++)
 		{
 			glEnableVertexArrayAttrib(vaoID, it->index);
-			glVertexArrayAttribFormat(vaoID, it->index, it->numElements, TypeToOpenGL(it->type), it->normalized, it->offset);
+			switch (it->attribType)
+			{
+				case AttribType::FLOAT: glVertexArrayAttribFormat(vaoID, it->index, it->numElements, TypeToOpenGL(it->dataType), GL_FALSE, it->relativeOffset); break;
+				case AttribType::FLOAT_NORM: glVertexArrayAttribFormat(vaoID, it->index, it->numElements, TypeToOpenGL(it->dataType), GL_TRUE, it->relativeOffset); break;
+				case AttribType::INT: glVertexArrayAttribIFormat(vaoID, it->index, it->numElements, TypeToOpenGL(it->dataType), it->relativeOffset); break;
+				case AttribType::DOUBLE: glVertexArrayAttribLFormat(vaoID, it->index, it->numElements, TypeToOpenGL(it->dataType), it->relativeOffset); break;
+			}
 			glVertexArrayAttribBinding(vaoID, it->index, bindingPoint);
 		}
 	}
@@ -78,36 +85,36 @@ VertexArrayObject::~VertexArrayObject()
 {
 }
 
-size_t VertexArrayObject::SizeOfType(const API_Type & type) const
+size_t VertexArrayObject::SizeOfType(const DataType & type) const
 {
 	switch (type)
 	{
-	case API_Type::BYTE: return sizeof(GLbyte);
-	case API_Type::U_BYTE: return sizeof(GLubyte);
-	case API_Type::SHORT: return sizeof(GLshort);
-	case API_Type::U_SHORT:return sizeof(GLushort);
-	case API_Type::INT: return sizeof(GLint);
-	case API_Type::U_INT: return sizeof(GLuint);
-	case API_Type::HALF_FLOAT: return sizeof(GLhalf);
-	case API_Type::FLOAT: return sizeof(GLfloat);
-	case API_Type::DOUBLE: return sizeof(GLdouble);
+	case DataType::BYTE: return sizeof(GLbyte);
+	case DataType::U_BYTE: return sizeof(GLubyte);
+	case DataType::SHORT: return sizeof(GLshort);
+	case DataType::U_SHORT:return sizeof(GLushort);
+	case DataType::INT: return sizeof(GLint);
+	case DataType::U_INT: return sizeof(GLuint);
+	case DataType::HALF_FLOAT: return sizeof(GLhalf);
+	case DataType::FLOAT: return sizeof(GLfloat);
+	case DataType::DOUBLE: return sizeof(GLdouble);
 	default: return 0;
 	}
 }
 
-GLenum VertexArrayObject::TypeToOpenGL(API_Type type) const
+GLenum VertexArrayObject::TypeToOpenGL(DataType type) const
 {
 	switch (type)
 	{
-	case API_Type::BYTE: return GL_BYTE;
-	case API_Type::U_BYTE: return GL_UNSIGNED_BYTE;
-	case API_Type::SHORT: return GL_SHORT;
-	case API_Type::U_SHORT:return GL_UNSIGNED_SHORT;
-	case API_Type::INT: return GL_INT;
-	case API_Type::U_INT: return GL_UNSIGNED_INT;
-	case API_Type::HALF_FLOAT: return GL_HALF_FLOAT;
-	case API_Type::FLOAT: return GL_FLOAT;
-	case API_Type::DOUBLE: return GL_DOUBLE;
+	case DataType::BYTE: return GL_BYTE;
+	case DataType::U_BYTE: return GL_UNSIGNED_BYTE;
+	case DataType::SHORT: return GL_SHORT;
+	case DataType::U_SHORT:return GL_UNSIGNED_SHORT;
+	case DataType::INT: return GL_INT;
+	case DataType::U_INT: return GL_UNSIGNED_INT;
+	case DataType::HALF_FLOAT: return GL_HALF_FLOAT;
+	case DataType::FLOAT: return GL_FLOAT;
+	case DataType::DOUBLE: return GL_DOUBLE;
 	default: return GL_INVALID_ENUM;
 	}
 }

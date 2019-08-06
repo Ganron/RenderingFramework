@@ -75,30 +75,31 @@ int main()
 	}
 
 	float addedColor[6] = { 0.25,0.25,0.25,0.25,0.25,0.25 };
-	Vector2 added[6]={
+	/*Vector2 added[6]={
 		Vector2(0.25, 0.0), Vector2(0.25, 0.0), Vector2(0.25, 0.0),
 		Vector2(0.25, 0.0), Vector2(0.25, 0.0), Vector2(0.25, 0.0)
-	};
+	};*/
+	int added[12] = { 0,0,5,0,0,0,0,0,0,0,0,0 };
 
 	auto start = std::chrono::high_resolution_clock::now();
-	
-	VertexArrayObject vao(6);
 
+	VertexArrayObject vao(6);
+	
 	VertexAttributeBatch batch;
-	batch.AddAttribute(0, 3, API_Type::FLOAT, 0, false);
-	batch.AddAttribute(1, 4, API_Type::FLOAT, offsetof(mixed,color), false);
+	batch.AddAttribute(0, 3, DataType::FLOAT, AttribType::FLOAT, 0);
+	batch.AddAttribute(1, 4, DataType::FLOAT, AttribType::FLOAT, offsetof(mixed,color));
 	vao.AddAttributeBatch(&batch);
 
 	VertexAttributeBatch batchAddedColor;
-	batchAddedColor.AddAttribute(3, 1, API_Type::FLOAT, 0, false);
+	batchAddedColor.AddAttribute(3, 1, DataType::FLOAT, AttribType::FLOAT, 0);
 	vao.AddAttributeBatch(&batchAddedColor);
 
 	VertexAttributeBatch batchAdded;
-	batchAdded.AddAttribute(2, 2, API_Type::FLOAT, 0, false);
+	batchAdded.AddAttribute(2, 2, DataType::INT, AttribType::INT, 0);
 	vao.AddAttributeBatch(&batchAdded);
 
 	vao.PrepareAttributes();
-
+	
 	Buffer vbo1(sizeof(arr)+sizeof(addedColor));
 	vbo1.SetData(0, sizeof(arr), arr);
 	vbo1.SetData(sizeof(arr), sizeof(addedColor), addedColor);
