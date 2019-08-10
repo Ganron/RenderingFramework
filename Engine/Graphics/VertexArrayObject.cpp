@@ -53,10 +53,16 @@ void VertexArrayObject::RegisterArrayBuffer(unsigned int firstBatchIndex, unsign
 		attribOffset += stride * numVertices;
 	}
 }
-
-void VertexArrayObject::RegisterElementBuffer(Buffer * buffer)
+ 
+void VertexArrayObject::RegisterElementBuffer(Buffer * buffer) const
 {
 	glVertexArrayElementBuffer(vaoID, buffer->GetBufferID());
+}
+
+void VertexArrayObject::UnregisterBuffers() const
+{
+	glVertexArrayVertexBuffers(vaoID, 0, batchList.size(), NULL, NULL, NULL);
+	glVertexArrayElementBuffer(vaoID, 0);
 }
 
 void VertexArrayObject::PrepareAttributes()
@@ -81,12 +87,17 @@ void VertexArrayObject::PrepareAttributes()
 	}
 }
 
-void VertexArrayObject::Bind()
+size_t VertexArrayObject::GetNumberOfBatches() const
+{
+	return batchList.size();
+}
+
+void VertexArrayObject::Bind() const
 {
 	glBindVertexArray(vaoID);
 }
 
-void VertexArrayObject::Unbind()
+void VertexArrayObject::Unbind() const
 {
 	glBindVertexArray(0);
 }

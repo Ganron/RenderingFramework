@@ -36,21 +36,24 @@ void generateTexture(unsigned char* data, int width, int height)
 
 int main()
 {
+	// Window setup
 	Graphics::Window window(800, 600, "Test", false);
 
+
+	// Shader setup
 	Graphics::ShaderProgram program;
 	program.AddShaderFromFile("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Shaders\\VertexShader.vert", Graphics::ShaderType::VERTEX);
 	program.AddShaderFromFile("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Shaders\\FragmentShader.frag", Graphics::ShaderType::FRAGMENT);
 	program.LinkProgram();
 
+
+	//Texture setup
 	Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::CLAMP_BORDER, Graphics::TexWrap::CLAMP_BORDER);
 	Graphics::Texture tex;
 	tex.Load("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Garrus.jpg", config);
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
 
+	// Geometry setup
 	std::vector<Vertex> vertices{
 		Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector2(0.0f, 0.0f)), //front, lower-left [4]
 		Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector2(1.0f, 0.0f)), //front, lower-right [5]
@@ -72,8 +75,38 @@ int main()
 		4,5,1, 1,0,4 //bottom
 	};
 
-	Mesh quad(vertices, indices);
+	struct colorTest
+	{
+		Vector3 color1;
+		Vector3 color2;
+	};
 
+	colorTest color[8];
+	for (int i = 0; i < 8; i++)
+	{
+		color[i].color1 = Vector3(0.5f, 0.0f, 0.0f);
+		color[i].color2 = Vector3(0.5f, 0.0f, 0.0f);
+	}
+
+	Vector3 color2[8] = {
+		Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),
+		Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f)
+	};
+
+	VertexAttributeBatch colorBatch;
+	colorBatch.AddAttribute(2, 3, DataType::FLOAT, AttribType::FLOAT, 0);
+	colorBatch.AddAttribute(5, 3, DataType::FLOAT, AttribType::FLOAT, offsetof(colorTest, color2));
+
+	VertexAttributeBatch colorBatch2;
+	colorBatch2.AddAttribute(3, 3, DataType::FLOAT, AttribType::FLOAT, 0);
+
+	Mesh quad(vertices, indices, sizeof(color) + sizeof(color2));
+	quad.AddAdditionalAttribBatch(colorBatch, sizeof(color), color);
+	quad.AddAdditionalAttribBatch(colorBatch2, sizeof(color2), color2);
+	quad.SetUpMesh();
+
+
+	// Transformation setup
 	Matrix4 modelMat = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(30.0f), 1.0f, 0.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(25.0f), 0.0f, 1.0f, 0.0f);
 	Matrix4 perspMat;
 	program.SetUniform(0, 1, &modelMat);
@@ -82,9 +115,16 @@ int main()
 	tex.Bind(0);
 	program.UseProgram();
 	
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+
+
+	// Rendering loop
 	while(!window.IsClosed())
 	{
-		Vector4 color(1.0f, 0.0f, 0.0f, 1.0f);
+		Vector4 color(0.0f, 1.0f, 0.0f, 1.0f);
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
 
 		perspMat = Matrix4::CreateProjPerspSymmetric(DegToRad(90.0f), window.GetAspectRatio(), 0.1f, 1000.0f);
@@ -94,6 +134,9 @@ int main()
 		window.Update();
 	}
 
+
+	// Application termination
+	quad.Delete();
 	tex.Unload();
 	program.Delete();
 

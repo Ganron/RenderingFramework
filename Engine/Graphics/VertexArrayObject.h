@@ -39,12 +39,15 @@ public:
 	void AddAttribToBatch(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset); //adds to last batch
 
 	void RegisterArrayBuffer(unsigned int firstBatchIndex, unsigned int indexCount, unsigned int numVertices, size_t attribOffset, Buffer* buffer);
-	void RegisterElementBuffer(Buffer* buffer);
+	void RegisterElementBuffer(Buffer* buffer) const;
+	void UnregisterBuffers() const;
 
 	void PrepareAttributes();
 
-	void Bind();
-	void Unbind();
+	size_t GetNumberOfBatches() const;
+
+	void Bind() const;
+	void Unbind() const;
 
 	void Delete();
 	~VertexArrayObject();

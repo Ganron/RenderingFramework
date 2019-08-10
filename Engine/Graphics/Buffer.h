@@ -6,6 +6,7 @@ class Buffer
 private:
 	GLuint bufferID;
 	size_t size;
+	size_t maxOffset;
 
 public:
 	Buffer();
@@ -17,14 +18,15 @@ public:
 
 	void SetData(size_t offset, size_t size, const void* data);
 
-	void BindUniform(unsigned int index, size_t offset, size_t size);
-	void BindShaderStorage(unsigned int index, size_t offset, size_t size);
-	void BindTransformFeedback(unsigned int index, size_t offset, size_t size);
-	void BindAtomicCounter(unsigned int index, size_t offset, size_t size);
+	void BindUniform(unsigned int index, size_t offset, size_t size) const;
+	void BindShaderStorage(unsigned int index, size_t offset, size_t size) const;
+	void BindTransformFeedback(unsigned int index, size_t offset, size_t size) const;
+	void BindAtomicCounter(unsigned int index, size_t offset, size_t size) const;
 	//TODO Memory barriers
 
 	GLuint GetBufferID() const;
 	size_t GetSize() const;
+	size_t GetMaxOffset() const;
 
 	void Delete();
 	~Buffer();
