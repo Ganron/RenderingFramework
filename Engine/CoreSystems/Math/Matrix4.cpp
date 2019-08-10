@@ -546,7 +546,7 @@ Matrix4 Matrix4::CreateRotation(float angle, const Vector3 & axis)
 	return Matrix4(Matrix3::CreateRotation(angle, axis));
 }
 
-Matrix4 Matrix4::CreateRotataion(Quaternion & q)
+Matrix4 Matrix4::CreateRotation(Quaternion & q)
 {
 	return Matrix4(Matrix3::CreateRotation(q));
 }
@@ -604,7 +604,7 @@ Matrix4 Matrix4::CreateProjPerspInfinite(float left, float right, float top, flo
 Matrix4 Matrix4::CreateProjPerspSymmetric(float fovY, float aspectRatio, float near, float far)
 {
 	float nt = 1.0f / tanf(0.5f * fovY);
-	float nr = nt / aspectRatio;
+	float nr = nt * aspectRatio;
 	return Matrix4(
 		nr, 0.0f, 0.0f, 0.0f,
 		0.0f, nt, 0.0f, 0.0f,

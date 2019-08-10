@@ -1,17 +1,36 @@
 #include"Buffer.h"
 
-Buffer::Buffer(size_t bufferSize) :size(bufferSize)
+Buffer::Buffer(): bufferID(0), size(0)
 {
-	glCreateBuffers(1, &bufferID);
-	glNamedBufferStorage(bufferID, size, nullptr, GL_DYNAMIC_STORAGE_BIT);
 }
 
-Buffer::Buffer(size_t bufferSize, const void * data) :size(bufferSize)
+Buffer::Buffer(size_t bufferSize) : bufferID(0), size(bufferSize)
 {
-	glCreateBuffers(1, &bufferID);
-	glNamedBufferStorage(bufferID, size, data, GL_DYNAMIC_STORAGE_BIT);
+	Init(bufferSize);
 }
 
+Buffer::Buffer(size_t bufferSize, const void * data) : bufferID(0), size(bufferSize)
+{
+	Init(bufferSize, data);
+}
+
+void Buffer::Init(size_t bufferSize)
+{
+	if (size != 0)
+	{
+		glCreateBuffers(1, &bufferID);
+		glNamedBufferStorage(bufferID, size, nullptr, GL_DYNAMIC_STORAGE_BIT);
+	}
+}
+
+void Buffer::Init(size_t bufferSize, const void * data)
+{
+	if (size != 0)
+	{
+		glCreateBuffers(1, &bufferID);
+		glNamedBufferStorage(bufferID, size, data, GL_DYNAMIC_STORAGE_BIT);
+	}
+}
 
 void Buffer::SetData(size_t offset, size_t size, const void * data)
 {

@@ -163,6 +163,7 @@
     <ClCompile Include="Engine\CoreSystems\Math\Vector3.cpp" />
     <ClCompile Include="Engine\CoreSystems\Math\Vector4.cpp" />
     <ClCompile Include="Engine\glad.cpp" />
+    <ClCompile Include="Engine\Graphics\Mesh.cpp" />
     <ClCompile Include="Engine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Engine\Graphics\Buffer.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Engine\CoreSystems\Math\Vector2.h" />
     <ClInclude Include="Engine\CoreSystems\Math\Vector3.h" />
     <ClInclude Include="Engine\CoreSystems\Math\Vector4.h" />
+    <ClInclude Include="Engine\Graphics\Mesh.h" />
     <ClInclude Include="Engine\Graphics\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\Texture.h" />
     <ClInclude Include="Engine\Graphics\Buffer.h" />

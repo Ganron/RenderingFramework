@@ -12,24 +12,39 @@ void VertexAttributeBatch::AddAttribute(unsigned int index, int numElements, Dat
 	attributes.emplace_back(index, numElements, dataType, attribType, relativeOffset);
 }
 
-VertexArrayObject::VertexArrayObject(unsigned int numberOfVertices) :numVertices(numberOfVertices)
+VertexArrayObject::VertexArrayObject()
 {
 	glCreateVertexArrays(1, &vaoID);
 }
 
-void VertexArrayObject::AddAttributeBatch(VertexAttributeBatch * batch)
+void VertexArrayObject::AddNewAttribBatch()
+{
+	batchList.emplace_back();
+}
+
+void VertexArrayObject::AddExistingAttribBatch(const VertexAttributeBatch& batch)
 {
 	batchList.push_back(batch);
 }
 
-void VertexArrayObject::RegisterBuffer(unsigned int firstBatchIndex, unsigned int indexCount, size_t attribOffset, Buffer * buffer)
+void VertexArrayObject::AddExistingAttribBatches(const std::vector<VertexAttributeBatch>& batches)
+{
+	batchList.insert(batchList.end(), batches.begin(), batches.end());
+}
+
+void VertexArrayObject::AddAttribToBatch(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset)
+{
+	batchList.back().AddAttribute(index, numElements, dataType, attribType, relativeOffset);
+}
+
+void VertexArrayObject::RegisterArrayBuffer(unsigned int firstBatchIndex, unsigned int indexCount, unsigned int numVertices, size_t attribOffset, Buffer * buffer)
 {
 	unsigned int finalBatchIndex = firstBatchIndex + indexCount;
 	for (unsigned int j = firstBatchIndex; j < finalBatchIndex; j++)
 	{
 		size_t stride = 0;
-		std::vector<VertexAttribute>::iterator it = batchList[j]->attributes.begin();
-		for (it; it != batchList[j]->attributes.end(); it++)
+		std::vector<VertexAttribute>::iterator it = batchList[j].attributes.begin();
+		for (it; it != batchList[j].attributes.end(); it++)
 		{
 			VertexAttribute& currentAttrib = *it;
 			stride += currentAttrib.numElements*SizeOfType(currentAttrib.dataType);
@@ -39,17 +54,17 @@ void VertexArrayObject::RegisterBuffer(unsigned int firstBatchIndex, unsigned in
 	}
 }
 
-void VertexArrayObject::SetNumberOfVertices(unsigned int numberOfVertices)
+void VertexArrayObject::RegisterElementBuffer(Buffer * buffer)
 {
-	numVertices = numberOfVertices;
+	glVertexArrayElementBuffer(vaoID, buffer->GetBufferID());
 }
 
 void VertexArrayObject::PrepareAttributes()
 {
 	int bindingPoint = 0;
-	for (std::vector<VertexAttributeBatch*>::iterator i = batchList.begin(); i != batchList.end(); i++, bindingPoint++)
+	for (std::vector<VertexAttributeBatch>::iterator i = batchList.begin(); i != batchList.end(); i++, bindingPoint++)
 	{
-		std::vector<VertexAttribute>& currentBatch = (*i)->attributes;
+		std::vector<VertexAttribute>& currentBatch = i->attributes;
 		std::vector<VertexAttribute>::iterator it = currentBatch.begin();
 		for (it; it != currentBatch.end(); it++)
 		{
@@ -90,11 +105,11 @@ size_t VertexArrayObject::SizeOfType(const DataType & type) const
 	switch (type)
 	{
 	case DataType::BYTE: return sizeof(GLbyte);
-	case DataType::U_BYTE: return sizeof(GLubyte);
+	case DataType::UBYTE: return sizeof(GLubyte);
 	case DataType::SHORT: return sizeof(GLshort);
-	case DataType::U_SHORT:return sizeof(GLushort);
+	case DataType::USHORT:return sizeof(GLushort);
 	case DataType::INT: return sizeof(GLint);
-	case DataType::U_INT: return sizeof(GLuint);
+	case DataType::UINT: return sizeof(GLuint);
 	case DataType::HALF_FLOAT: return sizeof(GLhalf);
 	case DataType::FLOAT: return sizeof(GLfloat);
 	case DataType::DOUBLE: return sizeof(GLdouble);
@@ -107,11 +122,11 @@ GLenum VertexArrayObject::TypeToOpenGL(DataType type) const
 	switch (type)
 	{
 	case DataType::BYTE: return GL_BYTE;
-	case DataType::U_BYTE: return GL_UNSIGNED_BYTE;
+	case DataType::UBYTE: return GL_UNSIGNED_BYTE;
 	case DataType::SHORT: return GL_SHORT;
-	case DataType::U_SHORT:return GL_UNSIGNED_SHORT;
+	case DataType::USHORT:return GL_UNSIGNED_SHORT;
 	case DataType::INT: return GL_INT;
-	case DataType::U_INT: return GL_UNSIGNED_INT;
+	case DataType::UINT: return GL_UNSIGNED_INT;
 	case DataType::HALF_FLOAT: return GL_HALF_FLOAT;
 	case DataType::FLOAT: return GL_FLOAT;
 	case DataType::DOUBLE: return GL_DOUBLE;

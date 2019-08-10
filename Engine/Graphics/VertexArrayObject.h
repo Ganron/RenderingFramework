@@ -5,7 +5,7 @@
 
 class Buffer;
 
-enum class DataType { BYTE, U_BYTE, SHORT, U_SHORT, INT, U_INT, HALF_FLOAT, FLOAT, DOUBLE };
+enum class DataType { BYTE, UBYTE, SHORT, USHORT, INT, UINT, HALF_FLOAT, FLOAT, DOUBLE };
 enum class AttribType {FLOAT, FLOAT_NORM, DOUBLE, INT};
 
 struct VertexAttribute
@@ -27,16 +27,19 @@ struct VertexAttributeBatch
 class VertexArrayObject
 {
 private:
-	std::vector<VertexAttributeBatch*> batchList;	
+	std::vector<VertexAttributeBatch> batchList;//TODO NO pointers!
 	GLuint vaoID;
-	unsigned int numVertices;
 
 public:
-	VertexArrayObject(unsigned int numberOfVertices);
+	VertexArrayObject();
 
-	void AddAttributeBatch(VertexAttributeBatch* batch);
-	void RegisterBuffer(unsigned int firstBatchIndex, unsigned int indexCount, size_t attribOffset, Buffer* buffer);
-	void SetNumberOfVertices(unsigned int numberOfVertices);
+	void AddNewAttribBatch();
+	void AddExistingAttribBatch(const VertexAttributeBatch& batch);
+	void AddExistingAttribBatches(const std::vector<VertexAttributeBatch>& batches);
+	void AddAttribToBatch(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset); //adds to last batch
+
+	void RegisterArrayBuffer(unsigned int firstBatchIndex, unsigned int indexCount, unsigned int numVertices, size_t attribOffset, Buffer* buffer);
+	void RegisterElementBuffer(Buffer* buffer);
 
 	void PrepareAttributes();
 

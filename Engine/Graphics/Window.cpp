@@ -3,13 +3,29 @@
 
 namespace Graphics
 {
-	void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
+	//TODO find a way to change width and height on resize!
+
+	int Window::width = 0;
+	int Window::height = 0;
+	bool Window::bFullscreen = false;
+
+	void Window::FramebufferSizeCallback(GLFWwindow * window, int newWidth, int newHeight)
 	{
-		glViewport(0, 0, width, height);
+		
+		glViewport(0, 0, newWidth, newHeight);
+		if (!bFullscreen)
+		{
+			width = newWidth;
+			height = newHeight;
+		}
 	}
 
-	Window::Window(int inWidth, int inHeight, const std::string& inTitle, bool inFullscreen) : width(inWidth), height(inHeight), title(inTitle), bFullscreen(inFullscreen)
+	Window::Window(int inWidth, int inHeight, const std::string& inTitle, bool inFullscreen) : title(inTitle)
 	{
+		width = inWidth;
+		height = inHeight;
+		bFullscreen = inFullscreen;
+
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
@@ -31,7 +47,7 @@ namespace Graphics
 
 		glfwMakeContextCurrent(window);
 
-		//TODO move to a rendering class (with proper itialization checks)
+		//TODO move to a context class (with proper itialization checks)
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 		glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
@@ -90,6 +106,21 @@ namespace Graphics
 		outHeight = height;
 	}
 
+	float Window::GetAspectRatio() const
+	{
+		if (!bFullscreen)
+		{
+			return (float)height / (float)width;
+		}
+		else
+		{
+			int realHeight;
+			int realWidth;
+			glfwGetFramebufferSize(window, &realWidth, &realHeight);
+			return (float)realHeight / (float)realWidth;
+		}
+	}
+
 	std::string Window::GetTitle() const
 	{
 		return title;
@@ -108,7 +139,7 @@ namespace Graphics
 	void Window::Update()
 	{
 		ProcessInput();
-
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

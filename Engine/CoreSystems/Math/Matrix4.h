@@ -147,7 +147,7 @@ public:
 	static Matrix4 CreateRotation(float angle, const Vector3& axis);
 
 	//Convert a quaternion to a rotation matrix.
-	static Matrix4 CreateRotataion(Quaternion& q);
+	static Matrix4 CreateRotation(Quaternion& q);
 
 	//Generate a matrix that performs a translation (the translation vector is defined by the x, y, and z parameters).
 	static Matrix4 CreateTranslation(float x, float y, float z);
@@ -171,7 +171,7 @@ public:
 	static Matrix4 CreateProjPerspInfinite(float left, float right, float top, float bottom, float near);
 
 	/*Generate a perspective projection matrix (of a symmetric frustum).
-	Takes as parameters the vertical Field of View angle (radians), the viewport Aspect Ratio, and the distances to the near and far frustum planes. */
+	Takes as parameters the vertical Field of View angle (radians), the viewport Aspect Ratio (height/width), and the distances to the near and far frustum planes. */
 	static Matrix4 CreateProjPerspSymmetric(float fovY, float aspectRatio, float near, float far);
 
 	/*Generate an orthographic projection matrix.

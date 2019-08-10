@@ -11,9 +11,11 @@ namespace Graphics
 	private:
 		std::string title;
 		GLFWwindow* window;
-		int width;
-		int height;
-		bool bFullscreen;
+		static int width; //static so it can be changed by glfw size callback.
+		static int height; //static so it can be changed by glfw size callback.
+		static bool bFullscreen;
+
+		static void FramebufferSizeCallback(GLFWwindow * window, int newWidth, int newHeight);
 
 	public:
 		Window(int inWidth, int inHeight, const std::string& inTitle, bool inFullscreen = 0);
@@ -24,6 +26,7 @@ namespace Graphics
 		void ProcessInput();
 
 		void GetSize(int& outWidth, int& outHeight) const;
+		float GetAspectRatio() const;
 		std::string GetTitle() const;
 
 		bool IsFullscreen() const;

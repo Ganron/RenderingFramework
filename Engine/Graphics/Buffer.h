@@ -8,8 +8,12 @@ private:
 	size_t size;
 
 public:
+	Buffer();
 	Buffer(size_t bufferSize);
 	Buffer(size_t bufferSize, const void* data);
+
+	void Init(size_t bufferSize);
+	void Init(size_t bufferSize, const void* data);
 
 	void SetData(size_t offset, size_t size, const void* data);
 
@@ -17,6 +21,7 @@ public:
 	void BindShaderStorage(unsigned int index, size_t offset, size_t size);
 	void BindTransformFeedback(unsigned int index, size_t offset, size_t size);
 	void BindAtomicCounter(unsigned int index, size_t offset, size_t size);
+	//TODO Memory barriers
 
 	GLuint GetBufferID() const;
 	size_t GetSize() const;
