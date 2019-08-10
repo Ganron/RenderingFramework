@@ -18,10 +18,18 @@ struct VertexAttribute
 	VertexAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset);
 };
 
-struct VertexAttributeBatch
+class VertexAttributeBatch
 {
+private:
 	std::vector<VertexAttribute> attributes;
+	unsigned int divisor;
+public:
+	VertexAttributeBatch(unsigned int bindingDivisor = 0);
+
 	void AddAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset);
+
+	const std::vector<VertexAttribute> GetAttributes() const;
+	unsigned int GetBindingDivisor() const;
 };
 
 class VertexArrayObject

@@ -75,39 +75,23 @@ int main()
 		4,5,1, 1,0,4 //bottom
 	};
 
-	struct colorTest
-	{
-		Vector3 color1;
-		Vector3 color2;
+	std::vector<Vector3> offsets{
+		Vector3(-1.0f,-1.0f,0.0f),
+		Vector3(1.0f, -1.0f, 0.0f),
+		Vector3(1.0f, 1.0f, 0.0f),
+		Vector3(-1.0f, 1.0f, 0.0f)
 	};
 
-	colorTest color[8];
-	for (int i = 0; i < 8; i++)
-	{
-		color[i].color1 = Vector3(0.5f, 0.0f, 0.0f);
-		color[i].color2 = Vector3(0.5f, 0.0f, 0.0f);
-	}
+	VertexAttributeBatch offsetBatch(1);
+	offsetBatch.AddAttribute(2, 3, DataType::FLOAT, AttribType::FLOAT, 0);
 
-	Vector3 color2[8] = {
-		Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),
-		Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f),Vector3(-0.5f, 0.0f, 0.0f)
-	};
-
-	VertexAttributeBatch colorBatch;
-	colorBatch.AddAttribute(2, 3, DataType::FLOAT, AttribType::FLOAT, 0);
-	colorBatch.AddAttribute(5, 3, DataType::FLOAT, AttribType::FLOAT, offsetof(colorTest, color2));
-
-	VertexAttributeBatch colorBatch2;
-	colorBatch2.AddAttribute(3, 3, DataType::FLOAT, AttribType::FLOAT, 0);
-
-	Mesh quad(vertices, indices, sizeof(color) + sizeof(color2));
-	quad.AddAdditionalAttribBatch(colorBatch, sizeof(color), color);
-	quad.AddAdditionalAttribBatch(colorBatch2, sizeof(color2), color2);
+	Mesh quad(vertices, indices, offsets.size()*sizeof(Vector3));
+	quad.AddAttribBatch(offsetBatch, offsets.size() * sizeof(Vector3), &offsets[0]);
 	quad.SetUpMesh();
 
 
 	// Transformation setup
-	Matrix4 modelMat = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(30.0f), 1.0f, 0.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(25.0f), 0.0f, 1.0f, 0.0f);
+	Matrix4 modelMat = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(30.0f), 1.0f, 0.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f);
 	Matrix4 perspMat;
 	program.SetUniform(0, 1, &modelMat);
 
@@ -130,7 +114,7 @@ int main()
 		perspMat = Matrix4::CreateProjPerspSymmetric(DegToRad(90.0f), window.GetAspectRatio(), 0.1f, 1000.0f);
 		program.SetUniform(1, 1, &perspMat);
 
-		quad.Draw(1);
+		quad.Draw(4);
 		window.Update();
 	}
 

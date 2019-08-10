@@ -12,7 +12,7 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>&
 	vao.AddAttribToBatch(1, 2, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, texCoordinates));
 }
 
-void Mesh::AddAdditionalAttribBatch(const VertexAttributeBatch & batch, size_t size, const void * data)
+void Mesh::AddAttribBatch(const VertexAttributeBatch & batch, size_t size, const void * data)
 {
 	if (vbo.GetMaxOffset() + size <= vbo.GetSize())
 	{

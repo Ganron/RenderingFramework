@@ -7,9 +7,23 @@ VertexAttribute::VertexAttribute(unsigned int index, int numElements, DataType d
 {
 }
 
+VertexAttributeBatch::VertexAttributeBatch(unsigned int bindingDivisor) : divisor(bindingDivisor)
+{
+}
+
 void VertexAttributeBatch::AddAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset)
 {
 	attributes.emplace_back(index, numElements, dataType, attribType, relativeOffset);
+}
+
+const std::vector<VertexAttribute> VertexAttributeBatch::GetAttributes() const
+{
+	return attributes;
+}
+
+unsigned int VertexAttributeBatch::GetBindingDivisor() const
+{
+	return divisor;
 }
 
 VertexArrayObject::VertexArrayObject()
@@ -43,8 +57,9 @@ void VertexArrayObject::RegisterArrayBuffer(unsigned int firstBatchIndex, unsign
 	for (unsigned int j = firstBatchIndex; j < finalBatchIndex; j++)
 	{
 		size_t stride = 0;
-		std::vector<VertexAttribute>::iterator it = batchList[j].attributes.begin();
-		for (it; it != batchList[j].attributes.end(); it++)
+		std::vector<VertexAttribute> attribs = batchList[j].GetAttributes();
+		std::vector<VertexAttribute>::iterator it = attribs.begin();
+		for (it; it != attribs.end(); it++)
 		{
 			VertexAttribute& currentAttrib = *it;
 			stride += currentAttrib.numElements*SizeOfType(currentAttrib.dataType);
@@ -70,9 +85,9 @@ void VertexArrayObject::PrepareAttributes()
 	int bindingPoint = 0;
 	for (std::vector<VertexAttributeBatch>::iterator i = batchList.begin(); i != batchList.end(); i++, bindingPoint++)
 	{
-		std::vector<VertexAttribute>& currentBatch = i->attributes;
-		std::vector<VertexAttribute>::iterator it = currentBatch.begin();
-		for (it; it != currentBatch.end(); it++)
+		std::vector<VertexAttribute> attribs = i->GetAttributes();
+		std::vector<VertexAttribute>::iterator it = attribs.begin();
+		for (it; it != attribs.end(); it++)
 		{
 			glEnableVertexArrayAttrib(vaoID, it->index);
 			switch (it->attribType)
@@ -84,6 +99,7 @@ void VertexArrayObject::PrepareAttributes()
 			}
 			glVertexArrayAttribBinding(vaoID, it->index, bindingPoint);
 		}
+		glVertexArrayBindingDivisor(vaoID, bindingPoint, i->GetBindingDivisor());
 	}
 }
 

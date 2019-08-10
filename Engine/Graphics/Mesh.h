@@ -26,7 +26,7 @@ private:
 public:
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, size_t additionalSize = 0);
 
-	void AddAdditionalAttribBatch(const VertexAttributeBatch& batch, size_t size, const void* data);
+	void AddAttribBatch(const VertexAttributeBatch& batch, size_t size, const void* data);
 	void SetUpMesh();
 	//TODO allow additional VeretexAttributeBatches to be added
 
