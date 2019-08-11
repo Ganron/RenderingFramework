@@ -66,7 +66,7 @@ namespace Graphics
 		int GetWidth() const;
 		int GetHeight() const;
 		unsigned int GetTextureUnit() const;
-		std::string GetFilePath() const;
+		const std::string& GetFilePath() const;
 
 		void Unload();
 		~Texture();

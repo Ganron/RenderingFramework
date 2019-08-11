@@ -7,9 +7,10 @@
 #include"Graphics/Window.h"
 #include"Graphics/Texture.h"
 #include"Graphics/ShaderProgram.h"
-#include"Graphics//VertexArrayObject.h"
+#include"Graphics/VertexArrayObject.h"
 #include"Graphics/Buffer.h"
 #include"Graphics/Mesh.h"
+#include"Graphics/Model.h"
 
 /******************************
 **** FOR TESTING PURPOSES *****
@@ -47,23 +48,23 @@ int main()
 	program.LinkProgram();
 
 
-	//Texture setup
+	/*Graphics::Texture setup;
 	Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::CLAMP_BORDER, Graphics::TexWrap::CLAMP_BORDER);
 	Graphics::Texture tex;
-	tex.Load("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Garrus.jpg", config);
-
+	tex.Load("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Textures\\4096_clouds.jpg", config);
+	tex.Bind(0);
 
 	// Geometry setup
 	std::vector<Vertex> vertices{
-		Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector2(0.0f, 0.0f)), //front, lower-left [4]
-		Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector2(1.0f, 0.0f)), //front, lower-right [5]
-		Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector2(1.0f, 1.0f)), //front, upper-right [6]
-		Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector2(0.0f, 1.0f)), //front, upper-left [7]
+		Vertex(Vector3(-0.5f, -0.5f, 0.5f), Vector3(), Vector2(0.0f, 0.0f)), //front, lower-left [0]
+		Vertex(Vector3(0.5f, -0.5f, 0.5f), Vector3(), Vector2(1.0f, 0.0f)), //front, lower-right [1]
+		Vertex(Vector3(0.5f, 0.5f, 0.5f), Vector3(), Vector2(1.0f, 1.0f)), //front, upper-right [2]
+		Vertex(Vector3(-0.5f, 0.5f, 0.5f), Vector3(), Vector2(0.0f, 1.0f)), //front, upper-left [3]
 
-		Vertex(Vector3(-0.5f, -0.5f,-0.5f), Vector2(0.0f, 0.0f)), //back, lower-left [0]
-		Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector2(1.0f, 0.0f)), //back, lower-right [1]
-		Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector2(1.0f, 1.0f)), //back, upper-right [2]
-		Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector2(0.0f, 1.0f)) }; //back, upper-left [3]
+		Vertex(Vector3(-0.5f, -0.5f,-0.5f), Vector3(), Vector2(0.0f, 0.0f)), //back, lower-left [4]
+		Vertex(Vector3(0.5f, -0.5f, -0.5f), Vector3(), Vector2(1.0f, 0.0f)), //back, lower-right [5]
+		Vertex(Vector3(0.5f, 0.5f, -0.5f), Vector3(), Vector2(1.0f, 1.0f)), //back, upper-right [6]
+		Vertex(Vector3(-0.5f, 0.5f, -0.5f), Vector3(), Vector2(0.0f, 1.0f)) }; //back, upper-left [7]
 
 	
 	std::vector<unsigned int> indices{ 
@@ -83,45 +84,47 @@ int main()
 	};
 
 	VertexAttributeBatch offsetBatch(1);
-	offsetBatch.AddAttribute(2, 3, DataType::FLOAT, AttribType::FLOAT, 0);
+	offsetBatch.AddAttribute(5, 3, DataType::FLOAT, AttribType::FLOAT, 0);
 
 	Mesh quad(vertices, indices, offsets.size()*sizeof(Vector3));
 	quad.AddAttribBatch(offsetBatch, offsets.size() * sizeof(Vector3), &offsets[0]);
-	quad.SetUpMesh();
+	quad.SetUpMesh();*/
 
+	Model model("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Models\\earth.obj");
 
 	// Transformation setup
-	Matrix4 modelMat = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(30.0f), 1.0f, 0.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f);
+	Matrix4 modelMat1 = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 0.0f, 1.0f);
+	Matrix4 modelMat2 = Matrix4::CreateTranslation(0.0f, 0.0f, -50.0f)*Matrix4::CreateRotation(DegToRad(180.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
 	Matrix4 perspMat;
-	program.SetUniform(0, 1, &modelMat);
+	program.SetUniform(0, 1, &modelMat2);
 
-	
-	tex.Bind(0);
 	program.UseProgram();
 	
-
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
-
+	glEnable(GL_DEPTH_TEST);
 	// Rendering loop
 	while(!window.IsClosed())
 	{
-		Vector4 color(0.0f, 1.0f, 0.0f, 1.0f);
+		Vector4 color(0.0f, 0.5f, 0.7f, 1.0f);
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
+		glClear(GL_DEPTH_BUFFER_BIT);
 
 		perspMat = Matrix4::CreateProjPerspSymmetric(DegToRad(90.0f), window.GetAspectRatio(), 0.1f, 1000.0f);
 		program.SetUniform(1, 1, &perspMat);
 
-		quad.Draw(4);
+		//quad.Draw(4);
+		model.Draw(1);
 		window.Update();
 	}
 
 
 	// Application termination
-	quad.Delete();
-	tex.Unload();
+	//quad.Delete();
+	model.Delete();
+	//tex.Unload();
 	program.Delete();
 
 	return 0;

@@ -1,7 +1,7 @@
 #include"Texture.h"
 #include"../CoreSystems/FileSystem.h"
 #include"../CoreSystems/Math/Vector4.h"
-
+#include<iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
 
@@ -28,10 +28,10 @@ namespace Graphics
 		if (data)
 		{
 			filepathInternal = filepath;
-
+			std::cout << filepath << " successful " << std::endl;
 			//TODO find a way to handle different bit depths???
 			TexParams params((TexChannels)channels, TexFormat::UI_NORM_8);
-
+			
 			Load(reinterpret_cast<void*>(data), localWidth, localHeight, params, config);
 		}
 
@@ -97,7 +97,7 @@ namespace Graphics
 		return textureUnit;
 	}
 
-	std::string Texture::GetFilePath() const
+	const std::string& Texture::GetFilePath() const
 	{
 		return filepathInternal;
 	}

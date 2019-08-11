@@ -8,9 +8,10 @@
 struct Vertex
 {
 	Vector3 position;
+	Vector3 normal;
 	Vector2 texCoordinates;
-	Vertex(Vector3 pos, Vector2 texCoords);
-	//TODO normals
+	//TODO +tangent/bitangent
+	Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords);
 };
 
 class Mesh
@@ -21,6 +22,7 @@ private:
 	VertexArrayObject vao;
 	unsigned int vertexCount;
 	unsigned int indexCount;
+	unsigned int texIndex;
 	//TODO textures
 
 public:
@@ -28,7 +30,8 @@ public:
 
 	void AddAttribBatch(const VertexAttributeBatch& batch, size_t size, const void* data);
 	void SetUpMesh();
-	//TODO allow additional VeretexAttributeBatches to be added
+	unsigned int GetTexIndex() const;
+	void SetTexIndex(unsigned int index);
 
 	void Draw(unsigned int instanceCount);
 

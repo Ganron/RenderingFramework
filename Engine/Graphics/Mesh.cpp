@@ -9,7 +9,8 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>&
 
 	vao.AddNewAttribBatch();
 	vao.AddAttribToBatch(0, 3, DataType::FLOAT, AttribType::FLOAT, 0);
-	vao.AddAttribToBatch(1, 2, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, texCoordinates));
+	vao.AddAttribToBatch(1, 3, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, normal));
+	vao.AddAttribToBatch(2, 2, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, texCoordinates));
 }
 
 void Mesh::AddAttribBatch(const VertexAttributeBatch & batch, size_t size, const void * data)
@@ -26,6 +27,16 @@ void Mesh::SetUpMesh()
 	vao.PrepareAttributes();
 	vao.RegisterArrayBuffer(0, vao.GetNumberOfBatches(), vertexCount, 0, &vbo);
 	vao.RegisterElementBuffer(&veo);
+}
+
+unsigned int Mesh::GetTexIndex() const
+{
+	return texIndex;
+}
+
+void Mesh::SetTexIndex(unsigned int index)
+{
+	texIndex = index;
 }
 
 void Mesh::Draw(unsigned int instanceCount)
@@ -47,6 +58,6 @@ Mesh::~Mesh()
 {
 }
 
-Vertex::Vertex(Vector3 pos, Vector2 texCoords):position(pos), texCoordinates(texCoords)
+Vertex::Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords) :position(pos), normal(normal), texCoordinates(texCoords)
 {
 }
