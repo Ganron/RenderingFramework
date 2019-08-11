@@ -86,7 +86,7 @@ int main()
 	VertexAttributeBatch offsetBatch(1);
 	offsetBatch.AddAttribute(5, 3, DataType::FLOAT, AttribType::FLOAT, 0);
 
-	Mesh quad(vertices, indices, offsets.size()*sizeof(Vector3));
+	Mesh quad(vertices, indices, nullptr, offsets.size()*sizeof(Vector3));
 	quad.AddAttribBatch(offsetBatch, offsets.size() * sizeof(Vector3), &offsets[0]);
 	quad.SetUpMesh();*/
 

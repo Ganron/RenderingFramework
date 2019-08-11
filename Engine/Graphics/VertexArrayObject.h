@@ -28,7 +28,7 @@ public:
 
 	void AddAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset);
 
-	const std::vector<VertexAttribute> GetAttributes() const;
+	const std::vector<VertexAttribute>& GetAttributes() const;
 	unsigned int GetBindingDivisor() const;
 };
 

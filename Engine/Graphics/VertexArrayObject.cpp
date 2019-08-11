@@ -16,7 +16,7 @@ void VertexAttributeBatch::AddAttribute(unsigned int index, int numElements, Dat
 	attributes.emplace_back(index, numElements, dataType, attribType, relativeOffset);
 }
 
-const std::vector<VertexAttribute> VertexAttributeBatch::GetAttributes() const
+const std::vector<VertexAttribute>& VertexAttributeBatch::GetAttributes() const
 {
 	return attributes;
 }
@@ -57,11 +57,11 @@ void VertexArrayObject::RegisterArrayBuffer(unsigned int firstBatchIndex, unsign
 	for (unsigned int j = firstBatchIndex; j < finalBatchIndex; j++)
 	{
 		size_t stride = 0;
-		std::vector<VertexAttribute> attribs = batchList[j].GetAttributes();
-		std::vector<VertexAttribute>::iterator it = attribs.begin();
+		const std::vector<VertexAttribute>& attribs = batchList[j].GetAttributes();
+		std::vector<VertexAttribute>::const_iterator it = attribs.begin();
 		for (it; it != attribs.end(); it++)
 		{
-			VertexAttribute& currentAttrib = *it;
+			const VertexAttribute& currentAttrib = *it;
 			stride += currentAttrib.numElements*SizeOfType(currentAttrib.dataType);
 		}
 		glVertexArrayVertexBuffer(vaoID, j, buffer->GetBufferID(), attribOffset, stride);
@@ -85,8 +85,8 @@ void VertexArrayObject::PrepareAttributes()
 	int bindingPoint = 0;
 	for (std::vector<VertexAttributeBatch>::iterator i = batchList.begin(); i != batchList.end(); i++, bindingPoint++)
 	{
-		std::vector<VertexAttribute> attribs = i->GetAttributes();
-		std::vector<VertexAttribute>::iterator it = attribs.begin();
+		const std::vector<VertexAttribute>& attribs = i->GetAttributes();
+		std::vector<VertexAttribute>::const_iterator it = attribs.begin();
 		for (it; it != attribs.end(); it++)
 		{
 			glEnableVertexArrayAttrib(vaoID, it->index);

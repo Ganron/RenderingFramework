@@ -28,7 +28,7 @@ namespace Graphics
 		if (data)
 		{
 			filepathInternal = filepath;
-			std::cout << filepath << " successful " << std::endl;
+			
 			//TODO find a way to handle different bit depths???
 			TexParams params((TexChannels)channels, TexFormat::UI_NORM_8);
 			

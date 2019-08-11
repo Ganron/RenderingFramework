@@ -13,6 +13,7 @@ void Model::Load(const std::string & filepath)
 
 	if (assimpScene)
 	{
+		InitMaterials(assimpScene);
 		InitNode(assimpScene, assimpScene->mRootNode);
 	}//TODO else signal error
 }
@@ -70,34 +71,31 @@ void Model::InitMesh(const aiScene * assimpScene, const aiMesh * assimpMesh)
 		}
 	}
 
-	meshes.emplace_back(vertices, indices); //TODO +additionalSize?
-
-	const aiMaterial* assimpMaterial = assimpScene->mMaterials[assimpMesh->mMaterialIndex];
-	for (unsigned int j = 0; j < assimpMaterial->GetTextureCount(aiTextureType_DIFFUSE); j++)
-	{
-		aiString path;
-		assimpMaterial->GetTexture(aiTextureType_DIFFUSE, j, &path);
-		unsigned int index = GetTexIndex(path.data);
-		meshes.back().SetTexIndex(index);
-	}
+	unsigned int index = assimpMesh->mMaterialIndex;
+	meshes.emplace_back(vertices, indices, &materials[index]); //TODO +additionalSize?
 }
 
-unsigned int Model::GetTexIndex(const std::string & filepath)
+void Model::InitMaterials(const aiScene * assimpScene)
 {
-	for (std::vector<Graphics::Texture*>::size_type i = 0; i < textures.size(); i++)
+	for (unsigned int i = 0; i < assimpScene->mNumMaterials; i++)
 	{
-		if ((textures[i])->GetFilePath() == filepath)
+		materials.emplace_back(Material());
+
+		const aiMaterial* mat = assimpScene->mMaterials[i];
+
+		for (unsigned int j = 0; j < mat->GetTextureCount(aiTextureType_DIFFUSE); j++)
 		{
-			return i;
+			aiString path;
+			mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
+
+			textures.push_back(new Graphics::Texture());
+			Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::REPEAT, Graphics::TexWrap::REPEAT);
+			textures.back()->Load(path.data, config);
+
+			materials.back().AddTexIndex(textures.size() - 1);
 		}
 	}
-	//TODO Load done somewhere else; Config programmable
-	textures.push_back(new Graphics::Texture());
-	Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::REPEAT, Graphics::TexWrap::REPEAT);
-	textures.back()->Load(filepath, config);
-	return textures.size() - 1;
 }
-
 
 Model::Model(const std::string& filepath)
 {
@@ -115,7 +113,11 @@ void Model::Draw(unsigned int instanceCount)
 {
 	for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
-		textures[it->GetTexIndex()]->Bind(0);
+		const std::vector<unsigned int>& indices = it->GetMaterial()->GetIndices();
+		for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
+		{
+			textures[indices[i]]->Bind(i);
+		}
 		it->Draw(instanceCount);
 	}
 }
