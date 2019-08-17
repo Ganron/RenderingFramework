@@ -109,7 +109,7 @@ Model::Model(const std::string& filepath)
 	}//TODO else signal error
 }
 
-void Model::Draw(unsigned int instanceCount)
+void Model::Draw()
 {
 	for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
@@ -118,7 +118,7 @@ void Model::Draw(unsigned int instanceCount)
 		{
 			textures[indices[i]]->Bind(i);
 		}
-		it->Draw(instanceCount);
+		it->Draw();
 	}
 }
 

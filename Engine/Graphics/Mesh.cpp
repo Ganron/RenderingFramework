@@ -35,10 +35,10 @@ const Material * Mesh::GetMaterial() const
 	return material;
 }
 
-void Mesh::Draw(unsigned int instanceCount)
+void Mesh::Draw()
 {
 	vao.Bind();
-	glDrawElementsInstanced(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, NULL, instanceCount);
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, NULL);
 	vao.Unbind();
 }
 

@@ -7,7 +7,7 @@ VertexAttribute::VertexAttribute(unsigned int index, int numElements, DataType d
 {
 }
 
-VertexAttributeBatch::VertexAttributeBatch(unsigned int bindingDivisor) : divisor(bindingDivisor)
+VertexAttributeBatch::VertexAttributeBatch()
 {
 }
 
@@ -19,11 +19,6 @@ void VertexAttributeBatch::AddAttribute(unsigned int index, int numElements, Dat
 const std::vector<VertexAttribute>& VertexAttributeBatch::GetAttributes() const
 {
 	return attributes;
-}
-
-unsigned int VertexAttributeBatch::GetBindingDivisor() const
-{
-	return divisor;
 }
 
 VertexArrayObject::VertexArrayObject()
@@ -65,7 +60,7 @@ void VertexArrayObject::RegisterArrayBuffer(unsigned int firstBatchIndex, unsign
 			stride += currentAttrib.numElements*SizeOfType(currentAttrib.dataType);
 		}
 		glVertexArrayVertexBuffer(vaoID, j, buffer->GetBufferID(), attribOffset, stride);
-		attribOffset += stride * numVertices;
+		attribOffset += stride * numVertices; //TODO fix logic to account for instance arrays
 	}
 }
  
@@ -99,7 +94,6 @@ void VertexArrayObject::PrepareAttributes()
 			}
 			glVertexArrayAttribBinding(vaoID, it->index, bindingPoint);
 		}
-		glVertexArrayBindingDivisor(vaoID, bindingPoint, i->GetBindingDivisor());
 	}
 }
 

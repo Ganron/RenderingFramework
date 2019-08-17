@@ -25,7 +25,7 @@ private:
 	
 public:
 	Model(const std::string& filepath);
-	void Draw(unsigned int instanceCount);
+	void Draw();
 	void Delete();
 	~Model();
 };

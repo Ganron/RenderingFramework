@@ -40,7 +40,7 @@ public:
 	void SetUpMesh();
 	const Material* GetMaterial() const;
 
-	void Draw(unsigned int instanceCount);
+	void Draw();
 
 	void Delete();
 	~Mesh();

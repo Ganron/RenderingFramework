@@ -116,7 +116,7 @@ int main()
 		program.SetUniform(1, 1, &perspMat);
 
 		//quad.Draw(4);
-		model.Draw(1);
+		model.Draw();
 		window.Update();
 	}
 
