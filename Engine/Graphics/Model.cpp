@@ -88,9 +88,8 @@ void Model::InitMaterials(const aiScene * assimpScene)
 			aiString path;
 			mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
 
-			textures.push_back(new Graphics::Texture());
-			Graphics::TexConfig config(1, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexFilter::LINEAR, Graphics::TexWrap::REPEAT, Graphics::TexWrap::REPEAT);
-			textures.back()->Load(path.data, config);
+			textures.push_back(new Graphics::Texture(path.data));
+			textures.back()->LoadFromFile();
 
 			materials.back().AddTexIndex(textures.size() - 1);
 		}
@@ -130,7 +129,7 @@ void Model::Delete()
 	}
 	for (std::vector<Graphics::Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
 	{
-		(*it)->Unload();
+		(*it)->Delete();
 		delete (*it);
 	}
 }

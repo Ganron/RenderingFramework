@@ -29,8 +29,6 @@ namespace Graphics
 
 	struct TexConfig
 	{
-		unsigned int numLevels;
-
 		TexFilter minOnLevel;
 		TexFilter minBetweenLevels;
 		TexFilter mag;
@@ -39,13 +37,13 @@ namespace Graphics
 		TexWrap t;
 
 		TexConfig();
-		TexConfig(unsigned int mipmapNumLevels, TexFilter filterMinOnLevel, TexFilter filterMinBetweenLevels, TexFilter filterMag, TexWrap wrapS, TexWrap wrapT);
+		TexConfig(TexFilter filterMinOnLevel, TexFilter filterMinBetweenLevels, TexFilter filterMag, TexWrap wrapS, TexWrap wrapT);
 	};
 
 	class Texture
 	{
 	private:
-		std::string filepathInternal;
+		std::string textureName;
 		GLuint textureID;
 		int width;
 		int height;
@@ -53,22 +51,22 @@ namespace Graphics
 		unsigned int textureUnit;
 
 	public:
-		Texture();
+		Texture(const std::string& filename);
 		//TODO make bool for error checking
-		void Load(std::string filepath, const TexConfig& config);
-		void Load(const void* data, int width, int height, const TexParams& params, const TexConfig& config);
+		void LoadFromFile(const TexConfig& = TexConfig());
+		void LoadFromData(const void* data, int width, int height, const TexParams& params, const TexConfig& = TexConfig());
 
 		void Bind(unsigned int texUnit);
 		void Unbind();
 
-		void SetBorderColor(const Vector4 color);
+		void SetBorderColor(const Vector4& color);
 
 		int GetWidth() const;
 		int GetHeight() const;
 		unsigned int GetTextureUnit() const;
-		const std::string& GetFilePath() const;
+		const std::string& GetFilename() const;
 
-		void Unload();
+		void Delete();
 		~Texture();
 
 	private:
@@ -76,5 +74,3 @@ namespace Graphics
 		void TexConfigToOpenGL(const TexConfig& config, GLenum& filterMin, GLenum& filterMag, GLenum& wrapS, GLenum& wrapT);
 	};
 }
-
-

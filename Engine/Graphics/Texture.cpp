@@ -7,49 +7,51 @@
 
 namespace Graphics
 {
-	Texture::Texture() :filepathInternal(""), textureID(0), width(0), height(0), textureUnit(0)
+	Texture::Texture(const std::string& filename) :textureName(filename), textureID(0), width(0), height(0), textureUnit(0)
 	{
 	}
 
-	void Texture::Load(std::string filepath, const TexConfig & config)
+	void Texture::LoadFromFile(const TexConfig & config)
 	{
 		//TODO signal error?
-		if (!Filesystem::IsValidFilePath(filepath)) return;
+		if (!Filesystem::IsValidFilePath(textureName)) return;
 
 		int localWidth;
 		int localHeight;
 		int channels;
 
-		if (!Filesystem::IsAbsolute(filepath)) filepath = Filesystem::GetAbsolute(filepath);
+		//TODO relative/absolute
+		//if (!Filesystem::IsAbsolute(filepath)) filepath = Filesystem::GetAbsolute(filepath);
 
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load(filepath.c_str(), &localWidth, &localHeight, &channels, 0);
+		unsigned char* data = stbi_load(textureName.c_str(), &localWidth, &localHeight, &channels, 0);
 
 		if (data)
-		{
-			filepathInternal = filepath;
-			
+		{			
 			//TODO find a way to handle different bit depths???
 			TexParams params((TexChannels)channels, TexFormat::UI_NORM_8);
 			
-			Load(reinterpret_cast<void*>(data), localWidth, localHeight, params, config);
+			LoadFromData(reinterpret_cast<void*>(data), localWidth, localHeight, params, config);
 		}
 
 		stbi_image_free(data);
 	}
 
-	void Texture::Load(const void * data, int width, int height, const TexParams & params, const TexConfig & config)
+	void Texture::LoadFromData(const void * data, int width, int height, const TexParams & params, const TexConfig & config)
 	{
 		this->width = width;
 		this->height = height;
-
+		
 		GLenum internalFormat;
 		GLenum baseFormat;
 		GLenum type;
 		TexParamsToOpenGL(params, internalFormat, baseFormat, type);
 
+		int levels;
+		levels = FloorToInt(Log2((float)Max<int>(width, height))) + 1;
+
 		glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
-		glTextureStorage2D(textureID, config.numLevels, internalFormat, width, height);
+		glTextureStorage2D(textureID, levels, internalFormat, width, height);
 
 		glTextureSubImage2D(textureID, 0, 0, 0, width, height, baseFormat, type, data);
 		glGenerateTextureMipmap(textureID);
@@ -77,7 +79,7 @@ namespace Graphics
 		glBindTextureUnit(textureUnit, 0);
 	}
 
-	void Texture::SetBorderColor(const Vector4 color)
+	void Texture::SetBorderColor(const Vector4& color)
 	{
 		glTextureParameterfv(textureID, GL_TEXTURE_BORDER_COLOR, &color[0]);
 	}
@@ -97,14 +99,13 @@ namespace Graphics
 		return textureUnit;
 	}
 
-	const std::string& Texture::GetFilePath() const
+	const std::string& Texture::GetFilename() const
 	{
-		return filepathInternal;
+		return textureName;
 	}
 
-	void Texture::Unload()
+	void Texture::Delete()
 	{
-		filepathInternal = "";
 		glDeleteTextures(1, &textureID);
 	}
 
@@ -266,12 +267,12 @@ namespace Graphics
 	{
 	}
 
-	TexConfig::TexConfig() : numLevels(1), minOnLevel(TexFilter::LINEAR), minBetweenLevels(TexFilter::LINEAR), mag(TexFilter::LINEAR), s(TexWrap::CLAMP_EDGE), t(TexWrap::CLAMP_EDGE)
+	TexConfig::TexConfig() :minOnLevel(TexFilter::LINEAR), minBetweenLevels(TexFilter::LINEAR), mag(TexFilter::LINEAR), s(TexWrap::CLAMP_EDGE), t(TexWrap::CLAMP_EDGE)
 	{
 	}
 
-	TexConfig::TexConfig(unsigned int mipmapNumLevels, TexFilter filterMinOnLevel, TexFilter filterMinBetweenLevels, TexFilter filterMag, TexWrap wrapS, TexWrap wrapT) :
-		numLevels(mipmapNumLevels), minOnLevel(filterMinOnLevel), minBetweenLevels(filterMinBetweenLevels), mag(filterMag), s(wrapS), t(wrapT)
+	TexConfig::TexConfig(TexFilter filterMinOnLevel, TexFilter filterMinBetweenLevels, TexFilter filterMag, TexWrap wrapS, TexWrap wrapT) :
+		minOnLevel(filterMinOnLevel), minBetweenLevels(filterMinBetweenLevels), mag(filterMag), s(wrapS), t(wrapT)
 	{
 	}
 }
