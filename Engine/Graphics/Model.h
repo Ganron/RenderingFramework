@@ -1,4 +1,5 @@
 #pragma once
+#include"TextureManager.h"
 #include<vector>
 #include<string>
 #include<assimp/Importer.hpp>
@@ -16,7 +17,6 @@ class Model
 private:
 	std::vector<Mesh> meshes; //TODO make use of parent/child relations
 	std::vector<Material> materials;
-	std::vector<Graphics::Texture*> textures;
 	
 	void Load(const std::string& filepath);
 	void InitNode(const aiScene* assimpScene, const aiNode* assimpNode);

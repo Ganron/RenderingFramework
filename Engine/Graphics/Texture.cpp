@@ -7,14 +7,14 @@
 
 namespace Graphics
 {
-	Texture::Texture(const std::string& filename) :textureName(filename), textureID(0), width(0), height(0), textureUnit(0)
+	Texture::Texture(const std::string& name) :textureName(name), textureID(0), width(0), height(0), textureUnit(0)
 	{
 	}
 
-	void Texture::LoadFromFile(const TexConfig & config)
+	void Texture::LoadFromFile(const std::string& filename, const TexConfig & config)
 	{
 		//TODO signal error?
-		if (!Filesystem::IsValidFilePath(textureName)) return;
+		if (!Filesystem::IsValidFilePath(filename)) return;
 
 		int localWidth;
 		int localHeight;
@@ -24,7 +24,7 @@ namespace Graphics
 		//if (!Filesystem::IsAbsolute(filepath)) filepath = Filesystem::GetAbsolute(filepath);
 
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load(textureName.c_str(), &localWidth, &localHeight, &channels, 0);
+		unsigned char* data = stbi_load(filename.c_str(), &localWidth, &localHeight, &channels, 0);
 
 		if (data)
 		{			
@@ -99,7 +99,7 @@ namespace Graphics
 		return textureUnit;
 	}
 
-	const std::string& Texture::GetFilename() const
+	const std::string& Texture::GetName() const
 	{
 		return textureName;
 	}

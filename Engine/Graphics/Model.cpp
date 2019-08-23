@@ -83,15 +83,14 @@ void Model::InitMaterials(const aiScene * assimpScene)
 
 		const aiMaterial* mat = assimpScene->mMaterials[i];
 
-		for (unsigned int j = 0; j < mat->GetTextureCount(aiTextureType_DIFFUSE); j++)
+		for (unsigned int j = 0; j < mat->GetTextureCount(aiTextureType_DIFFUSE); j++)//TODO handle different types of textures
 		{
 			aiString path;
 			mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
-
-			textures.push_back(new Graphics::Texture(path.data));
-			textures.back()->LoadFromFile();
-
-			materials.back().AddTexIndex(textures.size() - 1);
+	
+			int index = Graphics::TextureManager::CreateTexture(path.data);
+			Graphics::TextureManager::GetTexture(index).LoadFromFile(path.data);
+			materials.back().AddTexIndex(index);
 		}
 	}
 }
@@ -115,7 +114,7 @@ void Model::Draw()
 		const std::vector<unsigned int>& indices = it->GetMaterial()->GetIndices();
 		for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 		{
-			textures[indices[i]]->Bind(i);
+			Graphics::TextureManager::GetTexture(indices[i]).Bind(i);
 		}
 		it->Draw();
 	}
@@ -126,11 +125,6 @@ void Model::Delete()
 	for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
 		it->Delete();
-	}
-	for (std::vector<Graphics::Texture*>::iterator it = textures.begin(); it != textures.end(); it++)
-	{
-		(*it)->Delete();
-		delete (*it);
 	}
 }
 

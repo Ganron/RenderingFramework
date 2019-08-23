@@ -6,6 +6,7 @@
 #include"CoreSystems/FileSystem.h"
 #include"Graphics/Window.h"
 #include"Graphics/Texture.h"
+#include"Graphics/TextureManager.h"
 #include"Graphics/ShaderProgram.h"
 #include"Graphics/VertexArrayObject.h"
 #include"Graphics/Buffer.h"
@@ -124,6 +125,7 @@ int main()
 	// Application termination
 	//quad.Delete();
 	model.Delete();
+	Graphics::TextureManager::DeleteTextures();
 	//tex.Unload();
 	program.Delete();
 

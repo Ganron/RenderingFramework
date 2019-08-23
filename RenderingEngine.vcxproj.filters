@@ -96,6 +96,9 @@
     <ClCompile Include="Engine\Graphics\Model.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\TextureManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\CoreSystems\Math\AABB.h">
@@ -159,6 +162,9 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Model.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\TextureManager.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
