@@ -41,11 +41,10 @@ int main()
 	// Window setup
 	Graphics::Window window(800, 600, "Test", false);
 
-
 	// Shader setup
 	Graphics::ShaderProgram program;
-	program.AddShaderFromFile("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Shaders\\VertexShader.vert", Graphics::ShaderType::VERTEX);
-	program.AddShaderFromFile("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Shaders\\FragmentShader.frag", Graphics::ShaderType::FRAGMENT);
+	program.AddShaderFromFile(Filesystem::GetShaderPath("VertexShader.vert"), Graphics::ShaderType::VERTEX);
+	program.AddShaderFromFile(Filesystem::GetShaderPath("FragmentShader.frag"), Graphics::ShaderType::FRAGMENT);
 	program.LinkProgram();
 
 

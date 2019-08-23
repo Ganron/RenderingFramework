@@ -13,18 +13,17 @@ namespace Graphics
 
 	void Texture::LoadFromFile(const std::string& filename, const TexConfig & config)
 	{
+		std::string filepath = Filesystem::GetTexturePath(filename);
+	
 		//TODO signal error?
-		if (!Filesystem::IsValidFilePath(filename)) return;
+		if (!Filesystem::IsValidFilePath(filepath)) return;
 
 		int localWidth;
 		int localHeight;
 		int channels;
 
-		//TODO relative/absolute
-		//if (!Filesystem::IsAbsolute(filepath)) filepath = Filesystem::GetAbsolute(filepath);
-
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load(filename.c_str(), &localWidth, &localHeight, &channels, 0);
+		unsigned char* data = stbi_load(filepath.c_str(), &localWidth, &localHeight, &channels, 0);
 
 		if (data)
 		{			

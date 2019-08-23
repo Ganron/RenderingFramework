@@ -4,8 +4,11 @@
 #include<filesystem>
 #include<fstream>
 
+//TODO think about the unnecessary path-string-path conversions
 namespace Filesystem
 {
+	std::string rootDirectory = "";
+
 	std::string ReadFile(const std::string & filepath)
 	{
 		std::ifstream file;
@@ -29,29 +32,58 @@ namespace Filesystem
 		return std::filesystem::exists(filepath);
 	}
 
+	bool IsRegularFile(const std::string & filepath)
+	{
+		return std::filesystem::is_regular_file(filepath);
+	}
+
 	bool IsAbsolute(const std::string & filepath)
 	{
 		std::filesystem::path path(filepath);
 		return path.is_absolute();
 	}
 
-	std::string GetExecutableDirectory()
+	std::string GetRootDirectory()
 	{
-		char buffer[MAX_PATH];
-		GetModuleFileName(NULL, buffer, MAX_PATH);
-		std::filesystem::path exePath(buffer);
-		return exePath.parent_path().string();
+		if (rootDirectory == "")
+		{
+			char buffer[MAX_PATH];
+			GetModuleFileName(NULL, buffer, MAX_PATH);
+			std::filesystem::path exePath(buffer);
+			rootDirectory = exePath.parent_path().parent_path().string();
+		}
+		return rootDirectory;
+	}
+
+	std::string GetTexturePath(const std::string& filename)
+	{
+		std::filesystem::path filepath = "Resources/Textures";
+		filepath /= filename;
+		return GetAbsolute(filepath.string());
+	}
+
+	std::string GetModelPath(const std::string& filename)
+	{
+		std::filesystem::path filepath = "Resources/Models";
+		filepath /= filename;
+		return GetAbsolute(filepath.string());
+	}
+
+	std::string GetShaderPath(const std::string& filename)
+	{
+		std::filesystem::path filepath = "Resources/Shaders";
+		filepath /= filename;
+		return GetAbsolute(filepath.string());
 	}
 
 	std::string GetRelative(const std::string& absolutePath)
 	{
-		return std::filesystem::relative(absolutePath, GetExecutableDirectory()).string();
+		return std::filesystem::relative(absolutePath, GetRootDirectory()).string();
 	}
 
 	std::string GetAbsolute(const std::string& relativePath)
 	{
-		//TODO think about the unnecessary path-string-path conversion
-		std::filesystem::path exePath = GetExecutableDirectory();
+		std::filesystem::path exePath = GetRootDirectory();
 		exePath /= relativePath;
 		return std::filesystem::canonical(exePath).string();
 	}
