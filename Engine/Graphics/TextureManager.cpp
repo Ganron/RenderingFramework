@@ -1,6 +1,5 @@
 #include "TextureManager.h"
 #include<vector>
-#include<iostream>
 
 namespace Graphics
 {

@@ -148,20 +148,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\CoreSystems\FileSystem.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\AABB.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Frustum.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Math.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Matrix2.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Matrix3.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Matrix4.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\OBB.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Plane.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Quaternion.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Sphere.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Vector2.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Vector3.cpp" />
-    <ClCompile Include="Engine\CoreSystems\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\Filesystem\FileSystem.cpp" />
+    <ClCompile Include="Engine\Math\AABB.cpp" />
+    <ClCompile Include="Engine\Math\Frustum.cpp" />
+    <ClCompile Include="Engine\Math\Math.cpp" />
+    <ClCompile Include="Engine\Math\Matrix2.cpp" />
+    <ClCompile Include="Engine\Math\Matrix3.cpp" />
+    <ClCompile Include="Engine\Math\Matrix4.cpp" />
+    <ClCompile Include="Engine\Math\OBB.cpp" />
+    <ClCompile Include="Engine\Math\Plane.cpp" />
+    <ClCompile Include="Engine\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\Math\Sphere.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Math\Vector4.cpp" />
     <ClCompile Include="Engine\glad.cpp" />
     <ClCompile Include="Engine\Graphics\Mesh.cpp" />
     <ClCompile Include="Engine\Graphics\Model.cpp" />
@@ -174,20 +174,20 @@
     <ClCompile Include="Engine\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\CoreSystems\FileSystem.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\AABB.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Frustum.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Math.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Matrix2.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Matrix3.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Matrix4.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\OBB.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Plane.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Quaternion.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Sphere.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Vector2.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Vector3.h" />
-    <ClInclude Include="Engine\CoreSystems\Math\Vector4.h" />
+    <ClInclude Include="Engine\Filesystem\FileSystem.h" />
+    <ClInclude Include="Engine\Math\AABB.h" />
+    <ClInclude Include="Engine\Math\Frustum.h" />
+    <ClInclude Include="Engine\Math\Math.h" />
+    <ClInclude Include="Engine\Math\Matrix2.h" />
+    <ClInclude Include="Engine\Math\Matrix3.h" />
+    <ClInclude Include="Engine\Math\Matrix4.h" />
+    <ClInclude Include="Engine\Math\OBB.h" />
+    <ClInclude Include="Engine\Math\Plane.h" />
+    <ClInclude Include="Engine\Math\Quaternion.h" />
+    <ClInclude Include="Engine\Math\Sphere.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Math\Vector4.h" />
     <ClInclude Include="Engine\Graphics\Mesh.h" />
     <ClInclude Include="Engine\Graphics\Model.h" />
     <ClInclude Include="Engine\Graphics\ShaderProgram.h" />

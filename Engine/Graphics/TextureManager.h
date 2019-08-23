@@ -2,7 +2,6 @@
 #include"Texture.h"
 #include<string>
 
-
 namespace Graphics
 {
 	namespace TextureManager

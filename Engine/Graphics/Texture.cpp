@@ -1,6 +1,6 @@
 #include"Texture.h"
-#include"../CoreSystems/FileSystem.h"
-#include"../CoreSystems/Math/Vector4.h"
+#include"../Filesystem/FileSystem.h"
+#include"../Math/Vector4.h"
 #include<iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include<stb_image.h>
@@ -267,7 +267,7 @@ namespace Graphics
 	{
 	}
 
-	TexConfig::TexConfig() :minOnLevel(TexFilter::LINEAR), minBetweenLevels(TexFilter::LINEAR), mag(TexFilter::LINEAR), s(TexWrap::CLAMP_EDGE), t(TexWrap::CLAMP_EDGE)
+	TexConfig::TexConfig() :minOnLevel(TexFilter::LINEAR), minBetweenLevels(TexFilter::LINEAR), mag(TexFilter::LINEAR), s(TexWrap::REPEAT), t(TexWrap::REPEAT)
 	{
 	}
 

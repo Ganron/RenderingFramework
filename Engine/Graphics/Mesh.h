@@ -1,6 +1,6 @@
 #pragma once
-#include"../CoreSystems/Math/Vector2.h"
-#include"../CoreSystems/Math/Vector3.h"
+#include"../Math/Vector2.h"
+#include"../Math/Vector3.h"
 #include"Buffer.h"
 #include"VertexArrayObject.h"
 #include<vector>

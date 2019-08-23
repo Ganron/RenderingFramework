@@ -1,9 +1,9 @@
 #include"Model.h"
 #include"Mesh.h"
 #include"Texture.h"
-#include"../CoreSystems/Math/Vector2.h"
-#include"../CoreSystems/Math/Vector3.h"
-#include"../CoreSystems/FileSystem.h"
+#include"../Math/Vector2.h"
+#include"../Math/Vector3.h"
+#include"../Filesystem/FileSystem.h"
 #include<iostream>
 
 void Model::Load(const std::string & filepath)
