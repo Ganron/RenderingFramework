@@ -158,7 +158,11 @@ public:
 
 	/*Generate a look-at matrix.
 	Takes as parameters the Camera Position, the Point of Interest (towards which the camera is looking), and some up direction.*/
-	static Matrix4 CreateLookAt(const Vector3& cameraPos, const Vector3& POI, const Vector3& up = Vector3(0.0f, 1.0f, 0.0f));
+	static Matrix4 CreateLookAtPOI(const Vector3& cameraPos, const Vector3& POI, const Vector3& up = Vector3(0.0f, 1.0f, 0.0f));
+
+	/*Generate a look-at matrix.
+	Takes as parameters the Camera Position, the Forward direction (the direction at which the camera is looking), and some up direction.*/
+	static Matrix4 CreateLookAtForward(const Vector3& cameraPos, const Vector3& forwardDir, const Vector3& up = Vector3(0.0f, 1.0f, 0.0f));
 
 	/*Generate a perspective projection matrix.
 	Takes as parameters the distances to the left, right, top, and bottom edges of the rectangle carved out of the near plane

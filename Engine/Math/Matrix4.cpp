@@ -561,19 +561,39 @@ Matrix4 Matrix4::CreateTranslation(const Vector3 & v)
 	return Matrix4(Matrix3(), v);
 }
 
-Matrix4 Matrix4::CreateLookAt(const Vector3 & cameraPos, const Vector3 & POI, const Vector3 & up)
+Matrix4 Matrix4::CreateLookAtPOI(const Vector3 & cameraPos, const Vector3 & POI, const Vector3 & up)
 {
 	Vector3 forward = (cameraPos - POI).GetNormalized();
 	Vector3 upN = up.GetNormalized();
-	Vector3 right = Vector3::CrossProduct(upN, forward);
-	upN = Vector3::CrossProduct(forward, right);
+	Vector3 left = Vector3::CrossProduct(upN, forward);
+	upN = Vector3::CrossProduct(forward, left);
 
 	return Matrix4(
-		Vector4(right.x, upN.x, forward.x, 0.0f),
-		Vector4(right.y, upN.y, forward.y, 0.0f),
-		Vector4(right.z, upN.z, forward.z, 0.0f),
+		Vector4(left.x, upN.x, forward.x, 0.0f),
+		Vector4(left.y, upN.y, forward.y, 0.0f),
+		Vector4(left.z, upN.z, forward.z, 0.0f),
 		Vector4(
-			-Vector3::DotProduct(right, cameraPos),
+			-Vector3::DotProduct(left, cameraPos),
+			-Vector3::DotProduct(upN, cameraPos),
+			-Vector3::DotProduct(forward, cameraPos),
+			1.0f
+		)
+	);
+}
+
+Matrix4 Matrix4::CreateLookAtForward(const Vector3 & cameraPos, const Vector3 & forwardDir, const Vector3 & up)
+{
+	Vector3 forward = -forwardDir.GetNormalized();
+	Vector3 upN = up.GetNormalized();
+	Vector3 left = Vector3::CrossProduct(up, forward);
+	upN = Vector3::CrossProduct(forward, left);
+
+	return Matrix4(
+		Vector4(left.x, upN.x, forward.x, 0.0f),
+		Vector4(left.y, upN.y, forward.y, 0.0f),
+		Vector4(left.z, upN.z, forward.z, 0.0f),
+		Vector4(
+			-Vector3::DotProduct(left, cameraPos),
 			-Vector3::DotProduct(upN, cameraPos),
 			-Vector3::DotProduct(forward, cameraPos),
 			1.0f
@@ -658,11 +678,11 @@ void Matrix4::SetColumn(int col, float x, float y, float z, float w)
 
 void Matrix4::Print() const
 {
-	for (int r = 0; r < 3; r++)
+	for (int r = 0; r < 4; r++)
 	{
-		for (int c = 0; c < 3; c++)
+		for (int c = 0; c < 4; c++)
 		{
-			std::cout << std::setw(4) << matrixEntry[r + c * 3] << " ";
+			std::cout << std::setw(4) << matrixEntry[r + c * 4] << " ";
 		}
 		std::cout << std::endl;
 	}

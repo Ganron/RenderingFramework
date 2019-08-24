@@ -1,13 +1,20 @@
 #include"Window.h"
+#include"Camera.h"
 #include<iostream>
 
 namespace Graphics
 {
-	//TODO find a way to change width and height on resize!
+	Camera* Window::camera = nullptr;
 
 	int Window::width = 0;
 	int Window::height = 0;
+
+	float Window::cursorLastX = 0.0f;
+	float Window::cursorLastY = 0.0f;
+
 	bool Window::bFullscreen = false;
+	bool Window::bFirstMouseMov = true;
+	
 
 	void Window::FramebufferSizeCallback(GLFWwindow * window, int newWidth, int newHeight)
 	{
@@ -20,12 +27,35 @@ namespace Graphics
 		}
 	}
 
+	void Window::MouseCallback(GLFWwindow * window, double xPos, double yPos)
+	{
+		if (bFirstMouseMov)
+		{
+			cursorLastX = (float)xPos;
+			cursorLastY = (float)yPos;
+			bFirstMouseMov = false;
+		}
+		
+		float xDelta = cursorLastX - (float)xPos;
+		float yDelta = (float)yPos - cursorLastY;
+		
+		cursorLastX = (float)xPos;
+		cursorLastY = (float)yPos;
+
+		camera->RotateCamera(xDelta, yDelta);
+	}
+
+	void Window::ScrollCallback(GLFWwindow * window, double xOffset, double yOffset)
+	{
+		camera->ZoomCamera((float)yOffset);
+	}
+
 	Window::Window(int inWidth, int inHeight, const std::string& inTitle, bool inFullscreen) : title(inTitle)
 	{
 		width = inWidth;
 		height = inHeight;
 		bFullscreen = inFullscreen;
-
+		
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
@@ -47,10 +77,16 @@ namespace Graphics
 
 		glfwMakeContextCurrent(window);
 
+		camera = new Camera;
+
 		//TODO move to a context class (with proper itialization checks)
 		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 		glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
+		glfwSetCursorPosCallback(window, MouseCallback);
+		glfwSetScrollCallback(window, ScrollCallback);
+
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		//TODO move to rendering class! Should precede drawing!
 		glViewport(0, 0, width, height);
@@ -86,17 +122,46 @@ namespace Graphics
 		}
 	}
 
-	void Window::ProcessInput()
+	void Window::ProcessInput(float deltaTime)
 	{
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		{
 			glfwSetWindowShouldClose(window, true);
 		}
 
-		//TODO pick another key or make it a const variable
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
 		{
 			ToggleFullscreen();
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			camera->MoveCamera(CameraMovementDirection::FORWARD, deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			camera->MoveCamera(CameraMovementDirection::BACKWARD, deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			camera->MoveCamera(CameraMovementDirection::LEFT, deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			camera->MoveCamera(CameraMovementDirection::RIGHT, deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		{
+			camera->MoveCamera(CameraMovementDirection::UP, deltaTime);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			camera->MoveCamera(CameraMovementDirection::DOWN, deltaTime);
 		}
 	}
 
@@ -126,6 +191,11 @@ namespace Graphics
 		return title;
 	}
 
+	const Camera * Window::GetCamera() const
+	{
+		return camera;
+	}
+
 	bool Window::IsFullscreen() const
 	{
 		return bFullscreen;
@@ -136,9 +206,9 @@ namespace Graphics
 		return glfwWindowShouldClose(window);
 	}
 
-	void Window::Update()
+	void Window::Update(float deltaTime)
 	{
-		ProcessInput();
+		ProcessInput(deltaTime);
 		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -146,6 +216,7 @@ namespace Graphics
 
 	Window::~Window()
 	{
+		delete camera;
 		glfwTerminate();
 	}
 

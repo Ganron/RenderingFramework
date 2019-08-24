@@ -25,10 +25,10 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{340f66b3-c1d7-4e63-8969-fa99f0b0f086}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Filesystem">
+    <Filter Include="Header Files\Utilities">
       <UniqueIdentifier>{67149baa-2959-4af8-82fd-c32b69691674}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Filesystem">
+    <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{89d73810-a903-4eda-a96b-6f21b42980f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -102,8 +102,11 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Filesystem\FileSystem.cpp">
-      <Filter>Source Files\Filesystem</Filter>
+    <ClCompile Include="Engine\Graphics\Camera.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utilities\FileSystem.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,8 +173,11 @@
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Filesystem\FileSystem.h">
-      <Filter>Header Files\Filesystem</Filter>
+    <ClInclude Include="Engine\Graphics\Camera.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\FileSystem.h">
+      <Filter>Header Files\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -181,18 +181,28 @@ void CartToSpherical(const Vector3 & cartesian, Vector3 & spherical)
 	float y = cartesian.y;
 	float z = cartesian.z;
 
-	spherical.y = Atan2(y, x);
+	spherical.y = Atan2(x, z);
+
+	float zxLength = Sqrt(z * z + x * x);
+
+	spherical.z = Atan2(zxLength, y);
+
+	/*spherical.y = Atan2(y, x);
 
 	float xyLength = Sqrt(x * x + y * y);
 
-	spherical.z = Atan2(xyLength, z);
+	spherical.z = Atan2(xyLength, z);*/
 }
 
 void SphericalToCart(const Vector3 & spherical, Vector3 & cartesian)
 {
-	cartesian.x = spherical.x * Sin(spherical.z)*Cos(spherical.y);
+	cartesian.x = spherical.x * Sin(spherical.z)*Sin(spherical.y);
+	cartesian.y = spherical.x * Cos(spherical.z);
+	cartesian.z = spherical.x * Sin(spherical.z)*Cos(spherical.y);
+
+	/*cartesian.x = spherical.x * Sin(spherical.z)*Cos(spherical.y);
 	cartesian.y = spherical.x * Sin(spherical.z)*Sin(spherical.y);
-	cartesian.z = spherical.x * Cos(spherical.y);
+	cartesian.z = spherical.x * Cos(spherical.z);*/
 }
 
 float Step(float x, float edge)

@@ -3,8 +3,9 @@
 #include"Math/Vector2.h"
 #include"Math//Matrix4.h"
 #include"Math/Matrix3.h"
-#include"Filesystem/FileSystem.h"
+#include"Utilities/FileSystem.h"
 #include"Graphics/Window.h"
+#include"Graphics/Camera.h"
 #include"Graphics/Texture.h"
 #include"Graphics/TextureManager.h"
 #include"Graphics/ShaderProgram.h"
@@ -35,6 +36,11 @@ void generateTexture(unsigned char* data, int width, int height)
 	}
 }
 /******************************/
+
+float deltaTime = 0.0f;
+double lastFrame = 0.0;
+
+void UpdateTimer();
 
 int main()
 {
@@ -90,19 +96,21 @@ int main()
 	quad.AddAttribBatch(offsetBatch, offsets.size() * sizeof(Vector3), &offsets[0]);
 	quad.SetUpMesh();*/
 
-	Model model("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Models\\earth.obj");
+	Model model("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Models\\cottage_obj.obj");
 
 	// Transformation setup
 	Matrix4 modelMat1 = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 0.0f, 1.0f);
-	Matrix4 modelMat2 = Matrix4::CreateTranslation(0.0f, 0.0f, -50.0f)*Matrix4::CreateRotation(DegToRad(180.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
+	Matrix4 modelMat2 =Matrix4::CreateRotation(DegToRad(180.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
+	//Matrix4 viewMat = Matrix4::CreateTranslation(0.0f, 0.0f, -50.0f);
+
 	Matrix4 perspMat;
 	program.SetUniform(0, 1, &modelMat2);
-
+	
 	program.UseProgram();
 	
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+	//glFrontFace(GL_CCW);
 
 	glEnable(GL_DEPTH_TEST);
 	// Rendering loop
@@ -112,12 +120,17 @@ int main()
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		perspMat = Matrix4::CreateProjPerspSymmetric(DegToRad(90.0f), window.GetAspectRatio(), 0.1f, 1000.0f);
-		program.SetUniform(1, 1, &perspMat);
+		Matrix4 viewMat = window.GetCamera()->GetViewMatrix();
+		program.SetUniform(1, 1, &viewMat);
+
+		perspMat = Matrix4::CreateProjPerspSymmetric(window.GetCamera()->GetFieldOfViewAngle(), window.GetAspectRatio(), 0.1f, 1000.0f);
+		program.SetUniform(2, 1, &perspMat);
 
 		//quad.Draw(4);
 		model.Draw();
-		window.Update();
+
+		UpdateTimer();
+		window.Update(deltaTime);
 	}
 
 
@@ -132,3 +145,10 @@ int main()
 }
 
 //TODO think of a better way to delete objects than an explicit delete function!
+
+void UpdateTimer()
+{
+	double currentFrame = glfwGetTime();
+	deltaTime = (float)(currentFrame - lastFrame);
+	lastFrame = currentFrame;
+}
