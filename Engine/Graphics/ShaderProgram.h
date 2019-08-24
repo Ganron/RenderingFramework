@@ -24,7 +24,7 @@ namespace Graphics
 	public:
 		ShaderProgram();
 
-		bool AddShaderFromFile(const std::string& filepath, const ShaderType& shaderType);
+		bool AddShaderFromFile(const std::string& filename, const ShaderType& shaderType);
 		bool AddShaderFromSource(const std::string& source, const ShaderType& shaderType);
 		bool LinkProgram();
 		void UseProgram();

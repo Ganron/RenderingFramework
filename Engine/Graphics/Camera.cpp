@@ -21,7 +21,6 @@ namespace Graphics
 
 	float Camera::GetFieldOfViewAngle() const
 	{
-		std::cout << fovY << std::endl;
 		return DegToRad(fovY);
 	}
 

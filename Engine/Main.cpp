@@ -49,8 +49,8 @@ int main()
 
 	// Shader setup
 	Graphics::ShaderProgram program;
-	program.AddShaderFromFile(Filesystem::GetShaderPath("VertexShader.vert"), Graphics::ShaderType::VERTEX);
-	program.AddShaderFromFile(Filesystem::GetShaderPath("FragmentShader.frag"), Graphics::ShaderType::FRAGMENT);
+	program.AddShaderFromFile("VertexShader.vert", Graphics::ShaderType::VERTEX);
+	program.AddShaderFromFile("FragmentShader.frag", Graphics::ShaderType::FRAGMENT);
 	program.LinkProgram();
 
 
@@ -96,7 +96,7 @@ int main()
 	quad.AddAttribBatch(offsetBatch, offsets.size() * sizeof(Vector3), &offsets[0]);
 	quad.SetUpMesh();*/
 
-	Model model("D:\\Documents\\Assen\\Projects\\RenderingEngine\\Resources\\Models\\cottage_obj.obj");
+	Model model("cottage_obj.obj");
 
 	// Transformation setup
 	Matrix4 modelMat1 = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 0.0f, 1.0f);

@@ -95,9 +95,10 @@ void Model::InitMaterials(const aiScene * assimpScene)
 	}
 }
 
-Model::Model(const std::string& filepath)
+Model::Model(const std::string& filename)
 {
-	if (Filesystem::IsValidFilePath(filepath))//TODO check relative/absolute
+	std::string filepath = Filesystem::GetModelPath(filename);
+	if (Filesystem::IsValidFilePath(filepath))
 	{
 		Load(filepath);
 		for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)

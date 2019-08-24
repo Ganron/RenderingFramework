@@ -24,7 +24,7 @@ private:
 	void InitMaterials(const aiScene* assimpScene);
 	
 public:
-	Model(const std::string& filepath);
+	Model(const std::string& filename);
 	void Draw();
 	void Delete();
 	~Model();
