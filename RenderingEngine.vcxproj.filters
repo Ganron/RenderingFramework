@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{89d73810-a903-4eda-a96b-6f21b42980f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{15430273-a643-4da7-922d-5440c6732ac1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Main.cpp">
@@ -181,11 +184,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\FragmentShader.frag">
-      <Filter>Resource Files</Filter>
+    <None Include="Shaders\VertexShader.vert">
+      <Filter>Shaders</Filter>
     </None>
-    <None Include="Resources\Shaders\VertexShader.vert">
-      <Filter>Resource Files</Filter>
+    <None Include="Shaders\FragmentShader.frag">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

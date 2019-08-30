@@ -21,6 +21,10 @@ private:
 public:
 	void AddTexIndex(unsigned int texIndex);
 	const std::vector<unsigned int>& GetIndices() const;
+	Vector3 ambientColor;
+	Vector3 diffuseColor;
+	Vector3 specularColor;
+	float specularExponent;
 };
 
 class Mesh

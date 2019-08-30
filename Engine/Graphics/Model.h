@@ -1,5 +1,6 @@
 #pragma once
 #include"TextureManager.h"
+#include"ShaderProgram.h"
 #include<vector>
 #include<string>
 #include<assimp/Importer.hpp>
@@ -25,7 +26,7 @@ private:
 	
 public:
 	Model(const std::string& filename);
-	void Draw();
+	void Draw(Graphics::ShaderProgram& program);
 	void Delete();
 	~Model();
 };

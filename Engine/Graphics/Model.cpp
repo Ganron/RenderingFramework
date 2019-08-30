@@ -80,6 +80,7 @@ void Model::InitMaterials(const aiScene * assimpScene)
 	for (unsigned int i = 0; i < assimpScene->mNumMaterials; i++)
 	{
 		materials.emplace_back(Material());
+		Material& currentMat = materials.back();
 
 		const aiMaterial* mat = assimpScene->mMaterials[i];
 
@@ -87,11 +88,25 @@ void Model::InitMaterials(const aiScene * assimpScene)
 		{
 			aiString path;
 			mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
-	
+
 			int index = Graphics::TextureManager::CreateTexture(path.data);
 			Graphics::TextureManager::GetTexture(index).LoadFromFile(path.data);
-			materials.back().AddTexIndex(index);
+			currentMat.AddTexIndex(index);
 		}
+		
+		aiColor3D color(0.0f,0.0f,0.0f);
+		mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		currentMat.ambientColor = Vector3(color.r, color.g, color.b);
+
+		mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+		currentMat.diffuseColor = Vector3(color.r, color.g, color.b);
+
+		mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+		currentMat.specularColor = Vector3(color.r, color.g, color.b);
+
+		float shininess = 0.0f;
+		mat->Get(AI_MATKEY_SHININESS, shininess);
+		currentMat.specularExponent = shininess;
 	}
 }
 
@@ -108,15 +123,23 @@ Model::Model(const std::string& filename)
 	}//TODO else signal error
 }
 
-void Model::Draw()
+void Model::Draw(Graphics::ShaderProgram& program)
 {
+	program.UseProgram();
 	for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)
 	{
-		const std::vector<unsigned int>& indices = it->GetMaterial()->GetIndices();
+		const Material* material = it->GetMaterial();
+		const std::vector<unsigned int>& indices = material->GetIndices();
 		for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 		{
 			Graphics::TextureManager::GetTexture(indices[i]).Bind(i);
 		}
+
+		program.SetUniform(10, 1, &(material->ambientColor));
+		program.SetUniform(11, 1, &(material->diffuseColor));
+		program.SetUniform(12, 1, &(material->specularColor));
+		program.SetUniform(13, 1, &(material->specularExponent));
+
 		it->Draw();
 	}
 }

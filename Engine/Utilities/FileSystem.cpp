@@ -71,7 +71,7 @@ namespace Filesystem
 
 	std::string GetShaderPath(const std::string& filename)
 	{
-		std::filesystem::path filepath = "Resources/Shaders";
+		std::filesystem::path filepath = "Shaders";
 		filepath /= filename;
 		return GetAbsolute(filepath.string());
 	}

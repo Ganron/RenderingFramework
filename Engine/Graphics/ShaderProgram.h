@@ -31,14 +31,14 @@ namespace Graphics
 
 		std::string GetErrorLog() const;
 
-		void SetUniform(int index, int count, float* value);
-		void SetUniform(int index, int count, int* value);
-		void SetUniform(int index, int count, Vector2* value);
-		void SetUniform(int index, int count, Vector3* value);
-		void SetUniform(int index, int count, Vector4* value);
-		void SetUniform(int index, int count, Matrix2* value);
-		void SetUniform(int index, int count, Matrix3* value);
-		void SetUniform(int index, int count, Matrix4* value);
+		void SetUniform(int index, int count, const float* value);
+		void SetUniform(int index, int count, const int* value);
+		void SetUniform(int index, int count, const Vector2* value);
+		void SetUniform(int index, int count, const Vector3* value);
+		void SetUniform(int index, int count, const Vector4* value);
+		void SetUniform(int index, int count, const Matrix2* value);
+		void SetUniform(int index, int count, const Matrix3* value);
+		void SetUniform(int index, int count, const Matrix4* value);
 		
 
 		void Delete();

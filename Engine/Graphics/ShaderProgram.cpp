@@ -86,44 +86,44 @@ std::string Graphics::ShaderProgram::GetErrorLog() const
 	return errorLog;
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, float * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const float * value)
 {
 	glProgramUniform1fv(programID, index, count, value);
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, int * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const int * value)
 {
 	glProgramUniform1iv(programID, index, count, value);
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, Vector2 * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const Vector2 * value)
 {
-	glProgramUniform2fv(programID, index, count, reinterpret_cast<float*>(value));
+	glProgramUniform2fv(programID, index, count, reinterpret_cast<const float*>(value));
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, Vector3 * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const Vector3 * value)
 {
-	glProgramUniform3fv(programID, index, count, reinterpret_cast<float*>(value));
+	glProgramUniform3fv(programID, index, count, reinterpret_cast<const float*>(value));
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, Vector4 * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const Vector4 * value)
 {
-	glProgramUniform4fv(programID, index, count, reinterpret_cast<float*>(value));
+	glProgramUniform4fv(programID, index, count, reinterpret_cast<const float*>(value));
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, Matrix2 * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const Matrix2 * value)
 {
-	glProgramUniformMatrix2fv(programID, index, count, GL_FALSE, reinterpret_cast<float*>(value));
+	glProgramUniformMatrix2fv(programID, index, count, GL_FALSE, reinterpret_cast<const float*>(value));
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, Matrix3 * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const Matrix3 * value)
 {
-	glProgramUniformMatrix3fv(programID, index, count, GL_FALSE, reinterpret_cast<float*>(value));
+	glProgramUniformMatrix3fv(programID, index, count, GL_FALSE, reinterpret_cast<const float*>(value));
 }
 
-void Graphics::ShaderProgram::SetUniform(int index, int count, Matrix4 * value)
+void Graphics::ShaderProgram::SetUniform(int index, int count, const Matrix4 * value)
 {
-	glProgramUniformMatrix4fv(programID, index, count, GL_FALSE, reinterpret_cast<float*>(value));
+	glProgramUniformMatrix4fv(programID, index, count, GL_FALSE, reinterpret_cast<const float*>(value));
 }
 
 void Graphics::ShaderProgram::Delete()
