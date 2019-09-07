@@ -1,4 +1,5 @@
 #include"Mesh.h"
+#include"ShaderProgram.h"
 #include<glad/glad.h>
 #include<iostream>
 
@@ -9,9 +10,9 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>&
 	vbo.SetData(0, vertices.size() * sizeof(Vertex), &vertices[0]);
 
 	vao.AddNewAttribBatch();
-	vao.AddAttribToBatch(0, 3, DataType::FLOAT, AttribType::FLOAT, 0);
-	vao.AddAttribToBatch(1, 3, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, normal));
-	vao.AddAttribToBatch(2, 2, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, texCoordinates));
+	vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_POS, 3, DataType::FLOAT, AttribType::FLOAT, 0);
+	vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_NORMAL, 3, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, normal));
+	vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_TC, 2, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, texCoordinates));
 }
 
 void Mesh::AddAttribBatch(const VertexAttributeBatch & batch, size_t size, const void * data)
@@ -55,6 +56,10 @@ Mesh::~Mesh()
 }
 
 Vertex::Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords) :position(pos), normal(normal), texCoordinates(texCoords)
+{
+}
+
+Vertex::Vertex(const Vector3 & pos): position(pos)
 {
 }
 

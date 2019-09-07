@@ -12,6 +12,7 @@ struct Vertex
 	Vector2 texCoordinates;
 	//TODO +tangent/bitangent
 	Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords);
+	Vertex(const Vector3& pos);
 };
 
 class Material

@@ -19,6 +19,16 @@ namespace Graphics
 		return Matrix4::CreateLookAtForward(position, forward, WORLD_UP);
 	}
 
+	Vector3 Camera::GetPosition() const
+	{
+		return position;
+	}
+
+	Vector3 Camera::GetForwardDirection() const
+	{
+		return forward;
+	}
+
 	float Camera::GetFieldOfViewAngle() const
 	{
 		return DegToRad(fovY);

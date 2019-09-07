@@ -12,6 +12,8 @@ namespace Graphics
 		Camera();
 
 		Matrix4 GetViewMatrix() const;
+		Vector3 GetPosition() const;
+		Vector3 GetForwardDirection() const;
 		float GetFieldOfViewAngle() const;
 
 		void MoveCamera(const CameraMovementDirection& direction, float deltaTime);

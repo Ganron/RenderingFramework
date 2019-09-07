@@ -20,8 +20,8 @@ public:
 
 	void BindUniform(unsigned int index, size_t offset, size_t size) const;
 	void BindShaderStorage(unsigned int index, size_t offset, size_t size) const;
-	void BindTransformFeedback(unsigned int index, size_t offset, size_t size) const;
-	void BindAtomicCounter(unsigned int index, size_t offset, size_t size) const;
+	//void BindTransformFeedback(unsigned int index, size_t offset, size_t size) const;
+	//void BindAtomicCounter(unsigned int index, size_t offset, size_t size) const;
 	//TODO Memory barriers
 
 	GLuint GetBufferID() const;

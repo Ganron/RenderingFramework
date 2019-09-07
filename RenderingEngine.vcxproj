@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Graphics\Lights.cpp" />
     <ClCompile Include="Engine\Utilities\FileSystem.cpp" />
     <ClCompile Include="Engine\Graphics\Camera.cpp" />
     <ClCompile Include="Engine\Math\AABB.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Engine\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Graphics\Lights.h" />
     <ClInclude Include="Engine\Utilities\FileSystem.h" />
     <ClInclude Include="Engine\Graphics\Camera.h" />
     <ClInclude Include="Engine\Math\AABB.h" />
@@ -200,8 +202,10 @@
     <ClInclude Include="Engine\Graphics\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\FragmentShader.frag" />
-    <None Include="Shaders\VertexShader.vert" />
+    <None Include="Shaders\BlinnPhong.frag" />
+    <None Include="Shaders\BlinnPhong.vert" />
+    <None Include="Shaders\Cube.frag" />
+    <None Include="Shaders\Cube.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

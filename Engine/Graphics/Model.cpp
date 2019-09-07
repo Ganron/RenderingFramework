@@ -9,7 +9,7 @@
 void Model::Load(const std::string & filepath)
 {
 	Assimp::Importer importer;
-	const aiScene* assimpScene = importer.ReadFile(filepath, aiProcess_Triangulate);
+	const aiScene* assimpScene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_GenSmoothNormals);
 
 	if (assimpScene)
 	{
@@ -135,10 +135,10 @@ void Model::Draw(Graphics::ShaderProgram& program)
 			Graphics::TextureManager::GetTexture(indices[i]).Bind(i);
 		}
 
-		program.SetUniform(10, 1, &(material->ambientColor));
-		program.SetUniform(11, 1, &(material->diffuseColor));
-		program.SetUniform(12, 1, &(material->specularColor));
-		program.SetUniform(13, 1, &(material->specularExponent));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(material->ambientColor));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(material->diffuseColor));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(material->specularColor));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(material->specularExponent));
 
 		it->Draw();
 	}

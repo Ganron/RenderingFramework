@@ -111,6 +111,9 @@
     <ClCompile Include="Engine\Utilities\FileSystem.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\Lights.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Window.h">
@@ -182,12 +185,21 @@
     <ClInclude Include="Engine\Utilities\FileSystem.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Graphics\Lights.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\VertexShader.vert">
+    <None Include="Shaders\BlinnPhong.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Shaders\FragmentShader.frag">
+    <None Include="Shaders\BlinnPhong.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Cube.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\Cube.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
