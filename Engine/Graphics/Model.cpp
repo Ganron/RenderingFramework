@@ -72,7 +72,7 @@ void Model::InitMesh(const aiScene * assimpScene, const aiMesh * assimpMesh)
 	}
 
 	unsigned int index = assimpMesh->mMaterialIndex;
-	meshes.emplace_back(vertices, indices, &materials[index]); //TODO +additionalSize?
+	meshes.emplace_back(vertices, indices, index); //TODO +additionalSize?
 }
 
 void Model::InitMaterials(const aiScene * assimpScene)
@@ -126,19 +126,20 @@ Model::Model(const std::string& filename)
 void Model::Draw(Graphics::ShaderProgram& program)
 {
 	program.UseProgram();
-	for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)
+	unsigned int j = 0;
+	for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++, j++)
 	{
-		const Material* material = it->GetMaterial();
-		const std::vector<unsigned int>& indices = material->GetIndices();
+		const Material material = materials[it->GetMaterialIndex()];
+		const std::vector<unsigned int>& indices = material.GetIndices();
 		for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 		{
 			Graphics::TextureManager::GetTexture(indices[i]).Bind(i);
 		}
 
-		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(material->ambientColor));
-		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(material->diffuseColor));
-		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(material->specularColor));
-		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(material->specularExponent));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(material.ambientColor));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(material.diffuseColor));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(material.specularColor));
+		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(material.specularExponent));
 
 		it->Draw();
 	}
@@ -154,4 +155,14 @@ void Model::Delete()
 
 Model::~Model()
 {
+}
+
+void Material::AddTexIndex(unsigned int texIndex)
+{
+	texIndices.push_back(texIndex);
+}
+
+const std::vector<unsigned int>& Material::GetIndices() const
+{
+	return texIndices;
 }

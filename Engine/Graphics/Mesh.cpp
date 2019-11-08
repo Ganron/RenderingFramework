@@ -3,9 +3,9 @@
 #include<glad/glad.h>
 #include<iostream>
 
-Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, const Material* material, size_t additionalSize):
+Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex, size_t additionalSize):
 	vbo(vertices.size()*sizeof(Vertex) + additionalSize), veo(indices.size()*sizeof(unsigned int), &indices[0]), 
-	vertexCount(vertices.size()), indexCount(indices.size()), material(material)
+	vertexCount(vertices.size()), indexCount(indices.size()), matIndex(matIndex)
 {
 	vbo.SetData(0, vertices.size() * sizeof(Vertex), &vertices[0]);
 
@@ -31,9 +31,9 @@ void Mesh::SetUpMesh()
 	vao.RegisterElementBuffer(&veo);
 }
 
-const Material * Mesh::GetMaterial() const
+unsigned int Mesh::GetMaterialIndex() const
 {
-	return material;
+	return matIndex;
 }
 
 void Mesh::Draw()
@@ -61,14 +61,4 @@ Vertex::Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoor
 
 Vertex::Vertex(const Vector3 & pos): position(pos)
 {
-}
-
-void Material::AddTexIndex(unsigned int texIndex)
-{
-	texIndices.push_back(texIndex);
-}
-
-const std::vector<unsigned int>& Material::GetIndices() const
-{
-	return texIndices;
 }

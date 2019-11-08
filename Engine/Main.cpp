@@ -95,8 +95,8 @@ int main()
 		6, 7, 3
 	};
 	
-	Mesh cube(vertices, indices, nullptr);
-	cube.SetUpMesh();
+	//Mesh cube(vertices, indices);
+	//cube.SetUpMesh();
 
 	// Transformation setup
 	Matrix4 modelMat1 = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 0.0f, 1.0f);
@@ -121,7 +121,7 @@ int main()
 
 	Graphics::PointLight pointLight1;
 	pointLight1.position = lightPositions[0];
-	pointLight1.ambientColor = 0.2f;
+	pointLight1.ambientColor = 0.35f;
 	pointLight1.diffuseColor = Vector3(0.337f,0.7f,0.984f);
 	pointLight1.specularColor = 1.0f;
 	pointLight1.constCoeff = 1.0f;
@@ -200,8 +200,9 @@ int main()
 
 	// Application termination
 	model.Delete();
-	cube.Delete();
+	//cube.Delete();
 	pointLightBuffer.Delete();
+	spotLightBuffer.Delete();
 	Graphics::TextureManager::DeleteTextures();
 	blinnPhong.Delete();
 	lightCubes.Delete();

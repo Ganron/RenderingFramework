@@ -1,6 +1,7 @@
 #pragma once
 #include"TextureManager.h"
 #include"ShaderProgram.h"
+#include"../Math/Vector3.h"
 #include<vector>
 #include<string>
 #include<assimp/Importer.hpp>
@@ -8,10 +9,22 @@
 #include<assimp/postprocess.h>
 
 class Mesh;
-class Material;
 namespace Graphics {
 	class Texture;
 }
+
+class Material
+{
+private:
+	std::vector<unsigned int> texIndices;
+public:
+	void AddTexIndex(unsigned int texIndex);
+	const std::vector<unsigned int>& GetIndices() const;
+	Vector3 ambientColor;
+	Vector3 diffuseColor;
+	Vector3 specularColor;
+	float specularExponent;
+};
 
 class Model
 {
