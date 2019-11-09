@@ -60,9 +60,11 @@ int main()
 	lightCubes.LinkProgram();
 
 	// Geometry setup
-	Model model("cottage_obj.obj");
+	Graphics::TextureManager texManager;
+	Graphics::Model model("cottage_obj.obj", texManager);
+	Graphics::Model streetlight("Street Lamp.obj", texManager);
 
-	std::vector<Vertex> vertices{
+	std::vector<Graphics::Vertex> vertices{
 		{ Vector3(-1.0f, -1.0f,  1.0f)},
 		{ Vector3(1.0f, -1.0f,  1.0f)},
 		{ Vector3(1.0f,  1.0f,  1.0f)},
@@ -95,12 +97,31 @@ int main()
 		6, 7, 3
 	};
 	
-	//Mesh cube(vertices, indices);
-	//cube.SetUpMesh();
+	Graphics::Mesh cube(vertices, indices, -1);
+	cube.SetUpMesh();
+
+	std::vector<Graphics::Vertex> planeVertices{
+		{Vector3(-63.196327, 0.077648, 63.196327), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)},
+		{Vector3{63.196327, 0.077648, 63.196327}, Vector3(0.0f, 1.0f, 0.0f), Vector2(10.0f, 0.0f)},
+		{Vector3{-63.196327, 0.077648, -63.196327}, Vector3(0.0f, 1.0f, 0.0f), Vector2(10.0f, 10.0f)}, //swapped
+		{Vector3{63.196327, 0.077648, -63.196327}, Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 10.0f)} //swapped
+	};
+
+	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
+
+	Graphics::Mesh plane(planeVertices, planeIndices, -1);
+	plane.SetUpMesh();
+	Graphics::Texture tex("grass-lawn-texture.jpg");
+	tex.LoadFromFile("grass-lawn-texture.jpg");
+	Graphics::Material mat;
+	mat.ambientColor = Vector3(1.000000, 1.000000, 1.000000);
+	mat.diffuseColor = Vector3(0.640000, 0.640000, 0.640000);
+	mat.specularColor = Vector3(0.100000, 0.100000, 0.100000);
+	mat.specularExponent = 1.0;
 
 	// Transformation setup
-	Matrix4 modelMat1 = Matrix4::CreateTranslation(0.0f, 0.0f, -2.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateRotation(DegToRad(0.0f), 0.0f, 0.0f, 1.0f);
-	Matrix4 modelMat2 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
+	Matrix4 modelMat1 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
+	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.0f, 0.3f, 0.0f) * Matrix4::CreateScale(0.0012f);
 
 	std::vector<Vector3> lightPositions{
 		{ 2.0f, 1.0f, 0.0f},
@@ -109,7 +130,6 @@ int main()
 	};
 
 	Matrix4 perspMat;
-	blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat2);
 
 	// Ligh setup
 	Graphics::DirectionalLight dirLight;
@@ -145,7 +165,7 @@ int main()
 
 
 	Graphics::SpotLight spotLight;
-	spotLight.ambientColor = 0.3f;
+	spotLight.ambientColor = 0.2f;
 	spotLight.diffuseColor = Vector3(0.9f, 1.0f, 0.8f);
 	spotLight.specularColor = 1.0f;
 	spotLight.constCoeff = 1.0f;
@@ -166,7 +186,8 @@ int main()
 	// Rendering loop
 	while(!window.IsClosed())
 	{
-		Vector4 color(0.0f, 0.5f, 0.7f, 1.0f);
+		//Vector4 color(0.0f, 0.5f, 0.7f, 1.0f);
+		Vector4 color(0.019f, 0.070f, 0.137f, 1.0f);
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
@@ -183,27 +204,42 @@ int main()
 		spotLightBuffer.SetData(0, sizeof(spotLight), &spotLight);
 		spotLightBuffer.BindUniform(1, 0, spotLightBuffer.GetSize());
 
-		model.Draw(blinnPhong);
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat2);
+		streetlight.Draw(blinnPhong);
 
-		/*for (int i = 0; i < 3; i++)
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat1);
+		//model.DrawMesh(0,blinnPhong);
+		model.DrawMesh(4,blinnPhong);
+
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(mat.ambientColor));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(mat.diffuseColor));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(mat.specularColor));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(mat.specularExponent));
+		tex.Bind(0);
+		plane.Draw();
+		tex.Unbind();
+		for (int i = 0; i < 3; i++)
 		{
 			Matrix4 lightModelMat = Matrix4::CreateTranslation(lightPositions[i]) * Matrix4::CreateScale(0.1f);
 			lightCubes.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &lightModelMat);
 			lightCubes.UseProgram();
 			cube.Draw();
-		}*/
+		}
 
 		UpdateTimer();
 		window.Update(deltaTime);
 	}
 
-
+	
 	// Application termination
+	plane.Delete();
+	tex.Delete();
 	model.Delete();
-	//cube.Delete();
+	streetlight.Delete();
+	cube.Delete();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
-	Graphics::TextureManager::DeleteTextures();
+	texManager.DeleteTextures();
 	blinnPhong.Delete();
 	lightCubes.Delete();
 

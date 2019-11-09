@@ -1,13 +1,21 @@
 #pragma once
 #include"Texture.h"
+#include<vector>
 #include<string>
 
 namespace Graphics
 {
-	namespace TextureManager
+	class TextureManager
 	{
+	private:
+		std::vector<Graphics::Texture> textures;
+	public:
+		TextureManager();
 		int CreateTexture(const std::string& name);
-		Graphics::Texture& GetTexture(int index);
+		Texture& GetTexture(int index);
+		int GetNumberOfTextures() const;
 		void DeleteTextures();
-	}
+	};
 }
+
+//TODO make a class

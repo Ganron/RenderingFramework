@@ -1,12 +1,11 @@
-#include "TextureManager.h"
+#include"TextureManager.h"
 #include<vector>
 
-namespace Graphics
+Graphics::TextureManager::TextureManager()
 {
-	namespace TextureManager
-	{
-		std::vector<Graphics::Texture> textures;
-	}
+	textures.reserve(100);
+	CreateTexture("white.jpg");
+	textures[0].LoadFromFile("white.jpg");
 }
 
 int Graphics::TextureManager::CreateTexture(const std::string & name)
@@ -35,4 +34,9 @@ void Graphics::TextureManager::DeleteTextures()
 		it->Delete();
 	}
 	textures.clear();
+}
+
+int Graphics::TextureManager::GetNumberOfTextures() const
+{
+	return textures.size();
 }
