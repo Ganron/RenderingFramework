@@ -63,7 +63,7 @@ int main()
 	Graphics::TextureManager texManager;
 	Graphics::Model model("cottage_obj.obj", texManager);
 	Graphics::Model streetlight("Street Lamp.obj", texManager);
-	Graphics::Model tree("Tree1.obj", texManager);
+	Graphics::Model tree("Tree2_final.obj", texManager);
 
 	std::vector<Graphics::Vertex> vertices{
 		{ Vector3(-1.0f, -1.0f,  1.0f)},
@@ -123,11 +123,36 @@ int main()
 	// Transformation setup
 	Matrix4 modelMat1 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
 	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f),0.0f,1.0f,0.0f) * Matrix4::CreateScale(0.001f);
-	Matrix4 modelMat3 = Matrix4::CreateTranslation(-2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.001f);
+	Matrix4 modelMat3 = Matrix4::CreateTranslation(1.0f, 0.45f, 2.5f) * Matrix4::CreateRotation(DegToRad(180.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.001f);
+	/*Matrix4 trees[6];
+	trees[0] = Matrix4::CreateTranslation(4.5, 0.0f, -1.25f) * Matrix4::CreateScale(0.11f);
+	trees[1] = Matrix4::CreateTranslation(3.0f, 0.0f, -0.69f) * Matrix4::CreateScale(0.11f);
+	trees[2] = Matrix4::CreateTranslation(2.0f, 0.0f, 0.89f) * Matrix4::CreateScale(0.11f);
+	trees[3] = Matrix4::CreateTranslation(-2.0f, 0.0f, -1.0f) * Matrix4::CreateScale(0.11f);
+	trees[4] = Matrix4::CreateTranslation(-1.5f, 0.0f, 0.3f) * Matrix4::CreateScale(0.11f);
+	trees[5] = Matrix4::CreateTranslation(-2.3f, 0.0f, 2.0f) * Matrix4::CreateScale(0.11f);*/
+
+	Matrix4 trees[15];
+	trees[0] = Matrix4::CreateTranslation(2.0f, 0.0f, -0.15f) * Matrix4::CreateScale(0.11f);
+	trees[1] = Matrix4::CreateTranslation(1.73f, 0.0f, 0.74f) * Matrix4::CreateScale(0.11f);
+	trees[2] = Matrix4::CreateTranslation(2.3f, 0.0f, 2.5f) * Matrix4::CreateScale(0.11f);
+	trees[3] = Matrix4::CreateTranslation(-4.5f, 0.0f, -3.67f) * Matrix4::CreateScale(0.11f);
+	trees[4] = Matrix4::CreateTranslation(-2.50, 0.0f, -3.18f) * Matrix4::CreateScale(0.11f);
+	trees[5] = Matrix4::CreateTranslation(-1.81f, 0.0f, -2.22f) * Matrix4::CreateScale(0.11f);
+	trees[6] = Matrix4::CreateTranslation(-3.72f, 0.0f, -1.35f) * Matrix4::CreateScale(0.11f);
+	trees[7] = Matrix4::CreateTranslation(-2.66f, 0.0f, -2.05f) * Matrix4::CreateScale(0.11f);
+	trees[8] = Matrix4::CreateTranslation(-3.39f, 0.0f, 1.15f) * Matrix4::CreateScale(0.11f);
+	trees[9] = Matrix4::CreateTranslation(-2.14f, 0.0f, -0.5f) * Matrix4::CreateScale(0.11f);
+	trees[10] = Matrix4::CreateTranslation(-1.14f, 0.0f, -0.21f) * Matrix4::CreateScale(0.11f);
+	trees[11] = Matrix4::CreateTranslation(-2.42f, 0.0f, 2.19f) * Matrix4::CreateScale(0.11f);
+	trees[12] = Matrix4::CreateTranslation(-1.5f, 0.0f, 1.0f) * Matrix4::CreateScale(0.11f);
+	trees[13] = Matrix4::CreateTranslation(-1.1f, 0.0f, 3.5f) * Matrix4::CreateScale(0.11f);
+	trees[14] = Matrix4::CreateTranslation(-1.42f, 0.0f, 3.0f) * Matrix4::CreateScale(0.11f);
+	
 
 	std::vector<Vector3> lightPositions{
-		{ 2.5f, 1.55f, 2.2f},
-		{-2.5f, 1.55f, 2.2f},
+		{2.5f, 3.0f, 5.0f},
+		{0.4f, 1.55f, 2.5f},
 		{0.0f, 1.0f, 3.0f}
 	};
 
@@ -139,7 +164,14 @@ int main()
 	dirLight.ambientColor = Vector3(0.7f, 0.8f, 1.0f)*0.3f;
 	dirLight.diffuseColor = Vector3(1.0f, 0.9f, 0.7f);
 	dirLight.specularColor = Vector3(1.0f, 0.9f, 0.7f);
-	dirLight.SetInShader(blinnPhong);
+	//dirLight.SetInShader(blinnPhong);
+
+	Graphics::DirectionalLight dirLight2;
+	dirLight.direction = (0.0f, -1.0f, -1.0f);
+	dirLight.ambientColor = 0.15f;
+	dirLight.diffuseColor = Vector3(0.337f, 0.7f, 0.984f)*0.15f;
+	dirLight.specularColor = Vector3(0.337f, 0.7f, 0.984f)*0.15f;
+	//dirLight.SetInShader(blinnPhong);
 
 	Graphics::PointLight pointLight1;
 	pointLight1.position = lightPositions[0];
@@ -147,12 +179,12 @@ int main()
 	pointLight1.diffuseColor = Vector3(0.337f,0.7f,0.984f);
 	pointLight1.specularColor = 1.0f;
 	pointLight1.constCoeff = 1.0f;
-	pointLight1.linearCoeff = 0.7f;
-	pointLight1.quadraticCoeff = 1.8f;
+	pointLight1.linearCoeff = 0.14f;
+	pointLight1.quadraticCoeff = 0.07f;
 
 
 	Graphics::PointLight pointLight2 = pointLight1;
-	pointLight2.position = lightPositions[1];
+	pointLight2.position = lightPositions[0];
 
 	Graphics::PointLight pointLight3 = pointLight1;
 	pointLight3.position = lightPositions[2];
@@ -161,38 +193,38 @@ int main()
 	pointLightBuffer.SetData(0, sizeof(pointLight1), &pointLight1);
 	pointLightBuffer.SetData(sizeof(pointLight1), sizeof(pointLight2), &pointLight2);
 	pointLightBuffer.SetData(sizeof(pointLight1) + sizeof(pointLight2), sizeof(pointLight3), &pointLight3);
-	int numPointLights = 0;
+	int numPointLights = 1;
 	pointLightBuffer.SetData(Graphics::MAX_POINT_LIGHTS * sizeof(Graphics::PointLight), sizeof(int), &numPointLights);
 	pointLightBuffer.BindUniform(0, 0, pointLightBuffer.GetSize());
 
 
 	Graphics::SpotLight spotLight;
-	spotLight.ambientColor = 0.2f;
-	spotLight.diffuseColor = Vector3(0.9f, 1.0f, 0.8f);
+	spotLight.ambientColor = 0.5f;
+	spotLight.diffuseColor = Vector3(0.9f, 1.0f, 0.8f)*1.3;
 	spotLight.specularColor = 1.0f;
 	spotLight.constCoeff = 1.0f;
 	spotLight.linearCoeff = 0.14f;
 	spotLight.quadraticCoeff = 0.07f;
-	spotLight.innerConeAngle = DegToRad(10.0f);
-	spotLight.outerConeAngle = DegToRad(35.0f);
+	spotLight.innerConeAngle = DegToRad(5.0f);
+	spotLight.outerConeAngle = DegToRad(15.0f);
 
 	Graphics::SpotLight spotLight1;
-	spotLight1.position = lightPositions[0];
+	spotLight1.position = lightPositions[1];
 	spotLight1.direction = Vector3(0.0f, -1.0f, 0.0f);
-	spotLight1.ambientColor = 0.35f;
+	spotLight1.ambientColor = 1.0f;
 	spotLight1.diffuseColor = Vector3(1, 0.784, 0.019);
 	spotLight1.specularColor = 1.0f;
 	spotLight1.constCoeff = 1.0f;
 	spotLight1.linearCoeff = 0.7f;
 	spotLight1.quadraticCoeff = 1.8f;
-	spotLight1.innerConeAngle = DegToRad(30.0f);
-	spotLight1.outerConeAngle = DegToRad(60.0f);
+	spotLight1.innerConeAngle = DegToRad(20.0f);
+	spotLight1.outerConeAngle = DegToRad(35.0f);
 
 	Graphics::SpotLight spotLight2 = spotLight1;
 	spotLight2.position = lightPositions[1];
 
 	Buffer spotLightBuffer(Graphics::MAX_SPOT_LIGHTS * sizeof(Graphics::SpotLight) + sizeof(int));
-	int numSpotLights = 0;
+	int numSpotLights = 2;
 	spotLightBuffer.SetData(sizeof(spotLight), sizeof(spotLight1), &spotLight1);
 	spotLightBuffer.SetData(sizeof(spotLight) + sizeof(spotLight1), sizeof(spotLight2), &spotLight2);
 	spotLightBuffer.SetData(Graphics::MAX_SPOT_LIGHTS * sizeof(Graphics::SpotLight), sizeof(int), &numSpotLights);
@@ -226,8 +258,8 @@ int main()
 		spotLightBuffer.SetData(0, sizeof(spotLight), &spotLight);
 		spotLightBuffer.BindUniform(1, 0, spotLightBuffer.GetSize());
 
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat2);
-		streetlight.Draw(blinnPhong);
+		/*blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat2);
+		streetlight.Draw(blinnPhong);*/
 
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat3);
 		streetlight.Draw(blinnPhong);
@@ -244,8 +276,13 @@ int main()
 		plane.Draw();
 		tex.Unbind();
 		
+		for (int i = 0; i < 15; i++)
+		{
+			blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &trees[i]);
+			tree.DrawMesh(5, blinnPhong);
+			tree.DrawMesh(6, blinnPhong);
+		}
 
-		tree.DrawMesh(0,blinnPhong);
 		/*for (int i = 0; i < 3; i++)
 		{
 			Matrix4 lightModelMat = Matrix4::CreateTranslation(lightPositions[i]) * Matrix4::CreateScale(0.1f);
