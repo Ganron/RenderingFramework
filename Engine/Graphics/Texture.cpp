@@ -7,12 +7,14 @@
 
 namespace Graphics
 {
-	Texture::Texture(const std::string& name) :textureName(name), textureID(0), width(0), height(0), textureUnit(0)
+	Texture::Texture() :textureName(""), textureID(0), width(0), height(0), textureUnit(0)
 	{
 	}
 
 	void Texture::LoadFromFile(const std::string& filename, const TexConfig & config)
 	{
+		textureName = filename;
+		std::cout << filename << std::endl;
 		std::string filepath = Filesystem::GetTexturePath(filename);
 	
 		//TODO signal error?

@@ -51,9 +51,9 @@ namespace Graphics
 		unsigned int textureUnit;
 
 	public:
-		Texture(const std::string& name);
+		Texture();
 		//TODO make bool for error checking
-		void LoadFromFile(const std::string& filename, const TexConfig& = TexConfig());
+		void LoadFromFile(const std::string& filename, const TexConfig& config = TexConfig());
 		void LoadFromData(const void* data, int width, int height, const TexParams& params, const TexConfig& = TexConfig());
 
 		void Bind(unsigned int texUnit);

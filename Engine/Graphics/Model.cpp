@@ -91,8 +91,7 @@ namespace Graphics
 				aiString path;
 				mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
 
-				int index = texManager.CreateTexture(path.data);
-				texManager.GetTexture(index).LoadFromFile(path.data);
+				int index = texManager.CreateTextureFromFile(path.data);
 				currentMat.AddTexIndex(index);
 			}
 

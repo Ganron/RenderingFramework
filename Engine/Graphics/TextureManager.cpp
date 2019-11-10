@@ -1,24 +1,25 @@
 #include"TextureManager.h"
 #include<vector>
+#include<iostream>
 
 Graphics::TextureManager::TextureManager()
 {
 	textures.reserve(100);
-	CreateTexture("white.jpg");
-	textures[0].LoadFromFile("white.jpg");
+	CreateTextureFromFile("white.jpg");
 }
 
-int Graphics::TextureManager::CreateTexture(const std::string & name)
+int Graphics::TextureManager::CreateTextureFromFile(const std::string & filename, const TexConfig& config)
 {
 	std::vector<Graphics::Texture>::size_type index = 0;
 	for (index; index < textures.size(); index++)
 	{
-		if (name == textures[index].GetName())
+		if (filename == textures[index].GetName())
 		{
 			return index;
 		}
 	}
-	textures.emplace_back(name);
+	textures.emplace_back();
+	textures.back().LoadFromFile(filename, config);
 	return index;
 }
 

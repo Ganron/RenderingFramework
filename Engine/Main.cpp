@@ -63,6 +63,7 @@ int main()
 	Graphics::TextureManager texManager;
 	Graphics::Model model("cottage_obj.obj", texManager);
 	Graphics::Model streetlight("Street Lamp.obj", texManager);
+	Graphics::Model tree("Tree1.obj", texManager);
 
 	std::vector<Graphics::Vertex> vertices{
 		{ Vector3(-1.0f, -1.0f,  1.0f)},
@@ -111,7 +112,7 @@ int main()
 
 	Graphics::Mesh plane(planeVertices, planeIndices, -1);
 	plane.SetUpMesh();
-	Graphics::Texture tex("grass-lawn-texture.jpg");
+	Graphics::Texture tex;
 	tex.LoadFromFile("grass-lawn-texture.jpg");
 	Graphics::Material mat;
 	mat.ambientColor = Vector3(1.000000, 1.000000, 1.000000);
@@ -121,11 +122,12 @@ int main()
 
 	// Transformation setup
 	Matrix4 modelMat1 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
-	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.0f, 0.3f, 0.0f) * Matrix4::CreateScale(0.0012f);
+	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f),0.0f,1.0f,0.0f) * Matrix4::CreateScale(0.001f);
+	Matrix4 modelMat3 = Matrix4::CreateTranslation(-2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.001f);
 
 	std::vector<Vector3> lightPositions{
-		{ 2.0f, 1.0f, 0.0f},
-		{-2.0f, 1.0f, 0.0f},
+		{ 2.5f, 1.55f, 2.2f},
+		{-2.5f, 1.55f, 2.2f},
 		{0.0f, 1.0f, 3.0f}
 	};
 
@@ -137,7 +139,7 @@ int main()
 	dirLight.ambientColor = Vector3(0.7f, 0.8f, 1.0f)*0.3f;
 	dirLight.diffuseColor = Vector3(1.0f, 0.9f, 0.7f);
 	dirLight.specularColor = Vector3(1.0f, 0.9f, 0.7f);
-	//dirLight.SetInShader(blinnPhong);
+	dirLight.SetInShader(blinnPhong);
 
 	Graphics::PointLight pointLight1;
 	pointLight1.position = lightPositions[0];
@@ -159,7 +161,7 @@ int main()
 	pointLightBuffer.SetData(0, sizeof(pointLight1), &pointLight1);
 	pointLightBuffer.SetData(sizeof(pointLight1), sizeof(pointLight2), &pointLight2);
 	pointLightBuffer.SetData(sizeof(pointLight1) + sizeof(pointLight2), sizeof(pointLight3), &pointLight3);
-	int numPointLights = 3;
+	int numPointLights = 0;
 	pointLightBuffer.SetData(Graphics::MAX_POINT_LIGHTS * sizeof(Graphics::PointLight), sizeof(int), &numPointLights);
 	pointLightBuffer.BindUniform(0, 0, pointLightBuffer.GetSize());
 
@@ -172,10 +174,27 @@ int main()
 	spotLight.linearCoeff = 0.14f;
 	spotLight.quadraticCoeff = 0.07f;
 	spotLight.innerConeAngle = DegToRad(10.0f);
-	spotLight.outerConeAngle = DegToRad(25.0f);
+	spotLight.outerConeAngle = DegToRad(35.0f);
+
+	Graphics::SpotLight spotLight1;
+	spotLight1.position = lightPositions[0];
+	spotLight1.direction = Vector3(0.0f, -1.0f, 0.0f);
+	spotLight1.ambientColor = 0.35f;
+	spotLight1.diffuseColor = Vector3(1, 0.784, 0.019);
+	spotLight1.specularColor = 1.0f;
+	spotLight1.constCoeff = 1.0f;
+	spotLight1.linearCoeff = 0.7f;
+	spotLight1.quadraticCoeff = 1.8f;
+	spotLight1.innerConeAngle = DegToRad(30.0f);
+	spotLight1.outerConeAngle = DegToRad(60.0f);
+
+	Graphics::SpotLight spotLight2 = spotLight1;
+	spotLight2.position = lightPositions[1];
 
 	Buffer spotLightBuffer(Graphics::MAX_SPOT_LIGHTS * sizeof(Graphics::SpotLight) + sizeof(int));
-	int numSpotLights = 1;
+	int numSpotLights = 0;
+	spotLightBuffer.SetData(sizeof(spotLight), sizeof(spotLight1), &spotLight1);
+	spotLightBuffer.SetData(sizeof(spotLight) + sizeof(spotLight1), sizeof(spotLight2), &spotLight2);
 	spotLightBuffer.SetData(Graphics::MAX_SPOT_LIGHTS * sizeof(Graphics::SpotLight), sizeof(int), &numSpotLights);
 
 	//glEnable(GL_CULL_FACE);
@@ -183,6 +202,9 @@ int main()
 	//glFrontFace(GL_CCW);
 
 	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Rendering loop
 	while(!window.IsClosed())
 	{
@@ -207,6 +229,9 @@ int main()
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat2);
 		streetlight.Draw(blinnPhong);
 
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat3);
+		streetlight.Draw(blinnPhong);
+
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat1);
 		//model.DrawMesh(0,blinnPhong);
 		model.DrawMesh(4,blinnPhong);
@@ -218,13 +243,16 @@ int main()
 		tex.Bind(0);
 		plane.Draw();
 		tex.Unbind();
-		for (int i = 0; i < 3; i++)
+		
+
+		tree.DrawMesh(0,blinnPhong);
+		/*for (int i = 0; i < 3; i++)
 		{
 			Matrix4 lightModelMat = Matrix4::CreateTranslation(lightPositions[i]) * Matrix4::CreateScale(0.1f);
 			lightCubes.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &lightModelMat);
 			lightCubes.UseProgram();
 			cube.Draw();
-		}
+		}*/
 
 		UpdateTimer();
 		window.Update(deltaTime);
@@ -237,6 +265,7 @@ int main()
 	model.Delete();
 	streetlight.Delete();
 	cube.Delete();
+	tree.Delete();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
 	texManager.DeleteTextures();

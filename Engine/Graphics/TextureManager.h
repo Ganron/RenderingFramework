@@ -11,7 +11,8 @@ namespace Graphics
 		std::vector<Graphics::Texture> textures;
 	public:
 		TextureManager();
-		int CreateTexture(const std::string& name);
+		int CreateTextureFromFile(const std::string& filename, const TexConfig& config = TexConfig());
+		//TODO create texture from data
 		Texture& GetTexture(int index);
 		int GetNumberOfTextures() const;
 		void DeleteTextures();

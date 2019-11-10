@@ -76,7 +76,7 @@ void main(void)
 	color += ProcessDirLight(normal, viewDir);
 	color += ProcessPointLights(normal,viewDir);
 	color += ProcessSpotLights(normal,viewDir);
-	finalColor = vec4(color, 1.0f);
+	finalColor = vec4(color, texture(tex,fsIn.texCoords).a);
 }
 
 vec3 ProcessDirLight(vec3 normal, vec3 viewDir)
