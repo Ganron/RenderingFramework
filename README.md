@@ -29,5 +29,9 @@ The following features are to be introduced:
 - Frustum culling;
 - Physically-based rendering;
 
+# Screenshots
+![Screenshot 1](Docs/Screenshots/cottage0.png)
+![Screenshot 2](Docs/Screenshots/cottage1.png)
+![Screenshot 3](Docs/Screenshots/cottage2.png)
 
 
