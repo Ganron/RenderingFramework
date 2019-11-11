@@ -1,12 +1,20 @@
 # RenderingFramework
 This is an OpenGL real-time rendering framework built as a personal project. The goal of the framework is to serve as a tool for easy scene creation and editing. The project is still under development.
 
+# Requirements
+Since the framework is intended mainly for personal use, cross-platform compatibility is currently not a goal of the project. Similarly, modern features of c++ and OpenGL are mostly used, even though a wide hardware support is not guaranteed.
+
+Specifically, the framework requirements are as follows:
+-Windows OS;
+-Support of c++ 17;
+-Support of OpenGL 4.5 Core Profile.
+
 # Libraries used
 The framework makes use of the following libraries:
 - [GLFW](https://www.glfw.org/) - window management and setting up the OpenGL context;
 - [GLAD](https://github.com/Dav1dde/glad) - loading OpenGL functions;
 - [stb_image.h](https://github.com/nothings/stb/blob/master/stb_image.h) - importing textures from files;
-- [Assimp](http://www.assimp.org/) - importing 3D models;
+- [Assimp](http://www.assimp.org/) - importing 3D models.
 
 # Components
 Currently, the framework is divided on two layers - *Math* and *Graphics*. 
@@ -20,14 +28,14 @@ Many resources were used during the development of the project. A non-exhaustive
 - *Graphics Shaders: Theory and Practice, Second Edition*, M.Bailey;
 - *Game Engine Architecture, 2nd Edition*, J.Gregory;
 - [https://learnopengl.com/](https://learnopengl.com/);
-- [http://ogldev.atspace.co.uk/index.html](http://ogldev.atspace.co.uk/index.html)
+- [http://ogldev.atspace.co.uk/index.html](http://ogldev.atspace.co.uk/index.html).
 
 # Future development
 The following features are to be introduced:
 - Effective resource management;
 - A scenegraph that makes use of parent-child relations;
 - Frustum culling;
-- Physically-based rendering;
+- Physically-based rendering.
 
 # Screenshots
 ![Screenshot 1](Docs/Screenshots/cottage0.png)
