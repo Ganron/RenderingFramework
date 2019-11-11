@@ -6,8 +6,8 @@ Since the framework is intended mainly for personal use, cross-platform compatib
 
 Specifically, the framework requirements are as follows:
 - Windows OS;
-- Support of c++ 17;
-- Support of OpenGL 4.5 Core Profile.
+- c++ 17 compiler support;
+- OpenGL 4.5 Core Profile hardware support.
 
 # Libraries used
 The framework makes use of the following libraries:
