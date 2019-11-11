@@ -17,9 +17,9 @@ The framework makes use of the following libraries:
 - [Assimp](http://www.assimp.org/) - importing 3D models.
 
 # Components
-Currently, the framework is divided on two layers - *Math* and *Graphics*. 
+Currently, the framework is divided in two layers - *Math* and *Graphics*. 
 The Math layer provides basic functionality for performing calculations with vectors, matrices, and quaternions. Additionally, it contains some Bounding Volume classes and a set of useful math functions.
-The Graphics layer is responsible for managing the data and preparing the scene for rendering. It includes a camera class that handles mouse-and-keyboard control in real time.
+The Graphics layer is responsible for managing geometry, transformations, and lighting and for preparing the scene for rendering. It includes a camera class that handles mouse-and-keyboard control in real time.
 
 # Preparaton Resources
 Many resources were used during the development of the project. A non-exhaustive list is presented:
