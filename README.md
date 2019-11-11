@@ -5,9 +5,9 @@ This is an OpenGL real-time rendering framework built as a personal project. The
 Since the framework is intended mainly for personal use, cross-platform compatibility is currently not a goal of the project. Similarly, modern features of c++ and OpenGL are mostly used, even though a wide hardware support is not guaranteed.
 
 Specifically, the framework requirements are as follows:
--Windows OS;
--Support of c++ 17;
--Support of OpenGL 4.5 Core Profile.
+- Windows OS;
+- Support of c++ 17;
+- Support of OpenGL 4.5 Core Profile.
 
 # Libraries used
 The framework makes use of the following libraries:
