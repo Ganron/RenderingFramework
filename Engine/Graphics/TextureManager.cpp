@@ -2,6 +2,7 @@
 #include<vector>
 #include<iostream>
 
+/*
 Graphics::TextureManager::TextureManager()
 {
 	textures.reserve(100);
@@ -41,3 +42,4 @@ int Graphics::TextureManager::GetNumberOfTextures() const
 {
 	return textures.size();
 }
+*/

@@ -2,7 +2,6 @@
 #include<glad/glad.h>
 #include<string>
 
-//TODO set namespace
 class Vector4;
 
 namespace Graphics 
@@ -47,14 +46,10 @@ namespace Graphics
 		GLuint textureID;
 		int width;
 		int height;
-		//TODO smaller size?
 		unsigned int textureUnit;
 
 	public:
-		Texture();
-		//TODO make bool for error checking
-		void LoadFromFile(const std::string& filename, const TexConfig& config = TexConfig());
-		void LoadFromData(const void* data, int width, int height, const TexParams& params, const TexConfig& = TexConfig());
+		Texture(const std::string& texName, int width, int height, const void* data, const TexParams& params, const TexConfig& config);
 
 		void Bind(unsigned int texUnit);
 		void Unbind();

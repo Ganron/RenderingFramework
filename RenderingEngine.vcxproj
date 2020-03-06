@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Graphics\Lights.cpp" />
+    <ClCompile Include="Engine\Graphics\Scene.cpp" />
+    <ClCompile Include="Engine\Graphics\TextureList.cpp" />
     <ClCompile Include="Engine\Utilities\FileSystem.cpp" />
     <ClCompile Include="Engine\Graphics\Camera.cpp" />
     <ClCompile Include="Engine\Math\AABB.cpp" />
@@ -177,6 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Lights.h" />
+    <ClInclude Include="Engine\Graphics\Scene.h" />
+    <ClInclude Include="Engine\Graphics\TextureList.h" />
     <ClInclude Include="Engine\Utilities\FileSystem.h" />
     <ClInclude Include="Engine\Graphics\Camera.h" />
     <ClInclude Include="Engine\Math\AABB.h" />

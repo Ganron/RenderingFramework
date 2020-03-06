@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 
+/*
 namespace Graphics
 {
 	class TextureManager
@@ -17,6 +18,6 @@ namespace Graphics
 		int GetNumberOfTextures() const;
 		void DeleteTextures();
 	};
-}
+}*/
 
 //TODO make a class

@@ -10,6 +10,7 @@ namespace Graphics
 {
 	void Model::Load(const std::string & filepath)
 	{
+		std::cout << filepath << std::endl;
 		Assimp::Importer importer;
 		const aiScene* assimpScene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_GenUVCoords);
 
@@ -18,12 +19,16 @@ namespace Graphics
 			InitMaterials(assimpScene);
 			InitNode(assimpScene, assimpScene->mRootNode);
 		}//TODO else signal error
+		std::cout<<std::endl;
 	}
 
 	void Model::InitNode(const aiScene * assimpScene, const aiNode * assimpNode)
 	{
+		std::cout << "Node name: " << assimpNode->mName.C_Str() << std::endl;
+		std::cout << "# Children: " << assimpNode->mNumChildren << std::endl;
 		for (unsigned int i = 0; i < assimpNode->mNumMeshes; i++)
 		{
+			std::cout << "Mesh name: " << assimpScene->mMeshes[assimpNode->mMeshes[i]]->mName.C_Str() << std::endl;
 			const aiMesh* assimpMesh = assimpScene->mMeshes[assimpNode->mMeshes[i]];
 			InitMesh(assimpScene, assimpMesh);
 		}
@@ -91,7 +96,7 @@ namespace Graphics
 				aiString path;
 				mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
 
-				int index = texManager.CreateTextureFromFile(path.data);
+				int index = texList.LoadFromFile(path.data);
 				currentMat.AddTexIndex(index);
 			}
 
@@ -116,7 +121,7 @@ namespace Graphics
 		}
 	}
 
-	Model::Model(const std::string& filename, TextureManager& texManager): texManager(texManager)
+	Model::Model(const std::string& filename, TextureList& texList): texList(texList)
 	{
 		std::string filepath = Filesystem::GetModelPath(filename);
 		if (Filesystem::IsValidFilePath(filepath))
@@ -139,7 +144,7 @@ namespace Graphics
 			const std::vector<unsigned int>& indices = material.GetIndices();
 			for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 			{
-				texManager.GetTexture(indices[i]).Bind(i);
+				texList.GetTexture(indices[i]).Bind(i);
 			}
 
 			program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(material.ambientColor));
@@ -151,7 +156,7 @@ namespace Graphics
 
 			for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 			{
-				texManager.GetTexture(indices[i]).Unbind();
+				texList.GetTexture(indices[i]).Unbind();
 			}
 		}
 	}
@@ -164,7 +169,7 @@ namespace Graphics
 		const std::vector<unsigned int>& indices = material.GetIndices();
 		for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 		{
-			texManager.GetTexture(indices[i]).Bind(i);
+			texList.GetTexture(indices[i]).Bind(i);
 		}
 
 		program.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(material.ambientColor));
@@ -176,7 +181,7 @@ namespace Graphics
 
 		for (std::vector<unsigned int>::size_type i = 0; i < indices.size(); i++)
 		{
-			texManager.GetTexture(indices[i]).Unbind();
+			texList.GetTexture(indices[i]).Unbind();
 		}
 	}
 

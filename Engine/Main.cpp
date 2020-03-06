@@ -7,6 +7,7 @@
 #include"Graphics/Window.h"
 #include"Graphics/Camera.h"
 #include"Graphics/Texture.h"
+#include"Graphics/TextureList.h"
 #include"Graphics/TextureManager.h"
 #include"Graphics/ShaderProgram.h"
 #include"Graphics/VertexArrayObject.h"
@@ -59,11 +60,14 @@ int main()
 	lightCubes.AddShaderFromFile("Cube.frag", Graphics::ShaderType::FRAGMENT);
 	lightCubes.LinkProgram();
 
+	Graphics::TextureList textures;
+
 	// Geometry setup
-	Graphics::TextureManager texManager;
-	Graphics::Model model("cottage_obj.obj", texManager);
-	Graphics::Model streetlight("Street Lamp.obj", texManager);
-	Graphics::Model tree("Tree2_final.obj", texManager);
+	//Graphics::TextureManager texManager;
+	Graphics::Model model("cottage_obj.obj", textures);
+	Graphics::Model streetlight("Street Lamp.obj", textures);
+	Graphics::Model tree("Tree2_final.obj", textures);
+
 
 	std::vector<Graphics::Vertex> vertices{
 		{ Vector3(-1.0f, -1.0f,  1.0f)},
@@ -112,8 +116,9 @@ int main()
 
 	Graphics::Mesh plane(planeVertices, planeIndices, -1);
 	plane.SetUpMesh();
-	Graphics::Texture tex;
-	tex.LoadFromFile("grass-lawn-texture.jpg");
+
+	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
+
 	Graphics::Material mat;
 	mat.ambientColor = Vector3(1.000000, 1.000000, 1.000000);
 	mat.diffuseColor = Vector3(0.640000, 0.640000, 0.640000);
@@ -272,9 +277,9 @@ int main()
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(mat.diffuseColor));
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(mat.specularColor));
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(mat.specularExponent));
-		tex.Bind(0);
+		textures.GetTexture(texIndex).Bind(0);
 		plane.Draw();
-		tex.Unbind();
+		textures.GetTexture(texIndex).Unbind();
 		
 		for (int i = 0; i < 15; i++)
 		{
@@ -298,14 +303,14 @@ int main()
 	
 	// Application termination
 	plane.Delete();
-	tex.Delete();
 	model.Delete();
 	streetlight.Delete();
 	cube.Delete();
 	tree.Delete();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
-	texManager.DeleteTextures();
+	//texManager.DeleteTextures();
+	textures.ClearList();
 	blinnPhong.Delete();
 	lightCubes.Delete();
 

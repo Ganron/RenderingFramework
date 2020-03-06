@@ -2,47 +2,16 @@
 #include"../Utilities/FileSystem.h"
 #include"../Math/Vector4.h"
 #include<iostream>
-#define STB_IMAGE_IMPLEMENTATION
-#include<stb_image.h>
 
 namespace Graphics
 {
-	Texture::Texture() :textureName(""), textureID(0), width(0), height(0), textureUnit(0)
+	Texture::Texture(const std::string & texName, int width, int height, const void * data, const TexParams & params, const TexConfig & config)
 	{
-	}
+		textureName = texName;
 
-	void Texture::LoadFromFile(const std::string& filename, const TexConfig & config)
-	{
-		textureName = filename;
-		std::cout << filename << std::endl;
-		std::string filepath = Filesystem::GetTexturePath(filename);
-	
-		//TODO signal error?
-		if (!Filesystem::IsValidFilePath(filepath)) return;
-
-		int localWidth;
-		int localHeight;
-		int channels;
-
-		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load(filepath.c_str(), &localWidth, &localHeight, &channels, 0);
-
-		if (data)
-		{			
-			//TODO find a way to handle different bit depths???
-			TexParams params((TexChannels)channels, TexFormat::UI_NORM_8);
-			
-			LoadFromData(reinterpret_cast<void*>(data), localWidth, localHeight, params, config);
-		}
-
-		stbi_image_free(data);
-	}
-
-	void Texture::LoadFromData(const void * data, int width, int height, const TexParams & params, const TexConfig & config)
-	{
 		this->width = width;
 		this->height = height;
-		
+
 		GLenum internalFormat;
 		GLenum baseFormat;
 		GLenum type;
@@ -112,6 +81,7 @@ namespace Graphics
 
 	Texture::~Texture()
 	{
+		glDeleteTextures(1, &textureID);
 	}
 
 	void Texture::TexParamsToOpenGL(const TexParams & params, GLenum & internalFormat, GLenum & baseFormat, GLenum & type)

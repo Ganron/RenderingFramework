@@ -1,9 +1,9 @@
 #pragma once
-#include"TextureManager.h"
 #include"ShaderProgram.h"
 #include"../Math/Vector3.h"
 #include<vector>
 #include<string>
+#include"TextureList.h"
 #include<assimp/Importer.hpp>
 #include<assimp/scene.h>
 #include<assimp/postprocess.h>
@@ -25,12 +25,13 @@ namespace Graphics {
 		float specularExponent;
 	};
 
+	//TODO remove class
 	class Model
 	{
 	private:
 		std::vector<Mesh> meshes; //TODO make use of parent/child relations
 		std::vector<Material> materials;
-		TextureManager& texManager;
+		TextureList texList;
 
 		void Load(const std::string& filepath);
 		void InitNode(const aiScene* assimpScene, const aiNode* assimpNode);
@@ -38,7 +39,7 @@ namespace Graphics {
 		void InitMaterials(const aiScene* assimpScene);
 
 	public:
-		Model(const std::string& filename, TextureManager& texManager);
+		Model(const std::string& filename, TextureList& texManager);
 		void Draw(Graphics::ShaderProgram& program);
 		void DrawMesh(int meshIndex, Graphics::ShaderProgram& program);
 		void Delete();
