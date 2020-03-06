@@ -128,10 +128,6 @@ namespace Graphics
 		if (Filesystem::IsValidFilePath(filepath))
 		{
 			Load(filepath);
-			for (std::vector<Mesh>::iterator it = meshes.begin(); it != meshes.end(); it++)
-			{
-				it->SetUpMesh();
-			}
 		}//TODO else signal error
 	}
 

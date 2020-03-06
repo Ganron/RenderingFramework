@@ -1,20 +1,7 @@
 #include"Buffer.h"
 
-Buffer::Buffer(): bufferID(0), size(0), maxOffset(0)
-{
-}
 
-Buffer::Buffer(size_t bufferSize) : bufferID(0), size(bufferSize), maxOffset(0)
-{
-	Init(bufferSize);
-}
-
-Buffer::Buffer(size_t bufferSize, const void * data) : bufferID(0), size(bufferSize), maxOffset(bufferSize)
-{
-	Init(bufferSize, data);
-}
-
-void Buffer::Init(size_t bufferSize)
+Buffer::Buffer(size_t bufferSize) : bufferID(0), size(bufferSize)
 {
 	if (size != 0)
 	{
@@ -23,7 +10,7 @@ void Buffer::Init(size_t bufferSize)
 	}
 }
 
-void Buffer::Init(size_t bufferSize, const void * data)
+Buffer::Buffer(size_t bufferSize, const void * data) : bufferID(0), size(bufferSize)
 {
 	if (size != 0)
 	{
@@ -32,13 +19,15 @@ void Buffer::Init(size_t bufferSize, const void * data)
 	}
 }
 
-void Buffer::SetData(size_t offset, size_t size, const void * data)
+
+bool Buffer::SetData(size_t offset, size_t dataSize, const void * data)
 {
-	if (maxOffset < offset + size)
+	if (offset + dataSize <= size)
 	{
-		maxOffset = offset + size;
+		glNamedBufferSubData(bufferID, offset, dataSize, data);
+		return true;
 	}
-	glNamedBufferSubData(bufferID, offset, size, data);
+	return false;
 }
 
 void Buffer::BindUniform(unsigned int index, size_t offset, size_t size) const
@@ -69,11 +58,6 @@ GLuint Buffer::GetBufferID() const
 size_t Buffer::GetSize() const
 {
 	return size;
-}
-
-size_t Buffer::GetMaxOffset() const
-{
-	return maxOffset;
 }
 
 void Buffer::Delete()

@@ -103,7 +103,6 @@ int main()
 	};
 	
 	Graphics::Mesh cube(vertices, indices, -1);
-	cube.SetUpMesh();
 
 	std::vector<Graphics::Vertex> planeVertices{
 		{Vector3(-63.196327, 0.077648, 63.196327), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)},
@@ -115,7 +114,6 @@ int main()
 	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
 
 	Graphics::Mesh plane(planeVertices, planeIndices, -1);
-	plane.SetUpMesh();
 
 	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
 	std::cout << texIndex << std::endl;
