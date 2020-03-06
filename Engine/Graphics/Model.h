@@ -31,7 +31,8 @@ namespace Graphics {
 	private:
 		std::vector<Mesh> meshes; //TODO make use of parent/child relations
 		std::vector<Material> materials;
-		TextureList texList;
+		TextureList& texList;
+		std::string name;
 
 		void Load(const std::string& filepath);
 		void InitNode(const aiScene* assimpScene, const aiNode* assimpNode);
@@ -39,7 +40,7 @@ namespace Graphics {
 		void InitMaterials(const aiScene* assimpScene);
 
 	public:
-		Model(const std::string& filename, TextureList& texManager);
+		Model(const std::string& filename, TextureList& texList);
 		void Draw(Graphics::ShaderProgram& program);
 		void DrawMesh(int meshIndex, Graphics::ShaderProgram& program);
 		void Delete();

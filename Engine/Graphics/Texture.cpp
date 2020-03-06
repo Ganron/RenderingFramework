@@ -8,7 +8,7 @@ namespace Graphics
 	Texture::Texture(const std::string & texName, int width, int height, const void * data, const TexParams & params, const TexConfig & config)
 	{
 		textureName = texName;
-
+		std::cout << texName << std::endl;
 		this->width = width;
 		this->height = height;
 

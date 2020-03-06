@@ -10,6 +10,7 @@ namespace Graphics
 {
 	void Model::Load(const std::string & filepath)
 	{
+		name = filepath;
 		std::cout << filepath << std::endl;
 		Assimp::Importer importer;
 		const aiScene* assimpScene = importer.ReadFile(filepath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_GenUVCoords);
@@ -79,7 +80,7 @@ namespace Graphics
 		}
 
 		unsigned int index = assimpMesh->mMaterialIndex;
-		meshes.emplace_back(vertices, indices, index); //TODO +additionalSize?
+		meshes.emplace_back(vertices, indices, index);
 	}
 
 	void Model::InitMaterials(const aiScene * assimpScene)

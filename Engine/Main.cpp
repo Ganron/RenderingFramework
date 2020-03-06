@@ -118,6 +118,7 @@ int main()
 	plane.SetUpMesh();
 
 	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
+	std::cout << texIndex << std::endl;
 
 	Graphics::Material mat;
 	mat.ambientColor = Vector3(1.000000, 1.000000, 1.000000);
