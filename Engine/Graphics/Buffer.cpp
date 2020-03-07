@@ -67,4 +67,5 @@ void Buffer::Delete()
 
 Buffer::~Buffer()
 {
+	this->Delete();
 }

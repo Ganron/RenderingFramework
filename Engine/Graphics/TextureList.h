@@ -5,6 +5,8 @@
 
 namespace Graphics
 {
+	const int MAX_TEXTURES = 100;
+
 	class TextureList
 	{
 	public:

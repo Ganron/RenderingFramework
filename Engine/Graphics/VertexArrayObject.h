@@ -38,7 +38,7 @@ private:
 public:
 	VertexArrayObject();
 
-	void AddNewAttribBatch();
+	void StartNewAttribBatch();
 	void AddExistingAttribBatch(const VertexAttributeBatch& batch);
 	void AddExistingAttribBatches(const std::vector<VertexAttributeBatch>& batches);
 	void AddAttribToBatch(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset); //adds to last batch

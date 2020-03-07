@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Graphics\Lights.cpp" />
+    <ClCompile Include="Engine\Graphics\MeshList.cpp" />
     <ClCompile Include="Engine\Graphics\Scene.cpp" />
     <ClCompile Include="Engine\Graphics\TextureList.cpp" />
     <ClCompile Include="Engine\Utilities\FileSystem.cpp" />
@@ -172,13 +173,13 @@
     <ClCompile Include="Engine\Graphics\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Graphics\Texture.cpp" />
     <ClCompile Include="Engine\Graphics\Buffer.cpp" />
-    <ClCompile Include="Engine\Graphics\TextureManager.cpp" />
     <ClCompile Include="Engine\Graphics\VertexArrayObject.cpp" />
     <ClCompile Include="Engine\Graphics\Window.cpp" />
     <ClCompile Include="Engine\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Lights.h" />
+    <ClInclude Include="Engine\Graphics\MeshList.h" />
     <ClInclude Include="Engine\Graphics\Scene.h" />
     <ClInclude Include="Engine\Graphics\TextureList.h" />
     <ClInclude Include="Engine\Utilities\FileSystem.h" />
@@ -201,7 +202,6 @@
     <ClInclude Include="Engine\Graphics\ShaderProgram.h" />
     <ClInclude Include="Engine\Graphics\Texture.h" />
     <ClInclude Include="Engine\Graphics\Buffer.h" />
-    <ClInclude Include="Engine\Graphics\TextureManager.h" />
     <ClInclude Include="Engine\Graphics\VertexArrayObject.h" />
     <ClInclude Include="Engine\Graphics\Window.h" />
   </ItemGroup>

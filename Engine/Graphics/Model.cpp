@@ -80,7 +80,7 @@ namespace Graphics
 		}
 
 		unsigned int index = assimpMesh->mMaterialIndex;
-		meshes.emplace_back(vertices, indices, index, assimpMesh->mName.C_Str());
+		meshes.emplace_back(assimpMesh->mName.C_Str(), vertices, indices, index);
 	}
 
 	void Model::InitMaterials(const aiScene * assimpScene)
@@ -193,6 +193,7 @@ namespace Graphics
 
 	Model::~Model()
 	{
+		this->Delete();
 	}
 
 	void Material::AddTexIndex(unsigned int texIndex)

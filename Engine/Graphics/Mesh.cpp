@@ -5,14 +5,11 @@
 
 namespace Graphics
 {
-	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex, const std::string meshName) :
-		vbo(vertices.size() * sizeof(Vertex)), veo(indices.size() * sizeof(unsigned int), &indices[0]),
+	Mesh::Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex) :
+		vbo(vertices.size() * sizeof(Vertex), &vertices[0]), veo(indices.size() * sizeof(unsigned int), &indices[0]),
 		vertexCount(vertices.size()), indexCount(indices.size()), matIndex(matIndex), name(meshName)
 	{
-		std::cout << name <<" constructor called.\n";
-		vbo.SetData(0, vertices.size() * sizeof(Vertex), &vertices[0]);
-
-		vao.AddNewAttribBatch();
+		vao.StartNewAttribBatch();
 		vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_POS, 3, DataType::FLOAT, AttribType::FLOAT, 0);
 		vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_NORMAL, 3, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, normal));
 		vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_TC, 2, DataType::FLOAT, AttribType::FLOAT, offsetof(Vertex, texCoordinates));
@@ -49,7 +46,7 @@ namespace Graphics
 
 	Mesh::~Mesh()
 	{
-		std::cout << name <<" destructor called.\n";
+		this->Delete();
 	}
 
 	Vertex::Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords) :position(pos), normal(normal), texCoordinates(texCoords)

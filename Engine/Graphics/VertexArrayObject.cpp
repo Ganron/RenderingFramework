@@ -26,7 +26,7 @@ VertexArrayObject::VertexArrayObject()
 	glCreateVertexArrays(1, &vaoID);
 }
 
-void VertexArrayObject::AddNewAttribBatch()
+void VertexArrayObject::StartNewAttribBatch()
 {
 	batchList.emplace_back();
 }
@@ -119,6 +119,7 @@ void VertexArrayObject::Delete()
 
 VertexArrayObject::~VertexArrayObject()
 {
+	this->Delete();
 }
 
 size_t VertexArrayObject::SizeOfType(const DataType & type) const

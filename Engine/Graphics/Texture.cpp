@@ -82,7 +82,7 @@ namespace Graphics
 
 	Texture::~Texture()
 	{
-		glDeleteTextures(1, &textureID);
+		this->Delete();
 	}
 
 	void Texture::TexParamsToOpenGL(const TexParams & params, GLenum & internalFormat, GLenum & baseFormat, GLenum & type)

@@ -8,11 +8,11 @@
 #include"Graphics/Camera.h"
 #include"Graphics/Texture.h"
 #include"Graphics/TextureList.h"
-#include"Graphics/TextureManager.h"
 #include"Graphics/ShaderProgram.h"
 #include"Graphics/VertexArrayObject.h"
 #include"Graphics/Buffer.h"
 #include"Graphics/Mesh.h"
+#include"Graphics/MeshList.h"
 #include"Graphics/Model.h"
 #include"Graphics//Lights.h"
 
@@ -61,6 +61,7 @@ int main()
 	lightCubes.LinkProgram();
 
 	Graphics::TextureList textures;
+	Graphics::MeshList meshes;
 
 	// Geometry setup
 	//Graphics::TextureManager texManager;
@@ -102,7 +103,7 @@ int main()
 		6, 7, 3
 	};
 	
-	Graphics::Mesh cube(vertices, indices, -1);
+	int cubeIndex = meshes.AddMesh("cube", vertices, indices, -1);
 
 	std::vector<Graphics::Vertex> planeVertices{
 		{Vector3(-63.196327, 0.077648, 63.196327), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)},
@@ -113,7 +114,7 @@ int main()
 
 	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
 
-	Graphics::Mesh plane(planeVertices, planeIndices, -1);
+	int planeIndex = meshes.AddMesh("plane", planeVertices, planeIndices, -1);
 
 	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
 	std::cout << texIndex << std::endl;
@@ -277,7 +278,7 @@ int main()
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(mat.specularColor));
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(mat.specularExponent));
 		textures.GetTexture(texIndex).Bind(0);
-		plane.Draw();
+		meshes.GetMesh(planeIndex).Draw();
 		textures.GetTexture(texIndex).Unbind();
 		
 		for (int i = 0; i < 15; i++)
@@ -301,15 +302,13 @@ int main()
 
 	
 	// Application termination
-	plane.Delete();
 	model.Delete();
 	streetlight.Delete();
-	cube.Delete();
 	tree.Delete();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
-	//texManager.DeleteTextures();
 	textures.ClearList();
+	meshes.ClearList();
 	blinnPhong.Delete();
 	lightCubes.Delete();
 

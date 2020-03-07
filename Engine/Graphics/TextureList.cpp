@@ -6,19 +6,21 @@
 
 Graphics::TextureList::TextureList()
 {
-	//TODO define a const variable
-	textures.reserve(100);
+	textures.reserve(MAX_TEXTURES);
 	this->LoadFromFile("white.jpg");
 }
 
 int Graphics::TextureList::AddTexture(const std::string & texName, int width, int height, const void * data, const TexParams & params, const TexConfig & config)
 {
+	//TODO handle the case when capacity is full
 	textures.emplace_back(texName, width, height, data, params, config);
 	return textures.size() - 1;
 }
 
 int Graphics::TextureList::LoadFromFile(const std::string & filename, const TexConfig & config)
 {
+	//TODO handle the case when capacity is full
+
 	std::string fullPath = Filesystem::GetTexturePath(filename);
 	if (!Filesystem::IsRegularFile(fullPath))
 	{
@@ -84,6 +86,7 @@ Graphics::Texture& Graphics::TextureList::GetTexture(const std::string & texture
 	return textures[0];
 }
 
+//TODO set default text again?
 void Graphics::TextureList::ClearList()
 {
 	textures.clear();

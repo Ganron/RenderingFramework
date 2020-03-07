@@ -22,16 +22,16 @@ namespace Graphics
 	class Mesh
 	{
 	private:
+		std::string name;
 		Buffer vbo;
 		Buffer veo;
 		VertexArrayObject vao;
 		unsigned int vertexCount;
 		unsigned int indexCount;
 		unsigned int matIndex; //TODO remove
-		std::string name;
-
+		
 	public:
-		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex, const std::string meshName="");
+		Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
 
 		unsigned int GetMaterialIndex() const;
 		const std::string& GetName() const;

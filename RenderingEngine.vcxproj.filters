@@ -63,9 +63,6 @@
     <ClCompile Include="Engine\Graphics\Model.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\TextureManager.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\AABB.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
@@ -120,6 +117,9 @@
     <ClCompile Include="Engine\Graphics\TextureList.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Graphics\MeshList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Window.h">
@@ -141,9 +141,6 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\Model.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Graphics\TextureManager.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\AABB.h">
@@ -198,6 +195,9 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Graphics\TextureList.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Graphics\MeshList.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
