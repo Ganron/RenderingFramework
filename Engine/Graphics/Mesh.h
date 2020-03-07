@@ -4,6 +4,7 @@
 #include"Buffer.h"
 #include"VertexArrayObject.h"
 #include<vector>
+#include<string>
 
 namespace Graphics
 {
@@ -27,11 +28,13 @@ namespace Graphics
 		unsigned int vertexCount;
 		unsigned int indexCount;
 		unsigned int matIndex; //TODO remove
+		std::string name;
 
 	public:
-		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
+		Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex, const std::string meshName="");
 
 		unsigned int GetMaterialIndex() const;
+		const std::string& GetName() const;
 
 		void Draw();
 

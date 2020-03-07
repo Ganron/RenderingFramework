@@ -1,5 +1,5 @@
 #include"Buffer.h"
-
+#include<iostream>
 
 Buffer::Buffer(size_t bufferSize) : bufferID(0), size(bufferSize)
 {

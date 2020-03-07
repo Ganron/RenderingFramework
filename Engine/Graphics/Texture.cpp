@@ -74,6 +74,7 @@ namespace Graphics
 		return textureName;
 	}
 
+	//TODO decide on obeject deletion method
 	void Texture::Delete()
 	{
 		glDeleteTextures(1, &textureID);

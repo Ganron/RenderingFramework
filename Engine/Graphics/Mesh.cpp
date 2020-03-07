@@ -5,10 +5,11 @@
 
 namespace Graphics
 {
-	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex) :
+	Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex, const std::string meshName) :
 		vbo(vertices.size() * sizeof(Vertex)), veo(indices.size() * sizeof(unsigned int), &indices[0]),
-		vertexCount(vertices.size()), indexCount(indices.size()), matIndex(matIndex)
+		vertexCount(vertices.size()), indexCount(indices.size()), matIndex(matIndex), name(meshName)
 	{
+		std::cout << name <<" constructor called.\n";
 		vbo.SetData(0, vertices.size() * sizeof(Vertex), &vertices[0]);
 
 		vao.AddNewAttribBatch();
@@ -24,6 +25,11 @@ namespace Graphics
 	unsigned int Mesh::GetMaterialIndex() const
 	{
 		return matIndex;
+	}
+
+	const std::string & Mesh::GetName() const
+	{
+		return name;
 	}
 
 	void Mesh::Draw()
@@ -43,6 +49,7 @@ namespace Graphics
 
 	Mesh::~Mesh()
 	{
+		std::cout << name <<" destructor called.\n";
 	}
 
 	Vertex::Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords) :position(pos), normal(normal), texCoordinates(texCoords)

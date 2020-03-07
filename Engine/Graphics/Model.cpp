@@ -80,7 +80,7 @@ namespace Graphics
 		}
 
 		unsigned int index = assimpMesh->mMaterialIndex;
-		meshes.emplace_back(vertices, indices, index);
+		meshes.emplace_back(vertices, indices, index, assimpMesh->mName.C_Str());
 	}
 
 	void Model::InitMaterials(const aiScene * assimpScene)
@@ -124,6 +124,7 @@ namespace Graphics
 
 	Model::Model(const std::string& filename, TextureList& texList): texList(texList)
 	{
+		meshes.reserve(100);
 		std::string filepath = Filesystem::GetModelPath(filename);
 		if (Filesystem::IsValidFilePath(filepath))
 		{
