@@ -5,6 +5,7 @@
 #include"../Math/Vector3.h"
 #include"../Utilities/FileSystem.h"
 #include<iostream>
+#include "Material.h"
 
 namespace Graphics
 {

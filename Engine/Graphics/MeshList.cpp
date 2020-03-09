@@ -5,6 +5,7 @@ Graphics::MeshList::MeshList()
 	meshes.reserve(MAX_MESHES);
 
 	//Cube as default mesh
+	//TODO separate vertices - glDrawVertices()
 
 	std::vector<Graphics::Vertex> vertices{
 	{ Vector3(-1.0f, -1.0f,  1.0f)},
@@ -56,7 +57,7 @@ int Graphics::MeshList::GetNumMeshes() const
 
 Graphics::Mesh& Graphics::MeshList::GetMesh(int index)
 {
-	if (index < 0 || index >= meshes.size())
+	if (index < 0 || index >= (int)meshes.size())
 	{
 		return meshes[0];
 	}

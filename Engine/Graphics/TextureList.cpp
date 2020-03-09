@@ -63,7 +63,7 @@ int Graphics::TextureList::GetNumTextures() const
 
 Graphics::Texture& Graphics::TextureList::GetTexture(int index)
 {
-	if (index < 0 || index >= textures.size())
+	if (index < 0 || index >= (int)textures.size())
 	{
 		return textures[0];
 	}

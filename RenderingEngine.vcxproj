@@ -149,6 +149,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Graphics\Lights.cpp" />
+    <ClCompile Include="Engine\Graphics\Material.cpp" />
+    <ClCompile Include="Engine\Graphics\MaterialList.cpp" />
     <ClCompile Include="Engine\Graphics\MeshList.cpp" />
     <ClCompile Include="Engine\Graphics\Scene.cpp" />
     <ClCompile Include="Engine\Graphics\TextureList.cpp" />
@@ -179,6 +181,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Lights.h" />
+    <ClInclude Include="Engine\Graphics\Material.h" />
+    <ClInclude Include="Engine\Graphics\MaterialList.h" />
     <ClInclude Include="Engine\Graphics\MeshList.h" />
     <ClInclude Include="Engine\Graphics\Scene.h" />
     <ClInclude Include="Engine\Graphics\TextureList.h" />

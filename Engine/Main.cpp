@@ -13,6 +13,8 @@
 #include"Graphics/Buffer.h"
 #include"Graphics/Mesh.h"
 #include"Graphics/MeshList.h"
+#include"Graphics/Material.h"
+#include"Graphics/MaterialList.h"
 #include"Graphics/Model.h"
 #include"Graphics//Lights.h"
 
@@ -62,9 +64,9 @@ int main()
 
 	Graphics::TextureList textures;
 	Graphics::MeshList meshes;
+	GraphicsTest::MaterialList materials;
 
 	// Geometry setup
-	//Graphics::TextureManager texManager;
 	Graphics::Model model("cottage_obj.obj", textures);
 	Graphics::Model streetlight("Street Lamp.obj", textures);
 	Graphics::Model tree("Tree2_final.obj", textures);
@@ -280,6 +282,7 @@ int main()
 		textures.GetTexture(texIndex).Bind(0);
 		meshes.GetMesh(planeIndex).Draw();
 		textures.GetTexture(texIndex).Unbind();
+
 		
 		for (int i = 0; i < 15; i++)
 		{
