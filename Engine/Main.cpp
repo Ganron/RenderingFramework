@@ -119,7 +119,7 @@ int main()
 	int planeIndex = meshes.AddMesh("plane", planeVertices, planeIndices, -1);
 
 	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
-	std::cout << texIndex << std::endl;
+	int cubeTexIndex = textures.LoadFromFile("sickle_and_star.png");
 
 	Graphics::Material mat;
 	mat.ambientColor = Vector3(1.000000, 1.000000, 1.000000);
@@ -283,6 +283,14 @@ int main()
 		meshes.GetMesh(planeIndex).Draw();
 		textures.GetTexture(texIndex).Unbind();
 
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(materials.GetMaterial(0).ambientColor));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(materials.GetMaterial(0).diffuseColor));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(materials.GetMaterial(0).specularColor));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(materials.GetMaterial(0).specularExponent));
+	
+		textures.GetTexture(cubeTexIndex).Bind(0);
+		meshes.GetMesh("Cube").Draw();
+		textures.GetTexture(texIndex).Unbind();
 		
 		for (int i = 0; i < 15; i++)
 		{

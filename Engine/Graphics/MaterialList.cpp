@@ -7,9 +7,9 @@ GraphicsTest::MaterialList::MaterialList()
 	materials.emplace_back(
 		"Default",
 		Vector3(1.0f),
-		Vector3(1.0),
 		Vector3(1.0f),
-		1.0f);
+		Vector3(1.0f),
+		32.0f);
 }
 
 int GraphicsTest::MaterialList::AddMaterial(const std::string & matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices)
