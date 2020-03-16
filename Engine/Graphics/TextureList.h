@@ -21,6 +21,7 @@ namespace Graphics
 		Graphics::Texture& GetTexture(const std::string& textureName);
 
 		void ClearList();
+		void ResetList();
 		~TextureList();
 	private:
 		std::vector<Texture> textures;

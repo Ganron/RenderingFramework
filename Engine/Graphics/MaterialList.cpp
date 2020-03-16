@@ -1,15 +1,12 @@
 #include"MaterialList.h"
 #include"Material.h"
 
+#include<iostream>
+
 GraphicsTest::MaterialList::MaterialList()
 {
 	materials.reserve(MAX_MATERIALS);
-	materials.emplace_back(
-		"Default",
-		Vector3(1.0f),
-		Vector3(1.0f),
-		Vector3(1.0f),
-		32.0f);
+	SetDefaultEntry();
 }
 
 int GraphicsTest::MaterialList::AddMaterial(const std::string & matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices)
@@ -54,7 +51,24 @@ void GraphicsTest::MaterialList::ClearList()
 	materials.clear();
 }
 
+void GraphicsTest::MaterialList::ResetList()
+{
+	ClearList();
+	SetDefaultEntry();
+}
+
 GraphicsTest::MaterialList::~MaterialList()
 {
 	this->ClearList();
+}
+
+void GraphicsTest::MaterialList::SetDefaultEntry()
+{
+	materials.emplace(
+		materials.begin(),
+		"Default",
+		Vector3(1.0f),
+		Vector3(1.0f),
+		Vector3(1.0f),
+		32.0f);
 }

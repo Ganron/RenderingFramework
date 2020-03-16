@@ -20,8 +20,12 @@ namespace Graphics
 		Graphics::Mesh& GetMesh(const std::string& meshName);
 
 		void ClearList();
+		void ResetList();
 		~MeshList();
 	private:
 		std::vector<Mesh> meshes;
+
+	private:
+		void SetDefaultEntry();
 	};
 }

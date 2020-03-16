@@ -27,12 +27,12 @@ int Graphics::TextureList::LoadFromFile(const std::string & filename, const TexC
 		return 0;
 	}
 
-	std::vector<Texture>::const_iterator it = textures.begin();
-	for (it; it != textures.end(); it++)
+	std::vector<Texture>::size_type i = 0;
+	for (i; i < textures.size(); i++)
 	{
-		if (it->GetName() == filename)
+		if (textures[i].GetName() == filename)
 		{
-			return 0;
+			return i;
 		}
 	}
 
@@ -91,6 +91,12 @@ Graphics::Texture& Graphics::TextureList::GetTexture(const std::string & texture
 void Graphics::TextureList::ClearList()
 {
 	textures.clear();
+}
+
+void Graphics::TextureList::ResetList()
+{
+	ClearList();
+	this->LoadFromFile("white.jpg");
 }
 
 

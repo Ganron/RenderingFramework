@@ -4,6 +4,66 @@ Graphics::MeshList::MeshList()
 {
 	meshes.reserve(MAX_MESHES);
 
+	SetDefaultEntry();
+}
+
+int Graphics::MeshList::AddMesh(const std::string & meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex)
+{
+	//TODO handle case when capacity is full
+	meshes.emplace_back(meshName, vertices, indices, matIndex);
+	return meshes.size() - 1;
+}
+
+int Graphics::MeshList::GetNumMeshes() const
+{
+	return meshes.size();
+}
+
+Graphics::Mesh& Graphics::MeshList::GetMesh(int index)
+{
+	if (index < 0 || index >= (int)meshes.size())
+	{
+		return meshes[0];
+	}
+	else
+	{
+		return meshes[index];
+	}
+}
+
+//TODO handle the case with duplicate names (make such a case impossible!)
+Graphics::Mesh& Graphics::MeshList::GetMesh(const std::string & meshName)
+{
+	std::vector<Mesh>::iterator it = meshes.begin();
+	for (it; it != meshes.end(); it++)
+	{
+		if (it->GetName() == meshName)
+		{
+			return *it;
+		}
+	}
+	return meshes[0];
+}
+
+//TODO set default mesh again??
+void Graphics::MeshList::ClearList()
+{
+	meshes.clear();
+}
+
+void Graphics::MeshList::ResetList()
+{
+	ClearList();
+	SetDefaultEntry();
+}
+
+Graphics::MeshList::~MeshList()
+{
+	this->ClearList();
+}
+
+void Graphics::MeshList::SetDefaultEntry()
+{
 	//Cube as default mesh
 
 	std::vector<Vector3> positions{
@@ -74,54 +134,5 @@ Graphics::MeshList::MeshList()
 		20,21,22, 22,21,23 //top
 	};
 
-	meshes.emplace_back("Cube", vertices, indices, -1);
-}
-
-int Graphics::MeshList::AddMesh(const std::string & meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex)
-{
-	//TODO handle case when capacity is full
-	meshes.emplace_back(meshName, vertices, indices, matIndex);
-	return meshes.size() - 1;
-}
-
-int Graphics::MeshList::GetNumMeshes() const
-{
-	return meshes.size();
-}
-
-Graphics::Mesh& Graphics::MeshList::GetMesh(int index)
-{
-	if (index < 0 || index >= (int)meshes.size())
-	{
-		return meshes[0];
-	}
-	else
-	{
-		return meshes[index];
-	}
-}
-
-//TODO handle the case with duplicate names (make such a case impossible!)
-Graphics::Mesh& Graphics::MeshList::GetMesh(const std::string & meshName)
-{
-	std::vector<Mesh>::iterator it = meshes.begin();
-	for (it; it != meshes.end(); it++)
-	{
-		if (it->GetName() == meshName)
-		{
-			return *it;
-		}
-	}
-	return meshes[0];
-}
-
-//TODO set default mesh again??
-void Graphics::MeshList::ClearList()
-{
-	meshes.clear();
-}
-
-Graphics::MeshList::~MeshList()
-{
-	this->ClearList();
+	meshes.emplace(meshes.begin(),"Cube", vertices, indices, -1);
 }

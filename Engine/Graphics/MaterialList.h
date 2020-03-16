@@ -21,10 +21,14 @@ namespace GraphicsTest
 		Material& GetMaterial(const std::string& name);
 
 		void ClearList();
+		void ResetList();
 		~MaterialList();
 
 	private:
 		std::vector<Material> materials;
+
+	private:
+		void SetDefaultEntry();
 		
 	};
 }

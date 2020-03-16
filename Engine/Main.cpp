@@ -66,6 +66,7 @@ int main()
 	Graphics::MeshList meshes;
 	GraphicsTest::MaterialList materials;
 
+
 	// Geometry setup
 	Graphics::Model model("cottage_obj.obj", textures);
 	Graphics::Model streetlight("Street Lamp.obj", textures);
