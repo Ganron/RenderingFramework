@@ -10,6 +10,10 @@ namespace GraphicsTest
 	private:
 		std::string name;
 		std::vector<unsigned int> texIndices; //TODO handle different texture types
+		Vector3 ambientColor;
+		Vector3 diffuseColor;
+		Vector3 specularColor;
+		float specularExponent;
 
 	public:
 		Material(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
@@ -19,7 +23,7 @@ namespace GraphicsTest
 		const Vector3& GetAmbientColor() const;
 		const Vector3& GetDiffuseColor() const;
 		const Vector3& GetSpecularColor() const;
-		const float GetSpecularExponent() const;
+		const float& GetSpecularExponent() const;
 		const std::string& GetName() const;
 
 		void SetAmbientColor(const Vector3& ambient);
@@ -27,12 +31,6 @@ namespace GraphicsTest
 		void SetSpecularColor(const Vector3& specular);
 		void SetSpecularExponent(float specExponent);
 		void SetTexIndices(const std::vector<unsigned int>& indices);
-
-	public:
-		Vector3 ambientColor;
-		Vector3 diffuseColor;
-		Vector3 specularColor;
-		float specularExponent;
 
 		~Material();
 	};

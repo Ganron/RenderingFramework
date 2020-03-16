@@ -101,6 +101,7 @@ Graphics::Mesh& Graphics::MeshList::GetMesh(int index)
 	}
 }
 
+//TODO handle the case with duplicate names (make such a case impossible!)
 Graphics::Mesh& Graphics::MeshList::GetMesh(const std::string & meshName)
 {
 	std::vector<Mesh>::iterator it = meshes.begin();

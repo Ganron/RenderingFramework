@@ -73,6 +73,7 @@ Graphics::Texture& Graphics::TextureList::GetTexture(int index)
 	}
 }
 
+//TODO handle the case with duplicate names (make such a case impossible!)
 Graphics::Texture& Graphics::TextureList::GetTexture(const std::string & textureName)
 {
 	std::vector<Texture>::iterator it = textures.begin();

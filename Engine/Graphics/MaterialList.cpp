@@ -35,6 +35,7 @@ GraphicsTest::Material & GraphicsTest::MaterialList::GetMaterial(int index)
 	}
 }
 
+//TODO handle the case with duplicate names (make such a case impossible!)
 GraphicsTest::Material & GraphicsTest::MaterialList::GetMaterial(const std::string & name)
 {
 	std::vector<GraphicsTest::Material>::iterator it = materials.begin();

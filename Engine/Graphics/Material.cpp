@@ -31,7 +31,7 @@ const Vector3 & GraphicsTest::Material::GetSpecularColor() const
 	return specularColor;
 }
 
-const float GraphicsTest::Material::GetSpecularExponent() const
+const float& GraphicsTest::Material::GetSpecularExponent() const
 {
 	return specularExponent;
 }

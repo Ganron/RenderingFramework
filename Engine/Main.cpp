@@ -283,10 +283,11 @@ int main()
 		meshes.GetMesh(planeIndex).Draw();
 		textures.GetTexture(texIndex).Unbind();
 
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(materials.GetMaterial(0).ambientColor));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(materials.GetMaterial(0).diffuseColor));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(materials.GetMaterial(0).specularColor));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(materials.GetMaterial(0).specularExponent));
+
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(materials.GetMaterial(0).GetAmbientColor()));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(materials.GetMaterial(0).GetDiffuseColor()));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(materials.GetMaterial(0).GetSpecularColor()));
+		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(materials.GetMaterial(0).GetSpecularExponent()));
 	
 		textures.GetTexture(cubeTexIndex).Bind(0);
 		meshes.GetMesh("Cube").Draw();
