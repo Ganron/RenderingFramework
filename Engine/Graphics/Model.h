@@ -1,6 +1,7 @@
 #pragma once
 #include"ShaderProgram.h"
 #include"../Math/Vector3.h"
+#include"../Math/Matrix4.h"
 #include<vector>
 #include<string>
 #include"TextureList.h"
@@ -47,4 +48,39 @@ namespace Graphics {
 		~Model();
 	};
 
+}
+
+namespace GraphicsTest
+{
+	class Material;
+
+	class ModelNode
+	{
+	private:
+		std::string name;
+		Matrix4 locTransform;
+		int meshIndex;
+		int materialIndex;
+		ModelNode* parent;
+		std::vector<ModelNode*> children;
+
+	public:
+		ModelNode(const std::string& nodeName, int meshIndex=-1, int materialIndex=-1, const Matrix4& localTransform=Matrix4());
+
+		void AddChild(ModelNode* node);
+
+		int GetMeshIndex() const;
+		void SetMeshIndex(int meshIndex);
+
+		int GetMaterialIndex() const;
+		void  SetMaterialIndex(int materialIndex);
+
+		const Matrix4& GetLocalTransform() const;
+		void SetLocalTransform(const Matrix4& localTransform);
+
+		std::vector<ModelNode*>::const_iterator GetChildrenStart() const;
+		std::vector<ModelNode*>::const_iterator GetChildrenEnd() const;
+
+		~ModelNode();
+	};
 }

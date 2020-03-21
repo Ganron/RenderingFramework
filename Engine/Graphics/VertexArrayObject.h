@@ -26,7 +26,8 @@ public:
 
 	void AddAttribute(unsigned int index, int numElements, DataType dataType, AttribType attribType, size_t relativeOffset);
 
-	const std::vector<VertexAttribute>& GetAttributes() const;
+	std::vector<VertexAttribute>::const_iterator GetIteratorStart() const;
+	std::vector<VertexAttribute>::const_iterator GetIteratorEnd() const;
 };
 
 class VertexArrayObject

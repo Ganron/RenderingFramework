@@ -208,3 +208,66 @@ namespace Graphics
 	}
 
 }
+
+namespace GraphicsTest
+{
+	ModelNode::ModelNode(const std::string & nodeName, int meshIndex, int materialIndex, const Matrix4 & localTransform):name(nodeName), meshIndex(meshIndex),
+		materialIndex(materialIndex), locTransform(localTransform)
+	{
+	}
+
+	void ModelNode::AddChild(ModelNode* node)
+	{
+		children.push_back(node);
+		node->parent = this;
+	}
+
+	int ModelNode::GetMeshIndex() const
+	{
+		return meshIndex;
+	}
+
+	void ModelNode::SetMeshIndex(int meshIndex)
+	{
+		this->meshIndex = meshIndex;
+	}
+
+	int ModelNode::GetMaterialIndex() const
+	{
+		return materialIndex;
+	}
+
+	void ModelNode::SetMaterialIndex(int materialIndex)
+	{
+		this->materialIndex = materialIndex;
+	}
+
+	const Matrix4 & ModelNode::GetLocalTransform() const
+	{
+		return locTransform;
+	}
+
+	void ModelNode::SetLocalTransform(const Matrix4 & localTransform)
+	{
+		this->locTransform = localTransform;
+	}
+
+	std::vector<ModelNode*>::const_iterator ModelNode::GetChildrenStart() const
+	{
+		return children.begin();
+	}
+
+	std::vector<ModelNode*>::const_iterator ModelNode::GetChildrenEnd() const
+	{
+		return children.end();
+	}
+
+	ModelNode::~ModelNode()
+	{
+		std::vector<ModelNode*>::iterator it = children.begin();
+		for (it; it != children.end(); it++)
+		{
+			delete *it;
+		}
+	}
+}

@@ -8,6 +8,8 @@
 
 namespace Graphics
 {
+	const int MAX_MESHES = 100;
+
 	struct Vertex
 	{
 		Vector3 position;
@@ -17,7 +19,6 @@ namespace Graphics
 		Vertex(const Vector3& pos, const Vector3& normal, const Vector2& texCoords);
 		Vertex(const Vector3& pos);
 	};
-
 
 	class Mesh
 	{
@@ -29,7 +30,7 @@ namespace Graphics
 		unsigned int vertexCount;
 		unsigned int indexCount;
 		unsigned int matIndex; //TODO remove
-		
+
 	public:
 		Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
 
@@ -40,5 +41,27 @@ namespace Graphics
 
 		void Delete();
 		~Mesh();
+	};
+
+	class MeshList
+	{
+	public:
+		MeshList();
+
+		//Returns index
+		int AddMesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
+
+		int GetNumMeshes() const;
+		Graphics::Mesh& GetMesh(int index);
+		Graphics::Mesh& GetMesh(const std::string& meshName);
+
+		void ClearList();
+		void ResetList();
+		~MeshList();
+	private:
+		std::vector<Mesh> meshes;
+
+	private:
+		void SetDefaultEntry();
 	};
 }

@@ -5,21 +5,25 @@
 
 namespace GraphicsTest
 {
+
+	const int MAX_MATERIALS = 100;
+
 	class Material
 	{
 	private:
 		std::string name;
-		std::vector<unsigned int> texIndices; //TODO handle different texture types
 		Vector3 ambientColor;
 		Vector3 diffuseColor;
 		Vector3 specularColor;
 		float specularExponent;
+		std::vector<unsigned int> texIndices; //TODO handle different texture types
 
 	public:
 		Material(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
 
 		void AddTexIndex(unsigned int texIndex);
-		const std::vector<unsigned int>& GetIndices() const;
+		std::vector<unsigned int>::const_iterator GetTexIndicesStart() const;
+		std::vector<unsigned int>::const_iterator GetTexIndicesEnd() const;
 		const Vector3& GetAmbientColor() const;
 		const Vector3& GetDiffuseColor() const;
 		const Vector3& GetSpecularColor() const;
@@ -33,5 +37,28 @@ namespace GraphicsTest
 		void SetTexIndices(const std::vector<unsigned int>& indices);
 
 		~Material();
+	};
+
+	class MaterialList
+	{
+	public:
+		MaterialList();
+		//Returns index
+		int AddMaterial(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
+
+		int GetNumMaterials() const;
+		Material& GetMaterial(int index);
+		Material& GetMaterial(const std::string& name);
+
+		void ClearList();
+		void ResetList();
+		~MaterialList();
+
+	private:
+		std::vector<Material> materials;
+
+	private:
+		void SetDefaultEntry();
+
 	};
 }

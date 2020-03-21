@@ -1,11 +1,14 @@
 #pragma once
 #include<glad/glad.h>
 #include<string>
+#include<vector>
 
 class Vector4;
 
 namespace Graphics 
 {
+	const int MAX_TEXTURES = 100;
+
 	enum class TexChannels { R = 1, RG = 2, RGB = 3, RGBA = 4 };
 	enum class TexFormat {
 		UI_NORM_8, UI_NORM_16,
@@ -67,5 +70,25 @@ namespace Graphics
 	private:
 		void TexParamsToOpenGL(const TexParams& params, GLenum& internalFormat, GLenum& baseFormat, GLenum& type);
 		void TexConfigToOpenGL(const TexConfig& config, GLenum& filterMin, GLenum& filterMag, GLenum& wrapS, GLenum& wrapT);
+	};
+
+	class TextureList
+	{
+	public:
+		TextureList();
+		//Returns index
+		int AddTexture(const std::string& texName, int width, int height, const void* data, const TexParams& params, const TexConfig& config = TexConfig());
+		//Returns index
+		int LoadFromFile(const std::string& filepath, const TexConfig& = TexConfig());
+
+		int GetNumTextures() const;
+		Graphics::Texture& GetTexture(int index);
+		Graphics::Texture& GetTexture(const std::string& textureName);
+
+		void ClearList();
+		void ResetList();
+		~TextureList();
+	private:
+		std::vector<Texture> textures;
 	};
 }
