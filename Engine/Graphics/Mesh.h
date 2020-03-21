@@ -57,6 +57,7 @@ namespace Graphics
 
 		void ClearList();
 		void ResetList();
+
 		~MeshList();
 	private:
 		std::vector<Mesh> meshes;

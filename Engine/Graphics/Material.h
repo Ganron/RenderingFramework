@@ -56,6 +56,7 @@ namespace GraphicsTest
 
 	private:
 		std::vector<Material> materials;
+		//Associated texture list?
 
 	private:
 		void SetDefaultEntry();

@@ -2,9 +2,9 @@
 #include"ShaderProgram.h"
 #include"../Math/Vector3.h"
 #include"../Math/Matrix4.h"
+#include"Texture.h"
 #include<vector>
 #include<string>
-#include"TextureList.h"
 #include<assimp/Importer.hpp>
 #include<assimp/scene.h>
 #include<assimp/postprocess.h>
@@ -52,6 +52,8 @@ namespace Graphics {
 
 namespace GraphicsTest
 {
+	const int MAX_MODELS = 100;
+
 	class Material;
 
 	class ModelNode
@@ -78,9 +80,35 @@ namespace GraphicsTest
 		const Matrix4& GetLocalTransform() const;
 		void SetLocalTransform(const Matrix4& localTransform);
 
+		const std::string& GetName() const;
+
 		std::vector<ModelNode*>::const_iterator GetChildrenStart() const;
 		std::vector<ModelNode*>::const_iterator GetChildrenEnd() const;
 
 		~ModelNode();
+	};
+
+	class ModelList
+	{
+	public:
+		ModelList();
+
+		int AddModel(ModelNode* rootNode);
+
+		int GetNumModels() const;
+		ModelNode* GetModel(int index);
+		ModelNode* GetModel(const std::string& modelName);
+
+		void ClearList();
+		void ResetList();
+
+		~ModelList();
+
+	private:
+		std::vector<ModelNode*> models;
+		// Associated mesh list and material list?
+
+	private:
+		void SetDefaultEntry();
 	};
 }

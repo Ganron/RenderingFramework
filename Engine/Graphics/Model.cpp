@@ -252,6 +252,11 @@ namespace GraphicsTest
 		this->locTransform = localTransform;
 	}
 
+	const std::string & ModelNode::GetName() const
+	{
+		return name;
+	}
+
 	std::vector<ModelNode*>::const_iterator ModelNode::GetChildrenStart() const
 	{
 		return children.begin();
@@ -269,5 +274,74 @@ namespace GraphicsTest
 		{
 			delete *it;
 		}
+	}
+
+	ModelList::ModelList()
+	{
+		models.reserve(MAX_MODELS);
+		SetDefaultEntry();
+	}
+
+	int ModelList::AddModel(ModelNode * rootNode)
+	{
+		models.push_back(rootNode);
+		return models.size()-1;
+	}
+
+	int ModelList::GetNumModels() const
+	{
+		return models.size();
+	}
+
+	ModelNode * ModelList::GetModel(int index)
+	{
+		if (index < 0 || index >= (int)models.size())
+		{
+			return models[0];
+		}
+		else
+		{
+			return models[index];
+		}
+	}
+
+	ModelNode * ModelList::GetModel(const std::string & modelName)
+	{
+		std::vector<ModelNode*>::iterator it = models.begin();
+		for (it; it != models.end(); it++)
+		{
+			if ((*it)->GetName() == modelName)
+			{
+				return *it;
+			}
+		}
+		return models[0];
+	}
+
+	void ModelList::ClearList()
+	{
+		models.clear();
+	}
+
+	void ModelList::ResetList()
+	{
+		ClearList();
+		SetDefaultEntry();
+	}
+
+	ModelList::~ModelList()
+	{
+		std::vector<ModelNode*>::iterator it = models.begin();
+		for (it; it != models.end(); it++)
+		{
+			delete *it;
+		}
+		this->ClearList();
+	}
+
+	void ModelList::SetDefaultEntry()
+	{
+		ModelNode* defaultModel = new ModelNode("Default");
+		models.push_back(defaultModel);
 	}
 }
