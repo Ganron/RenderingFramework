@@ -72,12 +72,7 @@ int Graphics::MeshList::CreateMesh(const std::string & meshName, const std::vect
 	return meshes.size() - 1;
 }
 
-int Graphics::MeshList::GetNumMeshes() const
-{
-	return meshes.size();
-}
-
-Graphics::Mesh& Graphics::MeshList::GetMesh(int index)
+Graphics::Mesh & Graphics::MeshList::operator[](int index)
 {
 	if (index < 0 || index >= (int)meshes.size())
 	{
@@ -89,18 +84,29 @@ Graphics::Mesh& Graphics::MeshList::GetMesh(int index)
 	}
 }
 
-//TODO handle the case with duplicate names (make such a case impossible!)
-Graphics::Mesh& Graphics::MeshList::GetMesh(const std::string & meshName)
+int Graphics::MeshList::GetNumMeshes() const
 {
-	std::vector<Mesh>::iterator it = meshes.begin();
-	for (it; it != meshes.end(); it++)
+	return meshes.size();
+}
+
+//TODO handle the case with duplicate names (make such a case impossible!)
+int Graphics::MeshList::GetMeshIndex(const std::string & meshName) const
+{
+	int counter = 0;
+	std::vector<Mesh>::const_iterator it = meshes.begin();
+	for (it; it != meshes.end(); it++,counter++)
 	{
 		if (it->GetName() == meshName)
 		{
-			return *it;
+			return counter;
 		}
 	}
-	return meshes[0];
+	return 0;
+}
+
+Graphics::Mesh & Graphics::MeshList::GetMesh(const std::string & meshName)
+{
+	return (*this)[this->GetMeshIndex(meshName)];
 }
 
 std::vector<Graphics::Mesh>::iterator Graphics::MeshList::GetIteratorStart()
@@ -202,5 +208,5 @@ void Graphics::MeshList::SetDefaultEntry()
 		20,21,22, 22,21,23 //top
 	};
 
-	meshes.emplace(meshes.begin(), "Cube", vertices, indices, -1);
+	meshes.emplace(meshes.begin(), "Default", vertices, indices, -1);
 }

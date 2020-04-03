@@ -11,15 +11,15 @@
 #include<vector>
 #include<string>
 
-namespace GraphicsTest
+namespace Graphics
 {
 	class ResourceManager
 	{
 	public:
 		Graphics::MeshList meshList;
-		GraphicsTest::MaterialList materialList;
+		Graphics::MaterialList matList;
 		Graphics::TextureList texList;
-		GraphicsTest::ModelList modelList;
+		Graphics::ModelList modelList;
 	public:
 		ResourceManager();
 		bool LoadModel(const std::string& filename);

@@ -81,6 +81,11 @@ void Graphics::ShaderProgram::UseProgram()
 	glUseProgram(programID);
 }
 
+void Graphics::ShaderProgram::StopProgram()
+{
+	glUseProgram(0);
+}
+
 std::string Graphics::ShaderProgram::GetErrorLog() const
 {
 	return errorLog;

@@ -1,98 +1,119 @@
 #include"Material.h"
+#include"ResourceManager.h"
 
-GraphicsTest::Material::Material(const std::string& matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices): ambientColor(ambient), diffuseColor(diffuse),
+Graphics::Material::Material(const std::string& matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices): ambientColor(ambient), diffuseColor(diffuse),
 specularColor(specular), specularExponent(specExponent), texIndices(textureIndices), name(matName)
 {
 }
 
-void GraphicsTest::Material::AddTexIndex(unsigned int texIndex)
+void Graphics::Material::AddTexIndex(unsigned int texIndex)
 {
 	texIndices.push_back(texIndex);
 }
 
-std::vector<unsigned int>::const_iterator GraphicsTest::Material::GetTexIndicesStart() const
+std::vector<unsigned int>::iterator Graphics::Material::GetTexIndicesStart()
 {
 	return texIndices.begin();
 }
 
-std::vector<unsigned int>::const_iterator GraphicsTest::Material::GetTexIndicesEnd() const
+std::vector<unsigned int>::iterator Graphics::Material::GetTexIndicesEnd()
 {
 	return texIndices.end();
 }
 
 
-const Vector3 & GraphicsTest::Material::GetAmbientColor() const
+const Vector3 & Graphics::Material::GetAmbientColor() const
 {
 	return ambientColor;
 }
 
-const Vector3 & GraphicsTest::Material::GetDiffuseColor() const
+const Vector3 & Graphics::Material::GetDiffuseColor() const
 {
 	return diffuseColor;
 }
 
-const Vector3 & GraphicsTest::Material::GetSpecularColor() const
+const Vector3 & Graphics::Material::GetSpecularColor() const
 {
 	return specularColor;
 }
 
-const float& GraphicsTest::Material::GetSpecularExponent() const
+const float& Graphics::Material::GetSpecularExponent() const
 {
 	return specularExponent;
 }
 
-const std::string & GraphicsTest::Material::GetName() const
+const std::string & Graphics::Material::GetName() const
 {
 	return name;
 }
 
-void GraphicsTest::Material::SetAmbientColor(const Vector3 & ambient)
+void Graphics::Material::SetAmbientColor(const Vector3 & ambient)
 {
 	ambientColor = ambient;
 }
 
-void GraphicsTest::Material::SetDiffuseColor(const Vector3 & diffuse)
+void Graphics::Material::SetDiffuseColor(const Vector3 & diffuse)
 {
 	diffuseColor = diffuse;
 }
 
-void GraphicsTest::Material::SetSpecularColor(const Vector3 & specular)
+void Graphics::Material::SetSpecularColor(const Vector3 & specular)
 {
 	specularColor = specular;
 }
 
-void GraphicsTest::Material::SetSpecularExponent(float specExponent)
+void Graphics::Material::SetSpecularExponent(float specExponent)
 {
 	specularExponent = specExponent;
 }
 
-void GraphicsTest::Material::SetTexIndices(const std::vector<unsigned int>& indices)
+void Graphics::Material::SetTexIndices(const std::vector<unsigned int>& indices)
 {
 	texIndices = indices;
 }
 
-GraphicsTest::Material::~Material()
+void Graphics::Material::Bind(Graphics::ShaderProgram & shaderProgram, Graphics::ResourceManager & resourceManager)
+{
+	std::vector<unsigned int>::iterator texIter = this->GetTexIndicesStart();
+	int i = 0;
+	for (texIter; texIter != this->GetTexIndicesEnd(); texIter++, i++)
+	{
+		resourceManager.texList[*texIter].Bind(i);
+	}
+
+	shaderProgram.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(ambientColor));
+	shaderProgram.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(diffuseColor));
+	shaderProgram.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(specularColor));
+	shaderProgram.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(specularExponent));
+}
+
+void Graphics::Material::Unbind(Graphics::ShaderProgram & shaderProgram, Graphics::ResourceManager & resourceManager)
+{
+	std::vector<unsigned int>::iterator texIter = this->GetTexIndicesStart();
+	int i = 0;
+	for (texIter; texIter != this->GetTexIndicesEnd(); texIter++, i++)
+	{
+		resourceManager.texList[*texIter].Unbind();
+	}
+}
+
+Graphics::Material::~Material()
 {
 }
 
-GraphicsTest::MaterialList::MaterialList()
+Graphics::MaterialList::MaterialList()
 {
 	materials.reserve(MAX_MATERIALS);
 	SetDefaultEntry();
 }
 
-int GraphicsTest::MaterialList::CreateMaterial(const std::string & matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices)
+int Graphics::MaterialList::CreateMaterial(const std::string & matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices)
 {
 	materials.emplace_back(matName, ambient, diffuse, specular, specExponent, textureIndices);
 	return materials.size() - 1;
 }
 
-int GraphicsTest::MaterialList::GetNumMaterials() const
-{
-	return materials.size();
-}
-
-GraphicsTest::Material & GraphicsTest::MaterialList::GetMaterial(int index)
+Graphics::Material & Graphics::MaterialList::operator[](int index)
 {
 	if (index < 0 || index >= (int)materials.size())
 	{
@@ -104,47 +125,58 @@ GraphicsTest::Material & GraphicsTest::MaterialList::GetMaterial(int index)
 	}
 }
 
-//TODO handle the case with duplicate names (make such a case impossible!)
-GraphicsTest::Material & GraphicsTest::MaterialList::GetMaterial(const std::string & name)
+int Graphics::MaterialList::GetNumMaterials() const
 {
-	std::vector<GraphicsTest::Material>::iterator it = materials.begin();
-	for (it; it != materials.end(); it++)
-	{
-		if (it->GetName() == name)
-		{
-			return *it;
-		}
-	}
-	return materials[0];
+	return materials.size();
 }
 
-std::vector<GraphicsTest::Material>::iterator GraphicsTest::MaterialList::GetIteratorStart()
+//TODO handle the case with duplicate names (make such a case impossible!)
+int Graphics::MaterialList::GetMatIndex(const std::string & matName) const
+{
+	int counter = 0;
+	std::vector<Graphics::Material>::const_iterator it = materials.begin();
+	for (it; it != materials.end(); it++,counter++)
+	{
+		if (it->GetName() == matName)
+		{
+			return counter;
+		}
+	}
+	return 0;
+}
+
+Graphics::Material & Graphics::MaterialList::GetMaterial(const std::string & matName)
+{
+	return (*this)[this->GetMatIndex(matName)];
+}
+
+std::vector<Graphics::Material>::iterator Graphics::MaterialList::GetIteratorStart()
 {
 	return materials.begin();
 }
 
-std::vector<GraphicsTest::Material>::iterator GraphicsTest::MaterialList::GetIteratorEnd()
+std::vector<Graphics::Material>::iterator Graphics::MaterialList::GetIteratorEnd()
 {
 	return materials.end();
 }
 
-void GraphicsTest::MaterialList::ClearList()
+void Graphics::MaterialList::ClearList()
 {
 	materials.clear();
 }
 
-void GraphicsTest::MaterialList::ResetList()
+void Graphics::MaterialList::ResetList()
 {
 	ClearList();
 	SetDefaultEntry();
 }
 
-GraphicsTest::MaterialList::~MaterialList()
+Graphics::MaterialList::~MaterialList()
 {
 	this->ClearList();
 }
 
-void GraphicsTest::MaterialList::SetDefaultEntry()
+void Graphics::MaterialList::SetDefaultEntry()
 {
 	materials.emplace(
 		materials.begin(),

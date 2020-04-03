@@ -51,8 +51,10 @@ namespace Graphics
 		//Returns index
 		int CreateMesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
 
+		Graphics::Mesh& operator[](int index);
+
 		int GetNumMeshes() const;
-		Graphics::Mesh& GetMesh(int index);
+		int GetMeshIndex(const std::string& meshName) const;
 		Graphics::Mesh& GetMesh(const std::string& meshName);
 		std::vector<Mesh>::iterator GetIteratorStart();
 		std::vector<Mesh>::iterator GetIteratorEnd();

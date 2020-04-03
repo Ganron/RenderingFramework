@@ -1,12 +1,14 @@
 #pragma once
 #include"../Math/Vector3.h"
+#include"ShaderProgram.h"
 #include<vector>
 #include<string>
 
-namespace GraphicsTest
+namespace Graphics
 {
-
 	const int MAX_MATERIALS = 100;
+
+	class ResourceManager;
 
 	class Material
 	{
@@ -22,8 +24,8 @@ namespace GraphicsTest
 		Material(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
 
 		void AddTexIndex(unsigned int texIndex);
-		std::vector<unsigned int>::const_iterator GetTexIndicesStart() const;
-		std::vector<unsigned int>::const_iterator GetTexIndicesEnd() const;
+		std::vector<unsigned int>::iterator GetTexIndicesStart();
+		std::vector<unsigned int>::iterator GetTexIndicesEnd();
 		const Vector3& GetAmbientColor() const;
 		const Vector3& GetDiffuseColor() const;
 		const Vector3& GetSpecularColor() const;
@@ -36,6 +38,9 @@ namespace GraphicsTest
 		void SetSpecularExponent(float specExponent);
 		void SetTexIndices(const std::vector<unsigned int>& indices);
 
+		void Bind(Graphics::ShaderProgram& shaderProgram, Graphics::ResourceManager& resourceManager);
+		void Unbind(Graphics::ShaderProgram& shaderProgram, Graphics::ResourceManager& resourceManager);
+
 		~Material();
 	};
 
@@ -46,9 +51,11 @@ namespace GraphicsTest
 		//Returns index
 		int CreateMaterial(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
 
+		Material &operator[](int index);
+
 		int GetNumMaterials() const;
-		Material& GetMaterial(int index);
-		Material& GetMaterial(const std::string& name);
+		int GetMatIndex(const std::string& matName) const;
+		Graphics::Material& GetMaterial(const std::string& matName);
 		std::vector<Material>::iterator GetIteratorStart();
 		std::vector<Material>::iterator GetIteratorEnd();
 

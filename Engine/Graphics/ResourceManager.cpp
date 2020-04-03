@@ -4,11 +4,11 @@
 #include"../Utilities/FileSystem.h"
 #include<iostream>
 
-GraphicsTest::ResourceManager::ResourceManager()
+Graphics::ResourceManager::ResourceManager()
 {
 }
 
-bool GraphicsTest::ResourceManager::LoadModel(const std::string & filename)
+bool Graphics::ResourceManager::LoadModel(const std::string & filename)
 {
 	std::string filepath = Filesystem::GetModelPath(filename);
 	std::cout << filepath << std::endl;
@@ -28,7 +28,7 @@ bool GraphicsTest::ResourceManager::LoadModel(const std::string & filename)
 
 	std::vector<MeshMatPair> indexPairs;
 
-	InitMeshes(assimpScene, materialList.GetNumMaterials(), indexPairs);
+	InitMeshes(assimpScene, matList.GetNumMaterials(), indexPairs);
 	InitMaterials(assimpScene);
 
 	modelList.CreateModel(filename, indexPairs);
@@ -36,20 +36,20 @@ bool GraphicsTest::ResourceManager::LoadModel(const std::string & filename)
 	return true;
 }
 
-void GraphicsTest::ResourceManager::FreeResources()
+void Graphics::ResourceManager::FreeResources()
 {
 	meshList.ClearList();
-	materialList.ClearList();
+	matList.ClearList();
 	texList.ClearList();
 	//modelList.ClearList();
 }
 
-GraphicsTest::ResourceManager::~ResourceManager()
+Graphics::ResourceManager::~ResourceManager()
 {
 	this->FreeResources();
 }
 
-void GraphicsTest::ResourceManager::InitMeshes(const aiScene * assimpScene, int matStartIndex, std::vector<MeshMatPair>& indicesOut)
+void Graphics::ResourceManager::InitMeshes(const aiScene * assimpScene, int matStartIndex, std::vector<MeshMatPair>& indicesOut)
 {
 	indicesOut.clear();
 
@@ -106,7 +106,7 @@ void GraphicsTest::ResourceManager::InitMeshes(const aiScene * assimpScene, int 
 	}
 }
 
-void GraphicsTest::ResourceManager::InitMaterials(const aiScene * assimpScene)
+void Graphics::ResourceManager::InitMaterials(const aiScene * assimpScene)
 {
 	for (unsigned int i = 1; i < assimpScene->mNumMaterials; i++)
 	{
@@ -143,6 +143,6 @@ void GraphicsTest::ResourceManager::InitMaterials(const aiScene * assimpScene)
 			texIndices.push_back(0);
 		}
 		
-		materialList.CreateMaterial(matName, ambientColor, diffuseColor, specularColor, shininess, texIndices);
+		matList.CreateMaterial(matName, ambientColor, diffuseColor, specularColor, shininess, texIndices);
 	}
 }

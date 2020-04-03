@@ -46,10 +46,14 @@ void UpdateTimer();
 
 int main()
 {
-	// Window setup
+	/*
+	 * WINDOW SETUP
+	 */
 	Graphics::Window window(800, 600, "Test", false);
 
-	// Shader setup
+	/*
+	 * SHADER SETUP
+	 */
 	Graphics::ShaderProgram blinnPhong;
 	blinnPhong.AddShaderFromFile("BlinnPhong.vert", Graphics::ShaderType::VERTEX);
 	blinnPhong.AddShaderFromFile("BlinnPhong.frag", Graphics::ShaderType::FRAGMENT);
@@ -60,87 +64,42 @@ int main()
 	lightCubes.AddShaderFromFile("Cube.frag", Graphics::ShaderType::FRAGMENT);
 	lightCubes.LinkProgram();
 
-	Graphics::TextureList textures;
-	Graphics::MeshList meshes;
-	GraphicsTest::MaterialList materials;
 
-
-	// Geometry setup
-	//Graphics::Model model("cottage_obj.obj", textures);
-	//Graphics::Model streetlight("Street Lamp.obj", textures);
-	//Graphics::Model tree("Tree2_final.obj", textures);
-
-	GraphicsTest::ResourceManager resourceManager;
+	/*
+	 * GEOMETRY SETUP
+	 */
+	Graphics::ResourceManager resourceManager;
 	resourceManager.LoadModel("cottage_obj.obj");
 	resourceManager.LoadModel("Street Lamp.obj");
 	resourceManager.LoadModel("Tree2_final.obj");
 
-	int numMeshes = resourceManager.meshList.GetNumMeshes();
-	for (int i = 0; i < numMeshes; i++)
-	{
-		std::cout << "MESH #"<<i<<" "<<resourceManager.meshList.GetMesh(i).GetName() << std::endl;
-	}
+	//Cottage model
+	int cottageIndex = resourceManager.meshList.GetMeshIndex("Cube_Cube.002");
+	int cottageMatIndex = resourceManager.modelList.GetModel("cottage_obj.obj").GetMatIndexOfMesh(cottageIndex);
 
-	int numMaterials = resourceManager.materialList.GetNumMaterials();
-	for (int i = 0; i < numMaterials; i++)
-	{
-		std::cout << "MATERIAL #" << i << " " << resourceManager.materialList.GetMaterial(i).GetName() << std::endl;
-	}
-
-	int i = 0;
-	std::vector<GraphicsTest::MeshGroup>::iterator it = resourceManager.modelList.GetIteratorStart();
-	for (it; it != resourceManager.modelList.GetIteratorEnd(); it++, i++)
-	{
-		std::cout << "MODEL #" << i <<" "<< it->GetName() << std::endl;
-		std::vector<GraphicsTest::MeshMatPair>::iterator pair = it->GetIteratorStart();
-		for (pair; pair != it->GetIteratorEnd(); pair++)
+	std::vector<Graphics::MeshMatPair> cottageIndices{
 		{
-			std::cout << " Mesh Index:" << pair->meshIndex << " Mat Index:" << pair->matIndex << std::endl;
+			cottageIndex,
+			cottageMatIndex
 		}
-	}
-
-	i = 0;
-	std::vector<Graphics::Texture>::iterator tex = resourceManager.texList.GetIteratorStart();
-	for (tex; tex != resourceManager.texList.GetIteratorEnd(); tex++,i++)
-	{
-		std::cout << "TEX #" << i << " " << tex->GetName() << std::endl;
-	}
-
-	std::vector<Graphics::Vertex> vertices{
-		{ Vector3(-1.0f, -1.0f,  1.0f)},
-		{ Vector3(1.0f, -1.0f,  1.0f)},
-		{ Vector3(1.0f,  1.0f,  1.0f)},
-		{ Vector3(-1.0f,  1.0f,  1.0f)},
-
-		{ Vector3(-1.0, -1.0, -1.0) },
-		{ Vector3(1.0, -1.0, -1.0) },
-		{ Vector3(1.0,  1.0, -1.0) },
-		{ Vector3(-1.0,  1.0, -1.0)}
 	};
-
-	std::vector<unsigned int> indices{
-		// front
-		0, 1, 2,
-		2, 3, 0,
-		// right
-		1, 5, 6,
-		6, 2, 1,
-		// back
-		7, 6, 5,
-		5, 4, 7,
-		// left
-		4, 0, 3,
-		3, 7, 4,
-		// bottom
-		4, 5, 1,
-		1, 0, 4,
-		// top
-		3, 2, 6,
-		6, 7, 3
-	};
+	int modelCottage = resourceManager.modelList.CreateModel("Cottage", cottageIndices);
 	
-	int cubeIndex = meshes.CreateMesh("cube", vertices, indices, -1);
+	//Tree model
+	Graphics::Model& tree = resourceManager.modelList.GetModel("Tree2_final.obj");
+	int treeTrunkIndex = resourceManager.meshList.GetMeshIndex("tree.002_Mesh.001");
+	int treeTrunkMatIndex = tree.GetMatIndexOfMesh(treeTrunkIndex);
+	int treeLeavesIndex = resourceManager.meshList.GetMeshIndex("leaves.002_leaves.004");
+	int treeLeavesMatIndex = tree.GetMatIndexOfMesh(treeLeavesIndex);
 
+	std::vector<Graphics::MeshMatPair> treeIndices{
+		{treeTrunkIndex, treeTrunkMatIndex},
+		{treeLeavesIndex,treeLeavesMatIndex}
+	};
+
+	int modelTree = resourceManager.modelList.CreateModel("Tree", treeIndices);
+
+	//Plane model
 	std::vector<Graphics::Vertex> planeVertices{
 		{Vector3(-63.196327, 0.077648, 63.196327), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)},
 		{Vector3{63.196327, 0.077648, 63.196327}, Vector3(0.0f, 1.0f, 0.0f), Vector2(10.0f, 0.0f)},
@@ -150,28 +109,32 @@ int main()
 
 	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
 
-	int planeIndex = meshes.CreateMesh("plane", planeVertices, planeIndices, -1);
+	int planeIndex = resourceManager.meshList.CreateMesh("Plane", planeVertices, planeIndices, -1);
+	unsigned int planeTexIndex = resourceManager.texList.LoadFromFile("grass-lawn-texture.jpg");
+	int planeMatIndex = resourceManager.matList.CreateMaterial(
+		"Grass",
+		Vector3(1.0f, 1.0f, 1.0f),
+		Vector3(0.64f, 0.64f, 0.64f),
+		Vector3(0.1f, 0.1f, 0.1f),
+		1.0f,
+		std::vector<unsigned int>{planeTexIndex}
+	);
 
-	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
-	int cubeTexIndex = textures.LoadFromFile("sickle_and_star.png");
+	std::vector<Graphics::MeshMatPair> planeMeshMatPair{
+		{planeIndex, planeMatIndex}
+	};
 
-	Graphics::Material mat;
-	mat.ambientColor = Vector3(1.000000, 1.000000, 1.000000);
-	mat.diffuseColor = Vector3(0.640000, 0.640000, 0.640000);
-	mat.specularColor = Vector3(0.100000, 0.100000, 0.100000);
-	mat.specularExponent = 1.0;
+	int modelPlane = resourceManager.modelList.CreateModel("Plane", planeMeshMatPair);
 
-	// Transformation setup
+
+
+
+	/*
+	 * TRANSFORMATION SETUP
+	 */
 	Matrix4 modelMat1 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
 	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f),0.0f,1.0f,0.0f) * Matrix4::CreateScale(0.001f);
 	Matrix4 modelMat3 = Matrix4::CreateTranslation(1.0f, 0.45f, 2.5f) * Matrix4::CreateRotation(DegToRad(180.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.001f);
-	/*Matrix4 trees[6];
-	trees[0] = Matrix4::CreateTranslation(4.5, 0.0f, -1.25f) * Matrix4::CreateScale(0.11f);
-	trees[1] = Matrix4::CreateTranslation(3.0f, 0.0f, -0.69f) * Matrix4::CreateScale(0.11f);
-	trees[2] = Matrix4::CreateTranslation(2.0f, 0.0f, 0.89f) * Matrix4::CreateScale(0.11f);
-	trees[3] = Matrix4::CreateTranslation(-2.0f, 0.0f, -1.0f) * Matrix4::CreateScale(0.11f);
-	trees[4] = Matrix4::CreateTranslation(-1.5f, 0.0f, 0.3f) * Matrix4::CreateScale(0.11f);
-	trees[5] = Matrix4::CreateTranslation(-2.3f, 0.0f, 2.0f) * Matrix4::CreateScale(0.11f);*/
 
 	Matrix4 trees[15];
 	trees[0] = Matrix4::CreateTranslation(2.0f, 0.0f, -0.15f) * Matrix4::CreateScale(0.11f);
@@ -189,17 +152,18 @@ int main()
 	trees[12] = Matrix4::CreateTranslation(-1.5f, 0.0f, 1.0f) * Matrix4::CreateScale(0.11f);
 	trees[13] = Matrix4::CreateTranslation(-1.1f, 0.0f, 3.5f) * Matrix4::CreateScale(0.11f);
 	trees[14] = Matrix4::CreateTranslation(-1.42f, 0.0f, 3.0f) * Matrix4::CreateScale(0.11f);
-	
 
+	Matrix4 perspMat;
+
+	/*
+	 * LIGHT SETUP
+	 */
 	std::vector<Vector3> lightPositions{
 		{2.5f, 3.0f, 5.0f},
 		{0.4f, 1.55f, 2.5f},
 		{0.0f, 1.0f, 3.0f}
 	};
 
-	Matrix4 perspMat;
-
-	// Ligh setup
 	Graphics::DirectionalLight dirLight;
 	dirLight.direction = (0.0f, -1.0f, -1.0f);
 	dirLight.ambientColor = Vector3(0.7f, 0.8f, 1.0f)*0.3f;
@@ -273,6 +237,37 @@ int main()
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
 	//glFrontFace(GL_CCW);
+
+	int numMeshes = resourceManager.meshList.GetNumMeshes();
+	for (int i = 0; i < numMeshes; i++)
+	{
+		std::cout << "MESH #" << i << " " << resourceManager.meshList[i].GetName() << std::endl;
+	}
+
+	int numMaterials = resourceManager.matList.GetNumMaterials();
+	for (int i = 0; i < numMaterials; i++)
+	{
+		std::cout << "MATERIAL #" << i << " " << resourceManager.matList[i].GetName() << std::endl;
+	}
+
+	int i = 0;
+	std::vector<Graphics::Model>::iterator it = resourceManager.modelList.GetIteratorStart();
+	for (it; it != resourceManager.modelList.GetIteratorEnd(); it++, i++)
+	{
+		std::cout << "MODEL #" << i << " " << it->GetName() << std::endl;
+		std::vector<Graphics::MeshMatPair>::iterator pair = it->GetIteratorStart();
+		for (pair; pair != it->GetIteratorEnd(); pair++)
+		{
+			std::cout << " Mesh Index:" << pair->meshIndex << " Mat Index:" << pair->matIndex << std::endl;
+		}
+	}
+
+	i = 0;
+	std::vector<Graphics::Texture>::iterator tex = resourceManager.texList.GetIteratorStart();
+	for (tex; tex != resourceManager.texList.GetIteratorEnd(); tex++, i++)
+	{
+		std::cout << "TEX #" << i << " " << tex->GetName() << std::endl;
+	}
 	
 	glEnable(GL_DEPTH_TEST);
 
@@ -281,68 +276,54 @@ int main()
 	// Rendering loop
 	while(!window.IsClosed())
 	{
-		//Vector4 color(0.0f, 0.5f, 0.7f, 1.0f);
 		Vector4 color(0.019f, 0.070f, 0.137f, 1.0f);
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
 		blinnPhong.UseProgram();
 
+		//Setting up view matrix
 		Matrix4 viewMat = window.GetCamera()->GetViewMatrix();
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
 		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
 		
+		//Setiing up proj matrix
 		perspMat = Matrix4::CreateProjPerspSymmetric(window.GetCamera()->GetFieldOfViewAngle(), window.GetAspectRatio(), 0.1f, 1000.0f);
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_PROJ_MATRIX, 1, &perspMat);
 		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_PROJ_MATRIX, 1, &perspMat);
 
+		//Updating flashlight
 		spotLight.position = window.GetCamera()->GetPosition();
 		spotLight.direction = window.GetCamera()->GetForwardDirection();
 		spotLightBuffer.SetData(0, sizeof(spotLight), &spotLight);
 		spotLightBuffer.BindUniform(1, 0, spotLightBuffer.GetSize());
 
-		/*blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat2);
-		streetlight.Draw(blinnPhong);*/
-
+		//Drawing: street lamp
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat3);
-		//streetlight.Draw(blinnPhong);
+		resourceManager.modelList.GetModel("Street Lamp.obj").Draw(blinnPhong, resourceManager);
 
+		//Drawing: cottage
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat1);
-				//model.DrawMesh(0,blinnPhong);
-		//model.DrawMesh(4,blinnPhong);
-
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(mat.ambientColor));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(mat.diffuseColor));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(mat.specularColor));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(mat.specularExponent));
-		textures.GetTexture(texIndex).Bind(0);
-		meshes.GetMesh(planeIndex).Draw();
-		textures.GetTexture(texIndex).Unbind();
-
-
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(materials.GetMaterial(0).GetAmbientColor()));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(materials.GetMaterial(0).GetDiffuseColor()));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 2, 1, &(materials.GetMaterial(0).GetSpecularColor()));
-		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(materials.GetMaterial(0).GetSpecularExponent()));
-	
-		textures.GetTexture(cubeTexIndex).Bind(0);
-		meshes.GetMesh("Cube").Draw();
-		textures.GetTexture(texIndex).Unbind();
+		resourceManager.modelList[modelCottage].Draw(blinnPhong,resourceManager);
 		
-		/*for (int i = 0; i < 15; i++)
+		//Drawing: plane
+		resourceManager.modelList[modelPlane].Draw(blinnPhong, resourceManager);
+		
+		//Drawing: trees
+		for (int i = 0; i < 15; i++)
 		{
 			blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &trees[i]);
-			tree.DrawMesh(5, blinnPhong);
-			tree.DrawMesh(6, blinnPhong);
-		}*/
+			resourceManager.modelList[modelTree].Draw(blinnPhong, resourceManager);
+		}
 
-		/*for (int i = 0; i < 3; i++)
+		lightCubes.UseProgram();
+
+		for (int i = 0; i < 3; i++)
 		{
 			Matrix4 lightModelMat = Matrix4::CreateTranslation(lightPositions[i]) * Matrix4::CreateScale(0.1f);
 			lightCubes.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &lightModelMat);
-			lightCubes.UseProgram();
-			cube.Draw();
-		}*/
+			resourceManager.modelList[0].Draw(lightCubes, resourceManager);
+		}
 
 		UpdateTimer();
 		window.Update(deltaTime);
@@ -350,14 +331,9 @@ int main()
 
 	
 	// Application termination
-	//model.Delete();
-	//streetlight.Delete();
-	//tree.Delete();
 	resourceManager.FreeResources();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
-	textures.ClearList();
-	meshes.ClearList();
 	blinnPhong.Delete();
 	lightCubes.Delete();
 

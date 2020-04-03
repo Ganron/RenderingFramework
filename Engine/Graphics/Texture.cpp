@@ -303,12 +303,7 @@ int Graphics::TextureList::LoadFromFile(const std::string & filename, const TexC
 	return textures.size() - 1;
 }
 
-int Graphics::TextureList::GetNumTextures() const
-{
-	return textures.size();
-}
-
-Graphics::Texture& Graphics::TextureList::GetTexture(int index)
+Graphics::Texture & Graphics::TextureList::operator[](int index)
 {
 	if (index < 0 || index >= (int)textures.size())
 	{
@@ -320,18 +315,29 @@ Graphics::Texture& Graphics::TextureList::GetTexture(int index)
 	}
 }
 
-//TODO handle the case with duplicate names (make such a case impossible!)
-Graphics::Texture& Graphics::TextureList::GetTexture(const std::string & textureName)
+int Graphics::TextureList::GetNumTextures() const
 {
-	std::vector<Texture>::iterator it = textures.begin();
-	for (it; it != textures.end(); it++)
+	return textures.size();
+}
+
+//TODO handle the case with duplicate names (make such a case impossible!)
+int Graphics::TextureList::GetTexIndex(const std::string & textureName) const
+{
+	int counter = 0;
+	std::vector<Texture>::const_iterator it = textures.begin();
+	for (it; it != textures.end(); it++,0)
 	{
 		if (it->GetName() == textureName)
 		{
-			return *it;
+			return counter;
 		}
 	}
-	return textures[0];
+	return 0;
+}
+
+Graphics::Texture & Graphics::TextureList::GetTexture(const std::string & texName)
+{
+	return (*this)[this->GetTexIndex(texName)];
 }
 
 std::vector<Graphics::Texture>::iterator Graphics::TextureList::GetIteratorStart()

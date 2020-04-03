@@ -37,6 +37,7 @@ namespace Graphics
 		bool AddShaderFromSource(const std::string& source, const ShaderType& shaderType);
 		bool LinkProgram();
 		void UseProgram();
+		void StopProgram();
 
 		std::string GetErrorLog() const;
 
