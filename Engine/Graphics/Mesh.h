@@ -49,11 +49,13 @@ namespace Graphics
 		MeshList();
 
 		//Returns index
-		int AddMesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
+		int CreateMesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
 
 		int GetNumMeshes() const;
 		Graphics::Mesh& GetMesh(int index);
 		Graphics::Mesh& GetMesh(const std::string& meshName);
+		std::vector<Mesh>::iterator GetIteratorStart();
+		std::vector<Mesh>::iterator GetIteratorEnd();
 
 		void ClearList();
 		void ResetList();

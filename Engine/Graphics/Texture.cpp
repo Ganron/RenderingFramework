@@ -10,7 +10,7 @@ namespace Graphics
 	Texture::Texture(const std::string & texName, int width, int height, const void * data, const TexParams & params, const TexConfig & config)
 	{
 		textureName = texName;
-		std::cout << texName << std::endl;
+		
 		this->width = width;
 		this->height = height;
 
@@ -257,7 +257,7 @@ Graphics::TextureList::TextureList()
 	this->LoadFromFile("white.jpg");
 }
 
-int Graphics::TextureList::AddTexture(const std::string & texName, int width, int height, const void * data, const TexParams & params, const TexConfig & config)
+int Graphics::TextureList::CreateTexture(const std::string & texName, int width, int height, const void * data, const TexParams & params, const TexConfig & config)
 {
 	//TODO handle the case when capacity is full
 	textures.emplace_back(texName, width, height, data, params, config);
@@ -295,7 +295,7 @@ int Graphics::TextureList::LoadFromFile(const std::string & filename, const TexC
 		//TODO find a way to handle different bit depths???
 		TexParams params((TexChannels)channels, TexFormat::UI_NORM_8);
 
-		this->AddTexture(filename, localWidth, localHeight, reinterpret_cast<void*>(data), params, config);
+		this->CreateTexture(filename, localWidth, localHeight, reinterpret_cast<void*>(data), params, config);
 	}
 
 	stbi_image_free(data);
@@ -332,6 +332,16 @@ Graphics::Texture& Graphics::TextureList::GetTexture(const std::string & texture
 		}
 	}
 	return textures[0];
+}
+
+std::vector<Graphics::Texture>::iterator Graphics::TextureList::GetIteratorStart()
+{
+	return textures.begin();
+}
+
+std::vector<Graphics::Texture>::iterator Graphics::TextureList::GetIteratorEnd()
+{
+	return textures.end();
 }
 
 //TODO set default text again?

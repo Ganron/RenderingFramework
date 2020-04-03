@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Engine\Graphics\Lights.cpp" />
     <ClCompile Include="Engine\Graphics\Material.cpp" />
+    <ClCompile Include="Engine\Graphics\ResourceManager.cpp" />
     <ClCompile Include="Engine\Graphics\Scene.cpp" />
     <ClCompile Include="Engine\Utilities\FileSystem.cpp" />
     <ClCompile Include="Engine\Graphics\Camera.cpp" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Lights.h" />
     <ClInclude Include="Engine\Graphics\Material.h" />
+    <ClInclude Include="Engine\Graphics\ResourceManager.h" />
     <ClInclude Include="Engine\Graphics\Scene.h" />
     <ClInclude Include="Engine\Utilities\FileSystem.h" />
     <ClInclude Include="Engine\Graphics\Camera.h" />

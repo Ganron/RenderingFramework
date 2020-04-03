@@ -13,7 +13,8 @@
 #include"Graphics/Mesh.h"
 #include"Graphics/Material.h"
 #include"Graphics/Model.h"
-#include"Graphics//Lights.h"
+#include"Graphics/Lights.h"
+#include"Graphics/ResourceManager.h"
 
 /******************************
 **** FOR TESTING PURPOSES *****
@@ -65,10 +66,45 @@ int main()
 
 
 	// Geometry setup
-	Graphics::Model model("cottage_obj.obj", textures);
-	Graphics::Model streetlight("Street Lamp.obj", textures);
-	Graphics::Model tree("Tree2_final.obj", textures);
+	//Graphics::Model model("cottage_obj.obj", textures);
+	//Graphics::Model streetlight("Street Lamp.obj", textures);
+	//Graphics::Model tree("Tree2_final.obj", textures);
 
+	GraphicsTest::ResourceManager resourceManager;
+	resourceManager.LoadModel("cottage_obj.obj");
+	resourceManager.LoadModel("Street Lamp.obj");
+	resourceManager.LoadModel("Tree2_final.obj");
+
+	int numMeshes = resourceManager.meshList.GetNumMeshes();
+	for (int i = 0; i < numMeshes; i++)
+	{
+		std::cout << "MESH #"<<i<<" "<<resourceManager.meshList.GetMesh(i).GetName() << std::endl;
+	}
+
+	int numMaterials = resourceManager.materialList.GetNumMaterials();
+	for (int i = 0; i < numMaterials; i++)
+	{
+		std::cout << "MATERIAL #" << i << " " << resourceManager.materialList.GetMaterial(i).GetName() << std::endl;
+	}
+
+	int i = 0;
+	std::vector<GraphicsTest::MeshGroup>::iterator it = resourceManager.modelList.GetIteratorStart();
+	for (it; it != resourceManager.modelList.GetIteratorEnd(); it++, i++)
+	{
+		std::cout << "MODEL #" << i <<" "<< it->GetName() << std::endl;
+		std::vector<GraphicsTest::MeshMatPair>::iterator pair = it->GetIteratorStart();
+		for (pair; pair != it->GetIteratorEnd(); pair++)
+		{
+			std::cout << " Mesh Index:" << pair->meshIndex << " Mat Index:" << pair->matIndex << std::endl;
+		}
+	}
+
+	i = 0;
+	std::vector<Graphics::Texture>::iterator tex = resourceManager.texList.GetIteratorStart();
+	for (tex; tex != resourceManager.texList.GetIteratorEnd(); tex++,i++)
+	{
+		std::cout << "TEX #" << i << " " << tex->GetName() << std::endl;
+	}
 
 	std::vector<Graphics::Vertex> vertices{
 		{ Vector3(-1.0f, -1.0f,  1.0f)},
@@ -103,7 +139,7 @@ int main()
 		6, 7, 3
 	};
 	
-	int cubeIndex = meshes.AddMesh("cube", vertices, indices, -1);
+	int cubeIndex = meshes.CreateMesh("cube", vertices, indices, -1);
 
 	std::vector<Graphics::Vertex> planeVertices{
 		{Vector3(-63.196327, 0.077648, 63.196327), Vector3(0.0f, 1.0f, 0.0f), Vector2(0.0f, 0.0f)},
@@ -114,7 +150,7 @@ int main()
 
 	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
 
-	int planeIndex = meshes.AddMesh("plane", planeVertices, planeIndices, -1);
+	int planeIndex = meshes.CreateMesh("plane", planeVertices, planeIndices, -1);
 
 	int texIndex = textures.LoadFromFile("grass-lawn-texture.jpg");
 	int cubeTexIndex = textures.LoadFromFile("sickle_and_star.png");
@@ -250,6 +286,8 @@ int main()
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
+		blinnPhong.UseProgram();
+
 		Matrix4 viewMat = window.GetCamera()->GetViewMatrix();
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
 		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
@@ -267,11 +305,11 @@ int main()
 		streetlight.Draw(blinnPhong);*/
 
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat3);
-		streetlight.Draw(blinnPhong);
+		//streetlight.Draw(blinnPhong);
 
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat1);
-		//model.DrawMesh(0,blinnPhong);
-		model.DrawMesh(4,blinnPhong);
+				//model.DrawMesh(0,blinnPhong);
+		//model.DrawMesh(4,blinnPhong);
 
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(mat.ambientColor));
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 1, 1, &(mat.diffuseColor));
@@ -291,12 +329,12 @@ int main()
 		meshes.GetMesh("Cube").Draw();
 		textures.GetTexture(texIndex).Unbind();
 		
-		for (int i = 0; i < 15; i++)
+		/*for (int i = 0; i < 15; i++)
 		{
 			blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &trees[i]);
 			tree.DrawMesh(5, blinnPhong);
 			tree.DrawMesh(6, blinnPhong);
-		}
+		}*/
 
 		/*for (int i = 0; i < 3; i++)
 		{
@@ -312,9 +350,10 @@ int main()
 
 	
 	// Application termination
-	model.Delete();
-	streetlight.Delete();
-	tree.Delete();
+	//model.Delete();
+	//streetlight.Delete();
+	//tree.Delete();
+	resourceManager.FreeResources();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
 	textures.ClearList();

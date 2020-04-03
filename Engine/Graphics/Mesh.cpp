@@ -65,7 +65,7 @@ Graphics::MeshList::MeshList()
 	SetDefaultEntry();
 }
 
-int Graphics::MeshList::AddMesh(const std::string & meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex)
+int Graphics::MeshList::CreateMesh(const std::string & meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex)
 {
 	//TODO handle case when capacity is full
 	meshes.emplace_back(meshName, vertices, indices, matIndex);
@@ -101,6 +101,16 @@ Graphics::Mesh& Graphics::MeshList::GetMesh(const std::string & meshName)
 		}
 	}
 	return meshes[0];
+}
+
+std::vector<Graphics::Mesh>::iterator Graphics::MeshList::GetIteratorStart()
+{
+	return meshes.begin();
+}
+
+std::vector<Graphics::Mesh>::iterator Graphics::MeshList::GetIteratorEnd()
+{
+	return meshes.end();
 }
 
 //TODO set default mesh again??

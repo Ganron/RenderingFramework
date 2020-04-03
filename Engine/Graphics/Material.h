@@ -44,11 +44,13 @@ namespace GraphicsTest
 	public:
 		MaterialList();
 		//Returns index
-		int AddMaterial(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
+		int CreateMaterial(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
 
 		int GetNumMaterials() const;
 		Material& GetMaterial(int index);
 		Material& GetMaterial(const std::string& name);
+		std::vector<Material>::iterator GetIteratorStart();
+		std::vector<Material>::iterator GetIteratorEnd();
 
 		void ClearList();
 		void ResetList();

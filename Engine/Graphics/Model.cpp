@@ -8,7 +8,7 @@
 #include "Material.h"
 
 namespace Graphics
-{
+{/*
 	void Model::Load(const std::string & filepath)
 	{
 		name = filepath;
@@ -205,12 +205,12 @@ namespace Graphics
 	const std::vector<unsigned int>& Material::GetIndices() const
 	{
 		return texIndices;
-	}
+	}*/
 
 }
 
 namespace GraphicsTest
-{
+{/*
 	ModelNode::ModelNode(const std::string & nodeName, int meshIndex, int materialIndex, const Matrix4 & localTransform):name(nodeName), meshIndex(meshIndex),
 		materialIndex(materialIndex), locTransform(localTransform)
 	{
@@ -257,12 +257,17 @@ namespace GraphicsTest
 		return name;
 	}
 
-	std::vector<ModelNode*>::const_iterator ModelNode::GetChildrenStart() const
+	int ModelNode::GetNumChildren() const
+	{
+		return children.size();
+	}
+
+	std::vector<ModelNode*>::iterator ModelNode::GetChildrenStart()
 	{
 		return children.begin();
 	}
 
-	std::vector<ModelNode*>::const_iterator ModelNode::GetChildrenEnd() const
+	std::vector<ModelNode*>::iterator ModelNode::GetChildrenEnd()
 	{
 		return children.end();
 	}
@@ -318,6 +323,16 @@ namespace GraphicsTest
 		return models[0];
 	}
 
+	std::vector<ModelNode*>::iterator ModelList::GetIteratorStart()
+	{
+		return models.begin();
+	}
+
+	std::vector<ModelNode*>::iterator ModelList::GetIteratorEnd()
+	{
+		return models.end();
+	}
+
 	void ModelList::ClearList()
 	{
 		models.clear();
@@ -343,5 +358,111 @@ namespace GraphicsTest
 	{
 		ModelNode* defaultModel = new ModelNode("Default");
 		models.push_back(defaultModel);
+	}*/
+	MeshMatPair::MeshMatPair(): meshIndex(0), matIndex(0)
+	{
+	}
+	MeshMatPair::MeshMatPair(int meshIndex, int matIndex): meshIndex(meshIndex), matIndex(matIndex)
+	{
+	}
+	MeshGroup::MeshGroup(const std::string & name): name(name)
+	{
+		meshMatPairs.emplace_back(0, 0);
+	}
+	MeshGroup::MeshGroup(const std::string& name, const std::vector<MeshMatPair>& pairs):name(name), meshMatPairs(pairs)
+	{
+	}
+	void MeshGroup::AddEntry(int meshIndex, int matIndex)
+	{
+		meshMatPairs.emplace_back(meshIndex, matIndex);
+	}
+	const std::string & MeshGroup::GetName() const
+	{
+		return name;
+	}
+	std::vector<MeshMatPair>::iterator MeshGroup::GetIteratorStart()
+	{
+		return meshMatPairs.begin();
+	}
+	std::vector<MeshMatPair>::iterator MeshGroup::GetIteratorEnd()
+	{
+		return meshMatPairs.end();
+	}
+	MeshGroup::~MeshGroup()
+	{
+		meshMatPairs.clear();
+	}
+
+	ModelList::ModelList()
+	{
+		models.reserve(MAX_MODELS);
+		SetDefaultEntry();
+	}
+
+	int ModelList::CreateModel(const std::string & name, std::vector<MeshMatPair>& pairs)
+	{
+		models.emplace_back(name, pairs);
+		return models.size()-1;
+	}
+
+	int ModelList::GetNumModels() const
+	{
+		return models.size();
+	}
+
+	MeshGroup & ModelList::GetModel(int index)
+	{
+		if (index < 0 || index >= (int)models.size())
+		{
+			return models[0];
+		}
+		else
+		{
+			return models[index];
+		}
+	}
+
+	MeshGroup & ModelList::GetModel(const std::string & modelName)
+	{
+		std::vector<MeshGroup>::iterator it = models.begin();
+		for (it; it != models.end(); it++)
+		{
+			if (it->GetName() == modelName)
+			{
+				return *it;
+			}
+		}
+		return models[0];
+	}
+
+	std::vector<MeshGroup>::iterator ModelList::GetIteratorStart()
+	{
+		return models.begin();
+	}
+
+	std::vector<MeshGroup>::iterator ModelList::GetIteratorEnd()
+	{
+		return models.end();
+	}
+
+	void ModelList::ClearList()
+	{
+		models.clear();
+	}
+
+	void ModelList::ResetList()
+	{
+		ClearList();
+		SetDefaultEntry();
+	}
+
+	ModelList::~ModelList()
+	{
+		this->ClearList();
+	}
+
+	void ModelList::SetDefaultEntry()
+	{
+		models.emplace(models.begin(), "Default Model");
 	}
 }

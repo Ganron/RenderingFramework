@@ -5,9 +5,10 @@
 #include"Texture.h"
 #include<vector>
 #include<string>
+/*
 #include<assimp/Importer.hpp>
 #include<assimp/scene.h>
-#include<assimp/postprocess.h>
+#include<assimp/postprocess.h>*/
 
 namespace Graphics {
 	class Mesh;
@@ -25,7 +26,7 @@ namespace Graphics {
 		Vector3 specularColor;
 		float specularExponent;
 	};
-
+	/*
 	//TODO remove class
 	class Model
 	{
@@ -46,7 +47,7 @@ namespace Graphics {
 		void DrawMesh(int meshIndex, Graphics::ShaderProgram& program);
 		void Delete();
 		~Model();
-	};
+	};*/
 
 }
 
@@ -56,7 +57,57 @@ namespace GraphicsTest
 
 	class Material;
 
-	class ModelNode
+	struct MeshMatPair
+	{
+	public:
+		MeshMatPair();
+		MeshMatPair(int meshIndex, int matIndex);
+	public:
+		int meshIndex;
+		int matIndex;
+	};
+
+	class MeshGroup
+	{
+	public:
+		std::string name;
+		std::vector<MeshMatPair> meshMatPairs;
+	public:
+		MeshGroup(const std::string& name);
+		MeshGroup(const std::string& name, const std::vector<MeshMatPair>& pairs);
+		void AddEntry(int meshIndex, int matIndex);
+		const std::string& GetName() const;
+		std::vector<MeshMatPair>::iterator GetIteratorStart();
+		std::vector<MeshMatPair>::iterator GetIteratorEnd();
+		~MeshGroup();
+	};
+
+	class ModelList
+	{
+	public:
+		ModelList();
+
+		int CreateModel(const std::string& name, std::vector<MeshMatPair>& pairs);
+
+		int GetNumModels() const;
+		MeshGroup& GetModel(int index);
+		MeshGroup& GetModel(const std::string& modelName);
+		std::vector<MeshGroup>::iterator GetIteratorStart();
+		std::vector<MeshGroup>::iterator GetIteratorEnd();
+
+		void ClearList();
+		void ResetList();
+
+		~ModelList();
+
+	private:
+		std::vector<MeshGroup> models;
+		// Associated mesh list and material list?
+
+	private:
+		void SetDefaultEntry();
+	};
+	/*class ModelNode
 	{
 	private:
 		std::string name;
@@ -82,8 +133,10 @@ namespace GraphicsTest
 
 		const std::string& GetName() const;
 
-		std::vector<ModelNode*>::const_iterator GetChildrenStart() const;
-		std::vector<ModelNode*>::const_iterator GetChildrenEnd() const;
+		int GetNumChildren() const;
+		//TODO total number of descendants
+		std::vector<ModelNode*>::iterator GetChildrenStart();
+		std::vector<ModelNode*>::iterator GetChildrenEnd();
 
 		~ModelNode();
 	};
@@ -98,6 +151,8 @@ namespace GraphicsTest
 		int GetNumModels() const;
 		ModelNode* GetModel(int index);
 		ModelNode* GetModel(const std::string& modelName);
+		std::vector<ModelNode*>::iterator GetIteratorStart();
+		std::vector<ModelNode*>::iterator GetIteratorEnd();
 
 		void ClearList();
 		void ResetList();
@@ -110,5 +165,5 @@ namespace GraphicsTest
 
 	private:
 		void SetDefaultEntry();
-	};
+	};*/
 }

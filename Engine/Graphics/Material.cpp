@@ -81,7 +81,7 @@ GraphicsTest::MaterialList::MaterialList()
 	SetDefaultEntry();
 }
 
-int GraphicsTest::MaterialList::AddMaterial(const std::string & matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices)
+int GraphicsTest::MaterialList::CreateMaterial(const std::string & matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices)
 {
 	materials.emplace_back(matName, ambient, diffuse, specular, specExponent, textureIndices);
 	return materials.size() - 1;
@@ -116,6 +116,16 @@ GraphicsTest::Material & GraphicsTest::MaterialList::GetMaterial(const std::stri
 		}
 	}
 	return materials[0];
+}
+
+std::vector<GraphicsTest::Material>::iterator GraphicsTest::MaterialList::GetIteratorStart()
+{
+	return materials.begin();
+}
+
+std::vector<GraphicsTest::Material>::iterator GraphicsTest::MaterialList::GetIteratorEnd()
+{
+	return materials.end();
 }
 
 void GraphicsTest::MaterialList::ClearList()
