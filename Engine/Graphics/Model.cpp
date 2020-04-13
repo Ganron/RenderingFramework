@@ -1,7 +1,5 @@
 #include"Model.h"
-#include"Mesh.h"
 #include"Texture.h"
-#include"ResourceManager.h"
 #include"../Math/Vector2.h"
 #include"../Math/Vector3.h"
 #include"../Utilities/FileSystem.h"
@@ -33,19 +31,19 @@ namespace Graphics
 	{
 		return name;
 	}
-	std::vector<MeshMatPair>::iterator Model::GetIteratorStart()
+	std::vector<MeshMatPair>::const_iterator Model::GetMeshMatPairStart() const
 	{
 		return meshMatPairs.begin();
 	}
-	std::vector<MeshMatPair>::iterator Model::GetIteratorEnd()
+	std::vector<MeshMatPair>::const_iterator Model::GetMeshMatPairEnd() const
 	{
 		return meshMatPairs.end();
 	}
 
-	int Model::GetMatIndexOfMesh(int meshIndex)
+	int Model::GetMatIndexOfMesh(int meshIndex) const
 	{
-		std::vector<MeshMatPair>::iterator it = GetIteratorStart();
-		for (it; it != GetIteratorEnd(); it++)
+		std::vector<MeshMatPair>::const_iterator it = GetMeshMatPairStart();
+		for (it; it != GetMeshMatPairEnd(); it++)
 		{
 			if (meshIndex == it->meshIndex)
 			{
@@ -55,14 +53,14 @@ namespace Graphics
 		return 0;
 	}
 
-	void Model::Draw(Graphics::ShaderProgram & shaderProgram, Graphics::ResourceManager& resourceManager)
+	void Model::Draw(Graphics::ShaderProgram & shaderProgram, Graphics::MeshList& meshList, Graphics::MaterialList& matList)
 	{
-		std::vector<MeshMatPair>::iterator it = this->GetIteratorStart();
-		for (it; it != this->GetIteratorEnd(); it++)
+		std::vector<MeshMatPair>::const_iterator it = this->GetMeshMatPairStart();
+		for (it; it != this->GetMeshMatPairEnd(); it++)
 		{
-			resourceManager.matList[it->matIndex].Bind(shaderProgram,resourceManager);
-			resourceManager.meshList[it->meshIndex].Draw();
-			resourceManager.matList[it->matIndex].Unbind(shaderProgram,resourceManager);
+			matList.BindMat(it->matIndex, shaderProgram);
+			meshList.DrawMesh(it->meshIndex);
+			matList.UnbindMat(it->matIndex, shaderProgram);
 		}
 	}
 
@@ -71,7 +69,7 @@ namespace Graphics
 		meshMatPairs.clear();
 	}
 
-	ModelList::ModelList()
+	ModelList::ModelList(MeshList& meshList, MaterialList& matList): meshList(meshList), matList(matList)
 	{
 		models.reserve(MAX_MODELS);
 		SetDefaultEntry();
@@ -83,7 +81,7 @@ namespace Graphics
 		return models.size()-1;
 	}
 
-	Graphics::Model & ModelList::operator[](int index)
+	const Graphics::Model & ModelList::operator[](int index) const
 	{
 		if (index < 0 || index >= (int)models.size())
 		{
@@ -114,19 +112,14 @@ namespace Graphics
 		return 0;
 	}
 
-	Graphics::Model & ModelList::GetModel(const std::string & modelName)
+	const Graphics::Model & ModelList::GetModel(const std::string & modelName) const
 	{
 		return (*this)[this->GetModelIndex(modelName)];
 	}
 
-	std::vector<Model>::iterator ModelList::GetIteratorStart()
+	void ModelList::DrawModel(int index, Graphics::ShaderProgram & shaderProgram)
 	{
-		return models.begin();
-	}
-
-	std::vector<Model>::iterator ModelList::GetIteratorEnd()
-	{
-		return models.end();
+		models[index].Draw(shaderProgram, meshList, matList);
 	}
 
 	void ModelList::ClearList()

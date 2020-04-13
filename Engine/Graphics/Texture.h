@@ -81,13 +81,15 @@ namespace Graphics
 		//Returns index
 		int LoadFromFile(const std::string& filename, const TexConfig& = TexConfig());
 
-		Graphics::Texture& operator[](int index);
+		const Graphics::Texture& operator[](int index) const;
 
 		int GetNumTextures() const;
 		int GetTexIndex(const std::string& textureName) const;
-		Graphics::Texture& GetTexture(const std::string& texName);
-		std::vector<Graphics::Texture>::iterator GetIteratorStart();
-		std::vector<Graphics::Texture>::iterator GetIteratorEnd();
+		const Graphics::Texture& GetTexture(const std::string& texName) const;
+
+		void BindTex(int index, int texUnit);
+		void UnbindTex(int index);
+		void SetBorderColorTex(int index, const Vector4& borderColor);
 
 		void ClearList();
 		void ResetList();

@@ -1,5 +1,5 @@
 #include"Material.h"
-#include"ResourceManager.h"
+#include"Texture.h"
 
 Graphics::Material::Material(const std::string& matName, const Vector3 & ambient, const Vector3 & diffuse, const Vector3 & specular, float specExponent, const std::vector<unsigned int>& textureIndices): ambientColor(ambient), diffuseColor(diffuse),
 specularColor(specular), specularExponent(specExponent), texIndices(textureIndices), name(matName)
@@ -72,13 +72,13 @@ void Graphics::Material::SetTexIndices(const std::vector<unsigned int>& indices)
 	texIndices = indices;
 }
 
-void Graphics::Material::Bind(Graphics::ShaderProgram & shaderProgram, Graphics::ResourceManager & resourceManager)
+void Graphics::Material::Bind(Graphics::ShaderProgram & shaderProgram, Graphics::TextureList & texList)
 {
 	std::vector<unsigned int>::iterator texIter = this->GetTexIndicesStart();
 	int i = 0;
 	for (texIter; texIter != this->GetTexIndicesEnd(); texIter++, i++)
 	{
-		resourceManager.texList[*texIter].Bind(i);
+		texList.BindTex(*texIter, i);
 	}
 
 	shaderProgram.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL, 1, &(ambientColor));
@@ -87,13 +87,13 @@ void Graphics::Material::Bind(Graphics::ShaderProgram & shaderProgram, Graphics:
 	shaderProgram.SetUniform(Graphics::INDEX_UNIFORM_MATERIAL + 3, 1, &(specularExponent));
 }
 
-void Graphics::Material::Unbind(Graphics::ShaderProgram & shaderProgram, Graphics::ResourceManager & resourceManager)
+void Graphics::Material::Unbind(Graphics::ShaderProgram & shaderProgram, Graphics::TextureList & texList)
 {
 	std::vector<unsigned int>::iterator texIter = this->GetTexIndicesStart();
 	int i = 0;
 	for (texIter; texIter != this->GetTexIndicesEnd(); texIter++, i++)
 	{
-		resourceManager.texList[*texIter].Unbind();
+		texList.UnbindTex(*texIter);
 	}
 }
 
@@ -101,7 +101,7 @@ Graphics::Material::~Material()
 {
 }
 
-Graphics::MaterialList::MaterialList()
+Graphics::MaterialList::MaterialList(Graphics::TextureList& textureList): texList(textureList)
 {
 	materials.reserve(MAX_MATERIALS);
 	SetDefaultEntry();
@@ -113,16 +113,9 @@ int Graphics::MaterialList::CreateMaterial(const std::string & matName, const Ve
 	return materials.size() - 1;
 }
 
-Graphics::Material & Graphics::MaterialList::operator[](int index)
+const Graphics::Material & Graphics::MaterialList::operator[](int index) const
 {
-	if (index < 0 || index >= (int)materials.size())
-	{
-		return materials[0];
-	}
-	else
-	{
-		return materials[index];
-	}
+	return materials[index];
 }
 
 int Graphics::MaterialList::GetNumMaterials() const
@@ -145,19 +138,19 @@ int Graphics::MaterialList::GetMatIndex(const std::string & matName) const
 	return 0;
 }
 
-Graphics::Material & Graphics::MaterialList::GetMaterial(const std::string & matName)
+const Graphics::Material & Graphics::MaterialList::GetMaterial(const std::string & matName) const
 {
 	return (*this)[this->GetMatIndex(matName)];
 }
 
-std::vector<Graphics::Material>::iterator Graphics::MaterialList::GetIteratorStart()
+void Graphics::MaterialList::BindMat(int index, Graphics::ShaderProgram & shaderProgram)
 {
-	return materials.begin();
+	materials[index].Bind(shaderProgram, texList);
 }
 
-std::vector<Graphics::Material>::iterator Graphics::MaterialList::GetIteratorEnd()
+void Graphics::MaterialList::UnbindMat(int index, Graphics::ShaderProgram & shaderProgram)
 {
-	return materials.end();
+	materials[index].Unbind(shaderProgram, texList);
 }
 
 void Graphics::MaterialList::ClearList()

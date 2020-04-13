@@ -72,7 +72,7 @@ int Graphics::MeshList::CreateMesh(const std::string & meshName, const std::vect
 	return meshes.size() - 1;
 }
 
-Graphics::Mesh & Graphics::MeshList::operator[](int index)
+const Graphics::Mesh & Graphics::MeshList::operator[](int index) const
 {
 	if (index < 0 || index >= (int)meshes.size())
 	{
@@ -104,19 +104,14 @@ int Graphics::MeshList::GetMeshIndex(const std::string & meshName) const
 	return 0;
 }
 
-Graphics::Mesh & Graphics::MeshList::GetMesh(const std::string & meshName)
+const Graphics::Mesh & Graphics::MeshList::GetMesh(const std::string & meshName) const
 {
 	return (*this)[this->GetMeshIndex(meshName)];
 }
 
-std::vector<Graphics::Mesh>::iterator Graphics::MeshList::GetIteratorStart()
+void Graphics::MeshList::DrawMesh(int index)
 {
-	return meshes.begin();
-}
-
-std::vector<Graphics::Mesh>::iterator Graphics::MeshList::GetIteratorEnd()
-{
-	return meshes.end();
+	meshes[index].Draw();
 }
 
 //TODO set default mesh again??

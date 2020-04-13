@@ -303,7 +303,7 @@ int Graphics::TextureList::LoadFromFile(const std::string & filename, const TexC
 	return textures.size() - 1;
 }
 
-Graphics::Texture & Graphics::TextureList::operator[](int index)
+const Graphics::Texture & Graphics::TextureList::operator[](int index) const
 {
 	if (index < 0 || index >= (int)textures.size())
 	{
@@ -335,19 +335,24 @@ int Graphics::TextureList::GetTexIndex(const std::string & textureName) const
 	return 0;
 }
 
-Graphics::Texture & Graphics::TextureList::GetTexture(const std::string & texName)
+const Graphics::Texture & Graphics::TextureList::GetTexture(const std::string & texName)const
 {
 	return (*this)[this->GetTexIndex(texName)];
 }
 
-std::vector<Graphics::Texture>::iterator Graphics::TextureList::GetIteratorStart()
+void Graphics::TextureList::BindTex(int index, int texUnit)
 {
-	return textures.begin();
+	textures[index].Bind(texUnit);
 }
 
-std::vector<Graphics::Texture>::iterator Graphics::TextureList::GetIteratorEnd()
+void Graphics::TextureList::UnbindTex(int index)
 {
-	return textures.end();
+	textures[index].Unbind();
+}
+
+void Graphics::TextureList::SetBorderColorTex(int index, const Vector4 & borderColor)
+{
+	textures[index].SetBorderColor(borderColor);
 }
 
 //TODO set default text again?

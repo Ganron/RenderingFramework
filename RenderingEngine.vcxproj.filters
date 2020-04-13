@@ -117,7 +117,7 @@
     <ClCompile Include="Engine\Graphics\Material.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Graphics\ResourceManager.cpp">
+    <ClCompile Include="Engine\Graphics\ResourceLoader.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,7 +197,7 @@
     <ClInclude Include="Engine\Graphics\Material.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Graphics\ResourceManager.h">
+    <ClInclude Include="Engine\Graphics\ResourceLoader.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

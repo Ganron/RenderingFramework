@@ -3,15 +3,14 @@
 #include"../Math/Vector3.h"
 #include"../Math/Matrix4.h"
 #include"Texture.h"
+#include"Mesh.h"
+#include"Material.h"
 #include<vector>
 #include<string>
 
 namespace Graphics
 {
 	const int MAX_MODELS = 100;
-
-	class ResourceManager;
-	class Material;
 
 	struct MeshMatPair
 	{
@@ -35,33 +34,37 @@ namespace Graphics
 		void AddEntry(int meshIndex, int matIndex);
 		const std::string& GetName() const;
 
-		std::vector<MeshMatPair>::iterator GetIteratorStart();
-		std::vector<MeshMatPair>::iterator GetIteratorEnd();
-		int GetMatIndexOfMesh(int meshIndex);
+		std::vector<MeshMatPair>::const_iterator GetMeshMatPairStart() const;
+		std::vector<MeshMatPair>::const_iterator GetMeshMatPairEnd() const;
+		int GetMatIndexOfMesh(int meshIndex) const;
 
-		void Draw(Graphics::ShaderProgram& shaderProgram, Graphics::ResourceManager& resourceManager);
+		void Draw(Graphics::ShaderProgram& shaderProgram, Graphics::MeshList& meshList, Graphics::MaterialList& matList);
 		~Model();
 	};
 
 	class ModelList
 	{
 	public:
-		ModelList();
+		ModelList(MeshList& meshList, MaterialList& matList);
 
 		int CreateModel(const std::string& name, std::vector<MeshMatPair>& pairs);
 
-		Graphics::Model& operator[](int index);
+		const Graphics::Model& operator[](int index) const;
 
 		int GetNumModels() const;
 		int GetModelIndex(const std::string& modelName) const;
-		Graphics::Model& GetModel(const std::string& modelName);
-		std::vector<Model>::iterator GetIteratorStart();
-		std::vector<Model>::iterator GetIteratorEnd();
+		const Graphics::Model& GetModel(const std::string& modelName) const;
+		
+		void DrawModel(int index, Graphics::ShaderProgram& shaderProgram);
 
 		void ClearList();
 		void ResetList();
 
 		~ModelList();
+
+	public:
+		Graphics::MeshList& meshList;
+		Graphics::MaterialList& matList;
 
 	private:
 		std::vector<Model> models;

@@ -1,14 +1,12 @@
-#include"ResourceManager.h"
+#include"ResourceLoader.h"
 #include"../Math/Vector2.h"
 #include"../Math/Vector3.h"
 #include"../Utilities/FileSystem.h"
+#include"Model.h"
 #include<iostream>
 
-Graphics::ResourceManager::ResourceManager()
-{
-}
 
-bool Graphics::ResourceManager::LoadModel(const std::string & filename)
+bool Graphics::ResourceLoader::LoadModel(const std::string & filename, ModelList& modelList)
 {
 	std::string filepath = Filesystem::GetModelPath(filename);
 	std::cout << filepath << std::endl;
@@ -28,28 +26,20 @@ bool Graphics::ResourceManager::LoadModel(const std::string & filename)
 
 	std::vector<MeshMatPair> indexPairs;
 
-	InitMeshes(assimpScene, matList.GetNumMaterials(), indexPairs);
-	InitMaterials(assimpScene);
+	InitMeshes(assimpScene, modelList.meshList, modelList.matList.GetNumMaterials(), indexPairs);
+	InitMaterials(assimpScene, modelList.matList);
 
 	modelList.CreateModel(filename, indexPairs);
 	std::cout << std::endl;
 	return true;
 }
 
-void Graphics::ResourceManager::FreeResources()
+
+Graphics::ResourceLoader::~ResourceLoader()
 {
-	meshList.ClearList();
-	matList.ClearList();
-	texList.ClearList();
-	//modelList.ClearList();
 }
 
-Graphics::ResourceManager::~ResourceManager()
-{
-	this->FreeResources();
-}
-
-void Graphics::ResourceManager::InitMeshes(const aiScene * assimpScene, int matStartIndex, std::vector<MeshMatPair>& indicesOut)
+void Graphics::ResourceLoader::InitMeshes(const aiScene* assimpScene, MeshList& meshList, int matStartIndex, std::vector<MeshMatPair>& indicesOut)
 {
 	indicesOut.clear();
 
@@ -106,7 +96,7 @@ void Graphics::ResourceManager::InitMeshes(const aiScene * assimpScene, int matS
 	}
 }
 
-void Graphics::ResourceManager::InitMaterials(const aiScene * assimpScene)
+void Graphics::ResourceLoader::InitMaterials(const aiScene* assimpScene, MaterialList& matList)
 {
 	for (unsigned int i = 1; i < assimpScene->mNumMaterials; i++)
 	{
@@ -135,7 +125,7 @@ void Graphics::ResourceManager::InitMaterials(const aiScene * assimpScene)
 			aiString path;
 			mat->GetTexture(aiTextureType_DIFFUSE, j, &path);
 
-			int index = texList.LoadFromFile(path.data);
+			int index = matList.texList.LoadFromFile(path.data);
 			texIndices.push_back(index);
 		}
 		if (texIndices.size() == 0)

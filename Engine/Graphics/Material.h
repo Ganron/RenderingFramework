@@ -8,7 +8,7 @@ namespace Graphics
 {
 	const int MAX_MATERIALS = 100;
 
-	class ResourceManager;
+	class TextureList;
 
 	class Material
 	{
@@ -38,8 +38,8 @@ namespace Graphics
 		void SetSpecularExponent(float specExponent);
 		void SetTexIndices(const std::vector<unsigned int>& indices);
 
-		void Bind(Graphics::ShaderProgram& shaderProgram, Graphics::ResourceManager& resourceManager);
-		void Unbind(Graphics::ShaderProgram& shaderProgram, Graphics::ResourceManager& resourceManager);
+		void Bind(Graphics::ShaderProgram& shaderProgram, Graphics::TextureList& texList);
+		void Unbind(Graphics::ShaderProgram& shaderProgram, Graphics::TextureList& texList);
 
 		~Material();
 	};
@@ -47,25 +47,28 @@ namespace Graphics
 	class MaterialList
 	{
 	public:
-		MaterialList();
+		MaterialList(Graphics::TextureList& textureList);
 		//Returns index
 		int CreateMaterial(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
 
-		Material &operator[](int index);
+		const Material &operator[](int index) const;
 
 		int GetNumMaterials() const;
 		int GetMatIndex(const std::string& matName) const;
-		Graphics::Material& GetMaterial(const std::string& matName);
-		std::vector<Material>::iterator GetIteratorStart();
-		std::vector<Material>::iterator GetIteratorEnd();
+		const Graphics::Material& GetMaterial(const std::string& matName) const;
+
+		void BindMat(int index, Graphics::ShaderProgram& shaderProgram);
+		void UnbindMat(int index, Graphics::ShaderProgram& shaderProgram);
 
 		void ClearList();
 		void ResetList();
 		~MaterialList();
 
+	public:
+		Graphics::TextureList& texList;
+
 	private:
 		std::vector<Material> materials;
-		//Associated texture list?
 
 	private:
 		void SetDefaultEntry();

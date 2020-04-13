@@ -14,7 +14,7 @@
 #include"Graphics/Material.h"
 #include"Graphics/Model.h"
 #include"Graphics/Lights.h"
-#include"Graphics/ResourceManager.h"
+#include"Graphics/ResourceLoader.h"
 
 /******************************
 **** FOR TESTING PURPOSES *****
@@ -68,14 +68,18 @@ int main()
 	/*
 	 * GEOMETRY SETUP
 	 */
-	Graphics::ResourceManager resourceManager;
-	resourceManager.LoadModel("cottage_obj.obj");
-	resourceManager.LoadModel("Street Lamp.obj");
-	resourceManager.LoadModel("Tree2_final.obj");
+	Graphics::TextureList texList;
+	Graphics::MaterialList matList(texList);
+	Graphics::MeshList meshList;
+	Graphics::ModelList modelList(meshList, matList);
+
+	Graphics::ResourceLoader::LoadModel("cottage_obj.obj", modelList);
+	Graphics::ResourceLoader::LoadModel("Street Lamp.obj", modelList);
+	Graphics::ResourceLoader::LoadModel("Tree2_final.obj", modelList);
 
 	//Cottage model
-	int cottageIndex = resourceManager.meshList.GetMeshIndex("Cube_Cube.002");
-	int cottageMatIndex = resourceManager.modelList.GetModel("cottage_obj.obj").GetMatIndexOfMesh(cottageIndex);
+	int cottageIndex = meshList.GetMeshIndex("Cube_Cube.002");
+	int cottageMatIndex = modelList.GetModel("cottage_obj.obj").GetMatIndexOfMesh(cottageIndex);
 
 	std::vector<Graphics::MeshMatPair> cottageIndices{
 		{
@@ -83,13 +87,13 @@ int main()
 			cottageMatIndex
 		}
 	};
-	int modelCottage = resourceManager.modelList.CreateModel("Cottage", cottageIndices);
+	int modelCottage = modelList.CreateModel("Cottage", cottageIndices);
 	
 	//Tree model
-	Graphics::Model& tree = resourceManager.modelList.GetModel("Tree2_final.obj");
-	int treeTrunkIndex = resourceManager.meshList.GetMeshIndex("tree.002_Mesh.001");
+	const Graphics::Model& tree = modelList.GetModel("Tree2_final.obj");
+	int treeTrunkIndex = meshList.GetMeshIndex("tree.002_Mesh.001");
 	int treeTrunkMatIndex = tree.GetMatIndexOfMesh(treeTrunkIndex);
-	int treeLeavesIndex = resourceManager.meshList.GetMeshIndex("leaves.002_leaves.004");
+	int treeLeavesIndex = meshList.GetMeshIndex("leaves.002_leaves.004");
 	int treeLeavesMatIndex = tree.GetMatIndexOfMesh(treeLeavesIndex);
 
 	std::vector<Graphics::MeshMatPair> treeIndices{
@@ -97,7 +101,7 @@ int main()
 		{treeLeavesIndex,treeLeavesMatIndex}
 	};
 
-	int modelTree = resourceManager.modelList.CreateModel("Tree", treeIndices);
+	int modelTree = modelList.CreateModel("Tree", treeIndices);
 
 	//Plane model
 	std::vector<Graphics::Vertex> planeVertices{
@@ -109,9 +113,9 @@ int main()
 
 	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
 
-	int planeIndex = resourceManager.meshList.CreateMesh("Plane", planeVertices, planeIndices, -1);
-	unsigned int planeTexIndex = resourceManager.texList.LoadFromFile("grass-lawn-texture.jpg");
-	int planeMatIndex = resourceManager.matList.CreateMaterial(
+	int planeIndex = meshList.CreateMesh("Plane", planeVertices, planeIndices, -1);
+	unsigned int planeTexIndex = texList.LoadFromFile("grass-lawn-texture.jpg");
+	int planeMatIndex = matList.CreateMaterial(
 		"Grass",
 		Vector3(1.0f, 1.0f, 1.0f),
 		Vector3(0.64f, 0.64f, 0.64f),
@@ -124,9 +128,7 @@ int main()
 		{planeIndex, planeMatIndex}
 	};
 
-	int modelPlane = resourceManager.modelList.CreateModel("Plane", planeMeshMatPair);
-
-
+	int modelPlane = modelList.CreateModel("Plane", planeMeshMatPair);
 
 
 	/*
@@ -238,35 +240,30 @@ int main()
 	//glCullFace(GL_BACK);
 	//glFrontFace(GL_CCW);
 
-	int numMeshes = resourceManager.meshList.GetNumMeshes();
-	for (int i = 0; i < numMeshes; i++)
+	for (int i = 0; i < meshList.GetNumMeshes(); i++)
 	{
-		std::cout << "MESH #" << i << " " << resourceManager.meshList[i].GetName() << std::endl;
+		std::cout << "MESH #" << i << " " << meshList[i].GetName() << std::endl;
 	}
 
-	int numMaterials = resourceManager.matList.GetNumMaterials();
-	for (int i = 0; i < numMaterials; i++)
+	for (int i = 0; i < matList.GetNumMaterials(); i++)
 	{
-		std::cout << "MATERIAL #" << i << " " << resourceManager.matList[i].GetName() << std::endl;
+		std::cout << "MATERIAL #" << i << " " << matList[i].GetName() << std::endl;
 	}
 
-	int i = 0;
-	std::vector<Graphics::Model>::iterator it = resourceManager.modelList.GetIteratorStart();
-	for (it; it != resourceManager.modelList.GetIteratorEnd(); it++, i++)
+	for (int i=0; i<modelList.GetNumModels(); i++)
 	{
-		std::cout << "MODEL #" << i << " " << it->GetName() << std::endl;
-		std::vector<Graphics::MeshMatPair>::iterator pair = it->GetIteratorStart();
-		for (pair; pair != it->GetIteratorEnd(); pair++)
+		const Graphics::Model& currentModel = modelList[i];
+		std::cout << "MODEL #" << i << " " << currentModel.GetName() << std::endl;
+		std::vector<Graphics::MeshMatPair>::const_iterator pair = currentModel.GetMeshMatPairStart();
+		for (pair; pair != currentModel.GetMeshMatPairEnd(); pair++)
 		{
 			std::cout << " Mesh Index:" << pair->meshIndex << " Mat Index:" << pair->matIndex << std::endl;
 		}
 	}
 
-	i = 0;
-	std::vector<Graphics::Texture>::iterator tex = resourceManager.texList.GetIteratorStart();
-	for (tex; tex != resourceManager.texList.GetIteratorEnd(); tex++, i++)
+	for (int i=0; i<texList.GetNumTextures(); i++)
 	{
-		std::cout << "TEX #" << i << " " << tex->GetName() << std::endl;
+		std::cout << "TEX #" << i << " " << texList[i].GetName() << std::endl;
 	}
 	
 	glEnable(GL_DEPTH_TEST);
@@ -300,20 +297,20 @@ int main()
 
 		//Drawing: street lamp
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat3);
-		resourceManager.modelList.GetModel("Street Lamp.obj").Draw(blinnPhong, resourceManager);
+		modelList.DrawModel(modelList.GetModelIndex("Street Lamp.obj"), blinnPhong);
 
 		//Drawing: cottage
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat1);
-		resourceManager.modelList[modelCottage].Draw(blinnPhong,resourceManager);
-		
+		modelList.DrawModel(modelCottage, blinnPhong);
+
 		//Drawing: plane
-		resourceManager.modelList[modelPlane].Draw(blinnPhong, resourceManager);
+		modelList.DrawModel(modelPlane, blinnPhong);
 		
 		//Drawing: trees
 		for (int i = 0; i < 15; i++)
 		{
 			blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &trees[i]);
-			resourceManager.modelList[modelTree].Draw(blinnPhong, resourceManager);
+			modelList.DrawModel(modelTree, blinnPhong);
 		}
 
 		lightCubes.UseProgram();
@@ -322,7 +319,7 @@ int main()
 		{
 			Matrix4 lightModelMat = Matrix4::CreateTranslation(lightPositions[i]) * Matrix4::CreateScale(0.1f);
 			lightCubes.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &lightModelMat);
-			resourceManager.modelList[0].Draw(lightCubes, resourceManager);
+			modelList.DrawModel(0, lightCubes);
 		}
 
 		UpdateTimer();
@@ -331,7 +328,10 @@ int main()
 
 	
 	// Application termination
-	resourceManager.FreeResources();
+	texList.ClearList();
+	matList.ClearList();
+	meshList.ClearList();
+	modelList.ClearList();
 	pointLightBuffer.Delete();
 	spotLightBuffer.Delete();
 	blinnPhong.Delete();
