@@ -23,7 +23,6 @@ namespace Graphics
 	public:
 		Material(const std::string& matName, const Vector3& ambient, const Vector3& diffuse, const Vector3& specular, float specExponent, const std::vector<unsigned int>& textureIndices = std::vector<unsigned int>());
 
-		void AddTexIndex(unsigned int texIndex);
 		std::vector<unsigned int>::iterator GetTexIndicesStart();
 		std::vector<unsigned int>::iterator GetTexIndicesEnd();
 		const Vector3& GetAmbientColor() const;

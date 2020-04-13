@@ -91,7 +91,7 @@ void Graphics::ResourceLoader::InitMeshes(const aiScene* assimpScene, MeshList& 
 		{
 			matIndex = matStartIndex + matIndex - 1;
 		}
-		int meshIndex = meshList.CreateMesh(meshName, vertices, indices, matIndex);
+		int meshIndex = meshList.CreateMesh(meshName, vertices, indices);
 		indicesOut.emplace_back(meshIndex, matIndex);
 	}
 }

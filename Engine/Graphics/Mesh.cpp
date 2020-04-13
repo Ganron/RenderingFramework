@@ -5,9 +5,9 @@
 
 namespace Graphics
 {
-	Mesh::Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex) :
+	Mesh::Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices) :
 		vbo(vertices.size() * sizeof(Vertex), &vertices[0]), veo(indices.size() * sizeof(unsigned int), &indices[0]),
-		vertexCount(vertices.size()), indexCount(indices.size()), matIndex(matIndex), name(meshName)
+		vertexCount(vertices.size()), indexCount(indices.size()), name(meshName)
 	{
 		vao.StartNewAttribBatch();
 		vao.AddAttribToBatch(Graphics::INDEX_ATTRIB_POS, 3, DataType::FLOAT, AttribType::FLOAT, 0);
@@ -17,11 +17,6 @@ namespace Graphics
 		vao.PrepareAttributes();
 		vao.RegisterArrayBuffer(0, vao.GetNumberOfBatches(), vertexCount, 0, &vbo);
 		vao.RegisterElementBuffer(&veo);
-	}
-
-	unsigned int Mesh::GetMaterialIndex() const
-	{
-		return matIndex;
 	}
 
 	const std::string & Mesh::GetName() const
@@ -65,10 +60,10 @@ Graphics::MeshList::MeshList()
 	SetDefaultEntry();
 }
 
-int Graphics::MeshList::CreateMesh(const std::string & meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex)
+int Graphics::MeshList::CreateMesh(const std::string & meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices)
 {
 	//TODO handle case when capacity is full
-	meshes.emplace_back(meshName, vertices, indices, matIndex);
+	meshes.emplace_back(meshName, vertices, indices);
 	return meshes.size() - 1;
 }
 
@@ -203,5 +198,5 @@ void Graphics::MeshList::SetDefaultEntry()
 		20,21,22, 22,21,23 //top
 	};
 
-	meshes.emplace(meshes.begin(), "Default", vertices, indices, -1);
+	meshes.emplace(meshes.begin(), "Default", vertices, indices);
 }

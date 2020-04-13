@@ -23,10 +23,7 @@ namespace Graphics
 	Model::Model(const std::string& name, const std::vector<MeshMatPair>& pairs):name(name), meshMatPairs(pairs)
 	{
 	}
-	void Model::AddEntry(int meshIndex, int matIndex)
-	{
-		meshMatPairs.emplace_back(meshIndex, matIndex);
-	}
+
 	const std::string & Model::GetName() const
 	{
 		return name;

@@ -26,12 +26,12 @@ namespace Graphics
 	{
 	public:
 		std::string name;
+	private:
 		std::vector<MeshMatPair> meshMatPairs;
 	public:
 		Model(const std::string& name);
 		Model(const std::string& name, const std::vector<MeshMatPair>& pairs);
 
-		void AddEntry(int meshIndex, int matIndex);
 		const std::string& GetName() const;
 
 		std::vector<MeshMatPair>::const_iterator GetMeshMatPairStart() const;

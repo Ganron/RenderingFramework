@@ -113,7 +113,7 @@ int main()
 
 	std::vector<unsigned int> planeIndices{ 0,1,3, 3,2,0 };
 
-	int planeIndex = meshList.CreateMesh("Plane", planeVertices, planeIndices, -1);
+	int planeIndex = meshList.CreateMesh("Plane", planeVertices, planeIndices);
 	unsigned int planeTexIndex = texList.LoadFromFile("grass-lawn-texture.jpg");
 	int planeMatIndex = matList.CreateMaterial(
 		"Grass",

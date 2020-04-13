@@ -29,12 +29,10 @@ namespace Graphics
 		VertexArrayObject vao;
 		unsigned int vertexCount;
 		unsigned int indexCount;
-		unsigned int matIndex; //TODO remove
 
 	public:
-		Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
+		Mesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
-		unsigned int GetMaterialIndex() const;
 		const std::string& GetName() const;
 
 		void Draw();
@@ -49,7 +47,7 @@ namespace Graphics
 		MeshList();
 
 		//Returns index
-		int CreateMesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices, unsigned int matIndex);
+		int CreateMesh(const std::string& meshName, const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
 		const Graphics::Mesh& operator[](int index) const;
 

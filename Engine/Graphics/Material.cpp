@@ -6,11 +6,6 @@ specularColor(specular), specularExponent(specExponent), texIndices(textureIndic
 {
 }
 
-void Graphics::Material::AddTexIndex(unsigned int texIndex)
-{
-	texIndices.push_back(texIndex);
-}
-
 std::vector<unsigned int>::iterator Graphics::Material::GetTexIndicesStart()
 {
 	return texIndices.begin();
