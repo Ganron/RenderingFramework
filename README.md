@@ -22,7 +22,9 @@ The framework makes use of the following libraries:
 
 # Components
 Currently, the framework is divided in two layers - *Math* and *Graphics*. 
+
 The Math layer provides basic functionality for performing calculations with vectors, matrices, and quaternions. Additionally, it contains some Bounding Volume classes and a set of useful math functions.
+
 The Graphics layer is responsible for managing geometry, transformations, and lighting and for preparing the scene for rendering. It includes a camera class that handles mouse-and-keyboard I/O. The first version of the framework was written to support Blinn-Phong reflectance. More advanced lighting techniques are planned for future versions of the framework.
 
 Full documentation to be added once the project is complete.
