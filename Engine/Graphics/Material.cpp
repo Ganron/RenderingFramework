@@ -110,7 +110,14 @@ int Graphics::MaterialList::CreateMaterial(const std::string & matName, const Ve
 
 const Graphics::Material & Graphics::MaterialList::operator[](int index) const
 {
-	return materials[index];
+	if (index < 0 || index >= (int)materials.size())
+	{
+		return materials[0];
+	}
+	else
+	{
+		return materials[index];
+	}
 }
 
 int Graphics::MaterialList::GetNumMaterials() const
@@ -140,11 +147,19 @@ const Graphics::Material & Graphics::MaterialList::GetMaterial(const std::string
 
 void Graphics::MaterialList::BindMat(int index, Graphics::ShaderProgram & shaderProgram)
 {
+	if (index < 0 || index >= (int)materials.size())
+	{
+		index = 0;
+	}
 	materials[index].Bind(shaderProgram, texList);
 }
 
 void Graphics::MaterialList::UnbindMat(int index, Graphics::ShaderProgram & shaderProgram)
 {
+	if (index < 0 || index >= (int)materials.size())
+	{
+		index = 0;
+	}
 	materials[index].Unbind(shaderProgram, texList);
 }
 

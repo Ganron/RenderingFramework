@@ -116,6 +116,10 @@ namespace Graphics
 
 	void ModelList::DrawModel(int index, Graphics::ShaderProgram & shaderProgram)
 	{
+		if (index < 0 || index >= (int)models.size())
+		{
+			index = 0;
+		}
 		models[index].Draw(shaderProgram, meshList, matList);
 	}
 

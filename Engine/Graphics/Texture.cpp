@@ -342,16 +342,28 @@ const Graphics::Texture & Graphics::TextureList::GetTexture(const std::string & 
 
 void Graphics::TextureList::BindTex(int index, int texUnit)
 {
+	if (index < 0 || index >= (int)textures.size())
+	{
+		index = 0;
+	}
 	textures[index].Bind(texUnit);
 }
 
 void Graphics::TextureList::UnbindTex(int index)
 {
+	if (index < 0 || index >= (int)textures.size())
+	{
+		index = 0;
+	}
 	textures[index].Unbind();
 }
 
 void Graphics::TextureList::SetBorderColorTex(int index, const Vector4 & borderColor)
 {
+	if (index < 0 || index >= (int)textures.size())
+	{
+		index = 0;
+	}
 	textures[index].SetBorderColor(borderColor);
 }
 

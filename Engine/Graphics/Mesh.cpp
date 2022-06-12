@@ -106,6 +106,10 @@ const Graphics::Mesh & Graphics::MeshList::GetMesh(const std::string & meshName)
 
 void Graphics::MeshList::DrawMesh(int index)
 {
+	if (index < 0 || index >= (int)meshes.size())
+	{
+		index = 0;
+	}
 	meshes[index].Draw();
 }
 
