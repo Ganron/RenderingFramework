@@ -50,7 +50,7 @@ namespace Filesystem
 			char buffer[MAX_PATH];
 			GetModuleFileName(NULL, buffer, MAX_PATH);
 			std::filesystem::path exePath(buffer);
-			rootDirectory = exePath.parent_path().parent_path().string();
+			rootDirectory = exePath.parent_path().parent_path().parent_path().string();
 		}
 		return rootDirectory;
 	}

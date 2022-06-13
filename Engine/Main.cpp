@@ -88,7 +88,7 @@ int main()
 		}
 	};
 	int modelCottage = modelList.CreateModel("Cottage", cottageIndices);
-	
+
 	//Tree model
 	const Graphics::Model& tree = modelList.GetModel("Tree2_final.obj");
 	int treeTrunkIndex = meshList.GetMeshIndex("tree.002_Mesh.001");
@@ -134,8 +134,8 @@ int main()
 	/*
 	 * TRANSFORMATION SETUP
 	 */
-	Matrix4 modelMat1 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f)*Matrix4::CreateScale(0.1f);
-	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f),0.0f,1.0f,0.0f) * Matrix4::CreateScale(0.001f);
+	Matrix4 modelMat1 = Matrix4::CreateRotation(DegToRad(90.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.1f);
+	Matrix4 modelMat2 = Matrix4::CreateTranslation(2.5f, 0.45f, 1.7f) * Matrix4::CreateRotation(DegToRad(-90.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.001f);
 	Matrix4 modelMat3 = Matrix4::CreateTranslation(1.0f, 0.45f, 2.5f) * Matrix4::CreateRotation(DegToRad(180.0f), 0.0f, 1.0f, 0.0f) * Matrix4::CreateScale(0.001f);
 
 	Matrix4 trees[15];
@@ -168,7 +168,7 @@ int main()
 
 	Graphics::DirectionalLight dirLight;
 	dirLight.direction = (0.0f, -1.0f, -1.0f);
-	dirLight.ambientColor = Vector3(0.7f, 0.8f, 1.0f)*0.3f;
+	dirLight.ambientColor = Vector3(0.7f, 0.8f, 1.0f) * 0.3f;
 	dirLight.diffuseColor = Vector3(1.0f, 0.9f, 0.7f);
 	dirLight.specularColor = Vector3(1.0f, 0.9f, 0.7f);
 	//dirLight.SetInShader(blinnPhong);
@@ -176,14 +176,14 @@ int main()
 	Graphics::DirectionalLight dirLight2;
 	dirLight.direction = (0.0f, -1.0f, -1.0f);
 	dirLight.ambientColor = 0.15f;
-	dirLight.diffuseColor = Vector3(0.337f, 0.7f, 0.984f)*0.15f;
-	dirLight.specularColor = Vector3(0.337f, 0.7f, 0.984f)*0.15f;
+	dirLight.diffuseColor = Vector3(0.337f, 0.7f, 0.984f) * 0.15f;
+	dirLight.specularColor = Vector3(0.337f, 0.7f, 0.984f) * 0.15f;
 	//dirLight.SetInShader(blinnPhong);
 
 	Graphics::PointLight pointLight1;
 	pointLight1.position = lightPositions[0];
 	pointLight1.ambientColor = 0.35f;
-	pointLight1.diffuseColor = Vector3(0.337f,0.7f,0.984f);
+	pointLight1.diffuseColor = Vector3(0.337f, 0.7f, 0.984f);
 	pointLight1.specularColor = 1.0f;
 	pointLight1.constCoeff = 1.0f;
 	pointLight1.linearCoeff = 0.14f;
@@ -207,7 +207,7 @@ int main()
 
 	Graphics::SpotLight spotLight;
 	spotLight.ambientColor = 0.5f;
-	spotLight.diffuseColor = Vector3(0.9f, 1.0f, 0.8f)*1.3;
+	spotLight.diffuseColor = Vector3(0.9f, 1.0f, 0.8f) * 1.3;
 	spotLight.specularColor = 1.0f;
 	spotLight.constCoeff = 1.0f;
 	spotLight.linearCoeff = 0.14f;
@@ -250,7 +250,7 @@ int main()
 		std::cout << "MATERIAL #" << i << " " << matList[i].GetName() << std::endl;
 	}
 
-	for (int i=0; i<modelList.GetNumModels(); i++)
+	for (int i = 0; i < modelList.GetNumModels(); i++)
 	{
 		const Graphics::Model& currentModel = modelList[i];
 		std::cout << "MODEL #" << i << " " << currentModel.GetName() << std::endl;
@@ -261,17 +261,18 @@ int main()
 		}
 	}
 
-	for (int i=0; i<texList.GetNumTextures(); i++)
+	for (int i = 0; i < texList.GetNumTextures(); i++)
 	{
 		std::cout << "TEX #" << i << " " << texList[i].GetName() << std::endl;
 	}
-	
+
 	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Rendering loop
-	while(!window.IsClosed())
+
+	while (!window.IsClosed())
 	{
 		Vector4 color(0.019f, 0.070f, 0.137f, 1.0f);
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
@@ -283,7 +284,7 @@ int main()
 		Matrix4 viewMat = window.GetCamera()->GetViewMatrix();
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
 		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
-		
+
 		//Setiing up proj matrix
 		perspMat = Matrix4::CreateProjPerspSymmetric(window.GetCamera()->GetFieldOfViewAngle(), window.GetAspectRatio(), 0.1f, 1000.0f);
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_PROJ_MATRIX, 1, &perspMat);
@@ -305,7 +306,7 @@ int main()
 
 		//Drawing: plane
 		modelList.DrawModel(modelPlane, blinnPhong);
-		
+
 		//Drawing: trees
 		for (int i = 0; i < 15; i++)
 		{
@@ -326,7 +327,7 @@ int main()
 		window.Update(deltaTime);
 	}
 
-	
+
 	// Application termination
 	texList.ClearList();
 	matList.ClearList();

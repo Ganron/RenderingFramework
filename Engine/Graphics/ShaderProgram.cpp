@@ -14,7 +14,6 @@ bool Graphics::ShaderProgram::AddShaderFromFile(const std::string & filename, co
 {
 	std::string filepath = Filesystem::GetShaderPath(filename);
 	if (!Filesystem::IsValidFilePath(filepath)) return false; //TODO error log?
-
 	std::string source = Filesystem::ReadFile(filepath);
 
 	return AddShaderFromSource(source, shaderType);
