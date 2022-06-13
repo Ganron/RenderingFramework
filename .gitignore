@@ -4,4 +4,5 @@ Debug/
 
 # CUSTOM FOLDERS
 Backup/
-# Resources/
+Resources/Models/*.obj
+Resources/Models/*.mtl
