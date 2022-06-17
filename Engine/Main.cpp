@@ -68,6 +68,7 @@ int main()
 	/*
 	 * GEOMETRY SETUP
 	 */
+	
 	Graphics::TextureList texList;
 	Graphics::MaterialList matList(texList);
 	Graphics::MeshList meshList;
@@ -278,14 +279,14 @@ int main()
 		glClearBufferfv(GL_COLOR, NULL, &color[0]);
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		blinnPhong.UseProgram();
+		blinnPhong.StopProgram();
 
 		//Setting up view matrix
 		Matrix4 viewMat = window.GetCamera()->GetViewMatrix();
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
 		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
 
-		//Setiing up proj matrix
+		//Setting up proj matrix
 		perspMat = Matrix4::CreateProjPerspSymmetric(window.GetCamera()->GetFieldOfViewAngle(), window.GetAspectRatio(), 0.1f, 1000.0f);
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_PROJ_MATRIX, 1, &perspMat);
 		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_PROJ_MATRIX, 1, &perspMat);
@@ -295,6 +296,8 @@ int main()
 		spotLight.direction = window.GetCamera()->GetForwardDirection();
 		spotLightBuffer.SetData(0, sizeof(spotLight), &spotLight);
 		spotLightBuffer.BindUniform(1, 0, spotLightBuffer.GetSize());
+
+		blinnPhong.UseProgram();
 
 		//Drawing: street lamp
 		blinnPhong.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &modelMat3);
@@ -314,14 +317,17 @@ int main()
 			modelList.DrawModel(modelTree, blinnPhong);
 		}
 
+		/*
 		lightCubes.UseProgram();
+		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_VIEW_MATRIX, 1, &viewMat);
+		lightCubes.SetUniform(Graphics::INDEX_UNIFORM_PROJ_MATRIX, 1, &perspMat);
 
 		for (int i = 0; i < 3; i++)
 		{
 			Matrix4 lightModelMat = Matrix4::CreateTranslation(lightPositions[i]) * Matrix4::CreateScale(0.1f);
 			lightCubes.SetUniform(Graphics::INDEX_UNIFORM_MODEL_MATRIX, 1, &lightModelMat);
 			modelList.DrawModel(0, lightCubes);
-		}
+		}*/
 
 		UpdateTimer();
 		window.Update(deltaTime);

@@ -1,6 +1,7 @@
 #include"ShaderProgram.h"
 #include"../Utilities/FileSystem.h"
 #include<iostream>
+#include<vector>
 
 Graphics::ShaderProgram::ShaderProgram() :programID(0), errorLog("")
 {
@@ -31,8 +32,10 @@ bool Graphics::ShaderProgram::AddShaderFromSource(const std::string & source, co
 	glShaderSource(shaders[index], 1, &shaderSource, NULL);
 	glCompileShader(shaders[index]);
 	
+	//TODO handle case when logLength=0
 	GLint logLength;
 	glGetShaderiv(shaders[index], GL_INFO_LOG_LENGTH, &logLength);
+	
 	char* compileLog = new char[logLength];
 	glGetShaderInfoLog(shaders[index], logLength, NULL, compileLog);
 	errorLog += ShaderTypeToString(shaderType) + " SHADER COMPILATION LOG\n";
@@ -68,6 +71,7 @@ bool Graphics::ShaderProgram::LinkProgram()
 	errorLog += "LINKING LOG\n";
 	errorLog += compileLog;
 	errorLog += "\n";
+
 	delete[] compileLog;
 
 	GLint linkResult;
