@@ -63,7 +63,7 @@ float AABB::DistanceSquared(const Vector3 & point) const
 
 void AABB::Expand(const Vector3 & point)
 {
-	if (min.NearlyEqual(Vector3(0.0f)) && max.NearlyEqual(Vector3(0.0f)))
+	if (min.isEqualTo(Vector3(0.0f)) && max.isEqualTo(Vector3(0.0f)))
 	{
 		min = max = point;
 		return;
@@ -78,11 +78,11 @@ void AABB::Expand(const Vector3 & point)
 
 void AABB::Expand(const AABB & aabb)
 {
-	if (aabb.min.NearlyEqual(Vector3(0.0f)) && aabb.max.NearlyEqual(Vector3(0.0f)))
+	if (aabb.min.isEqualTo(Vector3(0.0f)) && aabb.max.isEqualTo(Vector3(0.0f)))
 	{
 		return;
 	}
-	if (min.NearlyEqual(Vector3(0.0f)) && max.NearlyEqual(Vector3(0.0f)))
+	if (min.isEqualTo(Vector3(0.0f)) && max.isEqualTo(Vector3(0.0f)))
 	{
 		min = aabb.min;
 		max = aabb.max;

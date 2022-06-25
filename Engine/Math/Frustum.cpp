@@ -7,17 +7,17 @@
 
 Frustum::Frustum(const Matrix4 & viewProjMatrix)
 {
-	planes[0] = (viewProjMatrix.GetRow(3) + viewProjMatrix.GetRow(0)).GetNormalized(); //left
+	planes[0] = (viewProjMatrix.GetRow(3) + viewProjMatrix.GetRow(0)).getNormalized(); //left
 
-	planes[1] = (viewProjMatrix.GetRow(3) - viewProjMatrix.GetRow(0)).GetNormalized(); //right
+	planes[1] = (viewProjMatrix.GetRow(3) - viewProjMatrix.GetRow(0)).getNormalized(); //right
 
-	planes[2] = (viewProjMatrix.GetRow(3) + viewProjMatrix.GetRow(1)).GetNormalized(); //bottom
+	planes[2] = (viewProjMatrix.GetRow(3) + viewProjMatrix.GetRow(1)).getNormalized(); //bottom
 
-	planes[3] = (viewProjMatrix.GetRow(3) - viewProjMatrix.GetRow(1)).GetNormalized(); //top
+	planes[3] = (viewProjMatrix.GetRow(3) - viewProjMatrix.GetRow(1)).getNormalized(); //top
 
-	planes[4] = (viewProjMatrix.GetRow(3) + viewProjMatrix.GetRow(2)).GetNormalized(); //near
+	planes[4] = (viewProjMatrix.GetRow(3) + viewProjMatrix.GetRow(2)).getNormalized(); //near
 
-	planes[5] = (viewProjMatrix.GetRow(3) - viewProjMatrix.GetRow(2)).GetNormalized(); //far
+	planes[5] = (viewProjMatrix.GetRow(3) - viewProjMatrix.GetRow(2)).getNormalized(); //far
 }
 
 Frustum::Frustum(float focalLength, float aspectRatio, float near, float far)

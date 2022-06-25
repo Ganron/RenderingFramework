@@ -240,7 +240,7 @@ bool Matrix2::operator!=(const Matrix2 & m) const
 	return !(*this == m);
 }
 
-Matrix2 Matrix2::CompMult(const Matrix2 & m1, const Matrix2 & m2)
+Matrix2 Matrix2::compMult(const Matrix2 & m1, const Matrix2 & m2)
 {
 	Matrix2 result;
 
@@ -252,7 +252,7 @@ Matrix2 Matrix2::CompMult(const Matrix2 & m1, const Matrix2 & m2)
 	return result;
 }
 
-Matrix2 Matrix2::CompDiv(const Matrix2 & m1, const Matrix2 & m2)
+Matrix2 Matrix2::compDiv(const Matrix2 & m1, const Matrix2 & m2)
 {
 	Matrix2 result;
 
@@ -264,7 +264,7 @@ Matrix2 Matrix2::CompDiv(const Matrix2 & m1, const Matrix2 & m2)
 	return result;
 }
 
-bool Matrix2::NearlyEqual(const Matrix3 & m, float tolerance) const
+bool Matrix2::isEqualTo(const Matrix3 & m, float tolerance) const
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -347,7 +347,7 @@ void Matrix2::SetColumn(int col, float x, float y)
 	matrixEntry[col * 2 + 1] = y;
 }
 
-void Matrix2::Print() const
+void Matrix2::print() const
 {
 	for (int r = 0; r < 2; r++)
 	{

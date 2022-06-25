@@ -310,7 +310,7 @@ bool Matrix4::operator!=(const Matrix4 & m) const
 	return !(*this == m);
 }
 
-Matrix4 Matrix4::CompMult(const Matrix4 & m1, const Matrix4 & m2)
+Matrix4 Matrix4::compMult(const Matrix4 & m1, const Matrix4 & m2)
 {
 	Matrix4 result;
 
@@ -322,7 +322,7 @@ Matrix4 Matrix4::CompMult(const Matrix4 & m1, const Matrix4 & m2)
 	return result;
 }
 
-Matrix4 Matrix4::CompDiv(const Matrix4 & m1, const Matrix4 & m2)
+Matrix4 Matrix4::compDiv(const Matrix4 & m1, const Matrix4 & m2)
 {
 	Matrix4 result;
 
@@ -334,7 +334,7 @@ Matrix4 Matrix4::CompDiv(const Matrix4 & m1, const Matrix4 & m2)
 	return result;
 }
 
-bool Matrix4::NearlyEqual(const Matrix3 & m, float tolerance) const
+bool Matrix4::isEqualTo(const Matrix3 & m, float tolerance) const
 {
 	for (int i = 0; i < 16; i++)
 	{
@@ -563,19 +563,19 @@ Matrix4 Matrix4::CreateTranslation(const Vector3 & v)
 
 Matrix4 Matrix4::CreateLookAtPOI(const Vector3 & cameraPos, const Vector3 & POI, const Vector3 & up)
 {
-	Vector3 forward = (cameraPos - POI).GetNormalized();
-	Vector3 upN = up.GetNormalized();
-	Vector3 left = Vector3::CrossProduct(upN, forward);
-	upN = Vector3::CrossProduct(forward, left);
+	Vector3 forward = (cameraPos - POI).getNormalized();
+	Vector3 upN = up.getNormalized();
+	Vector3 left = Vector3::crossProduct(upN, forward);
+	upN = Vector3::crossProduct(forward, left);
 
 	return Matrix4(
 		Vector4(left.x, upN.x, forward.x, 0.0f),
 		Vector4(left.y, upN.y, forward.y, 0.0f),
 		Vector4(left.z, upN.z, forward.z, 0.0f),
 		Vector4(
-			-Vector3::DotProduct(left, cameraPos),
-			-Vector3::DotProduct(upN, cameraPos),
-			-Vector3::DotProduct(forward, cameraPos),
+			-Vector3::dotProduct(left, cameraPos),
+			-Vector3::dotProduct(upN, cameraPos),
+			-Vector3::dotProduct(forward, cameraPos),
 			1.0f
 		)
 	);
@@ -583,19 +583,19 @@ Matrix4 Matrix4::CreateLookAtPOI(const Vector3 & cameraPos, const Vector3 & POI,
 
 Matrix4 Matrix4::CreateLookAtForward(const Vector3 & cameraPos, const Vector3 & forwardDir, const Vector3 & up)
 {
-	Vector3 forward = -forwardDir.GetNormalized();
-	Vector3 upN = up.GetNormalized();
-	Vector3 left = Vector3::CrossProduct(up, forward);
-	upN = Vector3::CrossProduct(forward, left);
+	Vector3 forward = -forwardDir.getNormalized();
+	Vector3 upN = up.getNormalized();
+	Vector3 left = Vector3::crossProduct(up, forward);
+	upN = Vector3::crossProduct(forward, left);
 
 	return Matrix4(
 		Vector4(left.x, upN.x, forward.x, 0.0f),
 		Vector4(left.y, upN.y, forward.y, 0.0f),
 		Vector4(left.z, upN.z, forward.z, 0.0f),
 		Vector4(
-			-Vector3::DotProduct(left, cameraPos),
-			-Vector3::DotProduct(upN, cameraPos),
-			-Vector3::DotProduct(forward, cameraPos),
+			-Vector3::dotProduct(left, cameraPos),
+			-Vector3::dotProduct(upN, cameraPos),
+			-Vector3::dotProduct(forward, cameraPos),
 			1.0f
 		)
 	);
@@ -676,7 +676,7 @@ void Matrix4::SetColumn(int col, float x, float y, float z, float w)
 	matrixEntry[col * 4 + 3] = w;
 }
 
-void Matrix4::Print() const
+void Matrix4::print() const
 {
 	for (int r = 0; r < 4; r++)
 	{

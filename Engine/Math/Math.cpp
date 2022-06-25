@@ -132,14 +132,14 @@ int LCM(int a, int b)
 	return a * b / GCD(a, b);
 }
 
-bool NearlyEqual(float a, float b, float tolerance)
+bool isEqualTo(float a, float b, float tolerance)
 {
 	return Abs(a - b) <= tolerance;
 }
 
 bool NearlyZero(float a, float tolerance)
 {
-	return Abs(a - 0.0f) <= tolerance;;
+	return Abs(a) <= tolerance;;
 }
 
 float Round(float x)
@@ -169,7 +169,7 @@ float RadToDeg(float angle)
 
 void CartToSpherical(const Vector3 & cartesian, Vector3 & spherical)
 {
-	spherical.x = cartesian.GetLength();
+	spherical.x = cartesian.getLength();
 	if (spherical.x < EPSILON_NEAR_ZERO)
 	{
 		spherical.y = 0.0f;

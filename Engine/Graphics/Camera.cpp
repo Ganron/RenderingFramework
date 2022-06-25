@@ -68,7 +68,7 @@ namespace Graphics
 	{
 		SphericalToCart(Vector3(1.0f, yaw, pitch), forward);
 		
-		right = Vector3::CrossProduct(forward, WORLD_UP).GetNormalized();
+		right = Vector3::crossProduct(forward, WORLD_UP).getNormalized();
 	}
 }
 

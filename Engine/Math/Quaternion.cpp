@@ -97,7 +97,7 @@ bool Quaternion::operator!=(const Quaternion & q) const
 	return !(*this == q);
 }
 
-float Quaternion::DotProduct(const Quaternion & q1, const Quaternion & q2)
+float Quaternion::dotProduct(const Quaternion & q1, const Quaternion & q2)
 {
 	return q1.w*q2.w + q1.x*q2.x + q1.y*q2.y + q1.z*q2.z;
 }
@@ -122,7 +122,7 @@ float Quaternion::GetNormSquared() const
 	return w * w + x * x + y * y + z * z;
 }
 
-Quaternion Quaternion::GetNormalized() const
+Quaternion Quaternion::getNormalized() const
 {
 	return *this/GetNorm();
 }
@@ -148,19 +148,19 @@ Vector3 Quaternion::GetRotationAxis() const
 	}
 }
 
-bool Quaternion::IsUnit(float tolerance) const
+bool Quaternion::isUnit(float tolerance) const
 {
 	return Abs(GetNorm() - 1.0f) < tolerance;
 }
 
-bool Quaternion::NearlyEqual(const Quaternion & q, float tolerance) const
+bool Quaternion::isEqualTo(const Quaternion & q, float tolerance) const
 {
 	return Abs(w - q.w) <= tolerance && Abs(x - q.x) <= tolerance && Abs(y - q.y) <= tolerance && Abs(z - q.z) <= tolerance;
 }
 
 Quaternion Quaternion::CreateFromTwoVectors(const Vector3 & v1, const Vector3 & v2)
 {
-	float scalarPart = Vector3::DotProduct(v1, v2);
+	float scalarPart = Vector3::dotProduct(v1, v2);
 	Vector3 vectorPart;
 	if (Abs(scalarPart) < EPSILON_NEAR_ZERO)
 	{
@@ -168,8 +168,8 @@ Quaternion Quaternion::CreateFromTwoVectors(const Vector3 & v1, const Vector3 & 
 		vectorPart = Abs(v1.x) > Abs(v1.z) ? Vector3(-v1.y, v1.x, 0.0f) : Vector3(0.0f, -v1.z, v1.y);
 	}
 	else
-		vectorPart = Vector3::CrossProduct(v1, v2);
-	return Quaternion(scalarPart,vectorPart).GetNormalized();
+		vectorPart = Vector3::crossProduct(v1, v2);
+	return Quaternion(scalarPart,vectorPart).getNormalized();
 }
 
 Quaternion Quaternion::CreateAxisAngle(float angle, const Vector3 & axis)
@@ -223,13 +223,13 @@ Quaternion Quaternion::CreateFromMatrix(const Matrix3 & m)
 //TODO Check normalized?
 float Quaternion::AngularDistance(const Quaternion & q) const
 {
-	return Acos(Abs(DotProduct(q,*this)));
+	return Acos(Abs(dotProduct(q,*this)));
 }
 
 Quaternion Quaternion::Lerp(const Quaternion & q1, const Quaternion & q2, float T, bool shortestPath)
 {
 	Quaternion result;
-	float dot = DotProduct(q1, q2);
+	float dot = dotProduct(q1, q2);
 	if (dot<0.0f && shortestPath)
 	{
 		result = q1 * (1 - T) - q2 * T;
@@ -238,13 +238,13 @@ Quaternion Quaternion::Lerp(const Quaternion & q1, const Quaternion & q2, float 
 	{
 		result = q1 * (1 + T) - q2 * T;
 	}
-	return result.GetNormalized();
+	return result.getNormalized();
 }
 
 //TODO Check normalized?
 Quaternion Quaternion::Slerp(const Quaternion & q1, const Quaternion & q2, float T, bool shortestPath)
 {
-	float dot = DotProduct(q1, q2);
+	float dot = dotProduct(q1, q2);
 	if (Abs(dot) > 1 - EPSILON_QUAT_SLERP_TO_LERP)
 	{
 		return Lerp(q1, q2, T, shortestPath);
@@ -271,13 +271,13 @@ Quaternion Quaternion::Slerp(const Quaternion & q1, const Quaternion & q2, float
 Vector3 Quaternion::RotateVector(const Vector3 & v) const
 {
 	Vector3 xyz(x, y, z);
-	Vector3 t = Vector3::CrossProduct(xyz, v) * 2;
-	return v + t * w + Vector3::CrossProduct(xyz, t);
+	Vector3 t = Vector3::crossProduct(xyz, v) * 2;
+	return v + t * w + Vector3::crossProduct(xyz, t);
 }
 
-void Quaternion::Normalize()
+void Quaternion::normalize()
 {
-	*this = this->GetNormalized();
+	*this = this->getNormalized();
 }
 
 Quaternion::~Quaternion()

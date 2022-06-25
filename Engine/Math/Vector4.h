@@ -84,32 +84,32 @@ public:
 
 	/* ADDITIONAL ARITHMETICS */
 
-	static float DotProduct(const Vector4& v1, const Vector4& v2);
+	static float dotProduct(const Vector4& v1, const Vector4& v2);
 	float operator*(const Vector4& v) const;
 
 	//Multiply v1 by v2 componentwise.
-	static Vector4 CompMult(const Vector4& v1, const Vector4& v2);
+	static Vector4 compMult(const Vector4& v1, const Vector4& v2);
 
 	//Devide v1 by v2 componentwise.
-	static Vector4 CompDiv(const Vector4& v1, const Vector4& v2);
+	static Vector4 compDiv(const Vector4& v1, const Vector4& v2);
 
 
 	/* GETTERS */
 
 	//Get a vector with unit length pointing in the same direction.
-	Vector4 GetNormalized() const;
+	Vector4 getNormalized() const;
 
 	//Calculate the magnitude of the vector.
-	float GetLength() const;
+	float getLength() const;
 
 	//Calculate the squared magnitude of the vector.
-	float GetLengthSquared() const;
+	float getLengthSquared() const;
 
 	//Calculate the distance between v1 and v2 (as a scalar).
-	static float GetDistance(const Vector4& v1, const Vector4& v2);
+	static float getDistance(const Vector4& v1, const Vector4& v2);
 
 	//Calculate the squared distance between v1 and v2 (as a scalar).
-	static float GetDistanceSquared(const Vector4& v1, const Vector4& v2);
+	static float getDistanceSquared(const Vector4& v1, const Vector4& v2);
 
 
 	Vector2 XY() const;
@@ -126,31 +126,31 @@ public:
 	/* PROPERTIES */
 
 	//Check whether the vector has a magnitude of 1.
-	bool IsUnit(float tolerance = EPSILON_VECTOR_UNIT) const;
+	bool isUnit(float tolerance = EPSILON_VECTOR_UNIT) const;
 
 	//Check wheter the vector is equal to another vector (within a given tolerance).
-	bool NearlyEqual(const Vector4& v, float tolerance = EPSILON_EQUAL) const;
+	bool isEqualTo(const Vector4& v, float tolerance = EPSILON_EQUAL) const;
 
 	//Check whether v1 and v2 are orthogonal
-	static bool Orthogonal(const Vector4& v1, const Vector4& v2, float tolerance = EPSILON_VECTOR_ORTHOGONAL);
+	static bool orthogonal(const Vector4& v1, const Vector4& v2, float tolerance = EPSILON_VECTOR_ORTHOGONAL);
 
 	//Check whether v1 and v2 are orthonormal (have unit length and are orthogonal).
-	static bool Orthonormal(const Vector4& v1, const Vector4& v2, float tolerance = EPSILON_VECTOR_ORTHONORMAL);
+	static bool orthonormal(const Vector4& v1, const Vector4& v2, float tolerance = EPSILON_VECTOR_ORTHONORMAL);
 
 	//Check whether v1 and v2 are parallel
-	static bool Parallel(const Vector4& v1, const Vector4& v2, float tolerance = EPSILON_VECTOR_PARALLEL);
+	static bool parallel(const Vector4& v1, const Vector4& v2, float tolerance = EPSILON_VECTOR_PARALLEL);
 
 
 	/* ADDITIONAL OPERATIONS */
 
 	//Get the projection of this vector onto v.
-	Vector4 ProjectOnTo(const Vector4& v) const;
+	Vector4 projectOnTo(const Vector4& v) const;
 
-	//Normalize the vector (resize it to a magnitude of 1.0 without changing its direction).
-	void Normalize();
+	//normalize the vector (resize it to a magnitude of 1.0 without changing its direction).
+	void normalize();
 
 	//TODO Remove or make it print to log
-	void Print() const;
+	void print() const;
 
 	~Vector4();
 };

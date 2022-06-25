@@ -75,7 +75,7 @@ public:
 
 	/* ADDITIONAL ARITHMETICS */
 
-	static float DotProduct(const Quaternion& q1, const Quaternion& q2);
+	static float dotProduct(const Quaternion& q1, const Quaternion& q2);
 
 
 	/* GETTERS */
@@ -88,7 +88,7 @@ public:
 
 	float GetNormSquared() const;
 
-	Quaternion GetNormalized() const;
+	Quaternion getNormalized() const;
 
 	/*
 	 Get the angle of rotation (in radians). 
@@ -104,9 +104,9 @@ public:
 
 	/* PROPERTIES */
 
-	bool IsUnit(float tolerance = EPSILON_EQUAL) const;
+	bool isUnit(float tolerance = EPSILON_EQUAL) const;
 
-	bool NearlyEqual(const Quaternion& q, float tolerance = EPSILON_EQUAL) const;
+	bool isEqualTo(const Quaternion& q, float tolerance = EPSILON_EQUAL) const;
 
 
 	/* ADDITIONAL OPERATIONS */
@@ -137,7 +137,7 @@ public:
 
 	Vector3 RotateVector(const Vector3& v) const;
 
-	void Normalize();
+	void normalize();
 
 	~Quaternion();
 };

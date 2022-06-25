@@ -108,7 +108,7 @@ bool Vector2::operator!=(const Vector2 & v) const
 	return (x != v.x || y != v.y);
 }
 
-float Vector2::DotProduct(const Vector2 & v1, const Vector2 & v2)
+float Vector2::dotProduct(const Vector2 & v1, const Vector2 & v2)
 {
 	return (v1.x*v2.x + v1.y*v2.y);
 }
@@ -118,19 +118,19 @@ float Vector2::operator*(const Vector2 & v) const
 	return (x*v.x + y * v.y);
 }
 
-Vector2 Vector2::CompMult(const Vector2 & v1, const Vector2 & v2)
+Vector2 Vector2::compMult(const Vector2 & v1, const Vector2 & v2)
 {
 	return Vector2(v1.x*v2.x, v1.y*v2.y);
 }
 
-Vector2 Vector2::CompDiv(const Vector2 & v1, const Vector2 & v2)
+Vector2 Vector2::compDiv(const Vector2 & v1, const Vector2 & v2)
 {
 	return Vector2(v1.x / v2.x, v1.y / v2.y);
 }
 
-Vector2 Vector2::GetNormalized() const
+Vector2 Vector2::getNormalized() const
 {
-	float length = GetLength();
+	float length = getLength();
 	if (length != 0.0f)
 	{
 		return (*this / length);
@@ -138,78 +138,78 @@ Vector2 Vector2::GetNormalized() const
 	else return Vector2();
 }
 
-float Vector2::GetLength() const
+float Vector2::getLength() const
 {
 	return Sqrt(x*x + y*y);
 }
 
-float Vector2::GetLengthSquared() const
+float Vector2::getLengthSquared() const
 {
 	return(x*x + y*y);
 }
 
 
-float Vector2::GetDistance(const Vector2 & v1, const Vector2 & v2)
+float Vector2::getDistance(const Vector2 & v1, const Vector2 & v2)
 {
-	return (v2 - v1).GetLength();
+	return (v2 - v1).getLength();
 }
 
-float Vector2::GetDistanceSquared(const Vector2 & v1, const Vector2 & v2)
+float Vector2::getDistanceSquared(const Vector2 & v1, const Vector2 & v2)
 {
-	return (v2 - v1).GetLengthSquared();
+	return (v2 - v1).getLengthSquared();
 }
 
-float Vector2::GetAngle(const Vector2 & v1, const Vector2 & v2)
+float Vector2::getAngle(const Vector2 & v1, const Vector2 & v2)
 {
-	Vector2 a = v1.GetNormalized();
-	Vector2 b = v2.GetNormalized();
+	Vector2 a = v1.getNormalized();
+	Vector2 b = v2.getNormalized();
 
-	return Acos(DotProduct(a, b));
+	return Acos(dotProduct(a, b));
 }
 
-bool Vector2::IsUnit(float tolerance) const
+bool Vector2::isUnit(float tolerance) const
 {
-	return Abs(GetLength() - 1.0f) < tolerance;
+	return Abs(getLength() - 1.0f) < tolerance;
 }
 
-bool Vector2::NearlyEqual(const Vector2 & v, float tolerance) const
+bool Vector2::isEqualTo(const Vector2 & v, float tolerance) const
 {
 	return (Abs(x - v.x) <= tolerance && Abs(y - v.y) <= tolerance);
 }
 
-bool Vector2::Orthogonal(const Vector2 & v1, const Vector2 & v2, float tolerance)
+bool Vector2::orthogonal(const Vector2 & v1, const Vector2 & v2, float tolerance)
 {
-	float dotProd = DotProduct(v1, v2);
+	float dotProd = dotProduct(v1, v2);
 	return (Abs(dotProd) < tolerance);
 }
 
-bool Vector2::Orthonormal(const Vector2 & v1, const Vector2 & v2, float tolerance)
+bool Vector2::orthonormal(const Vector2 & v1, const Vector2 & v2, float tolerance)
 {
-	return (Orthogonal(v1, v2, tolerance) && v1.IsUnit(tolerance) && v2.IsUnit(tolerance));
+	return (orthogonal(v1, v2, tolerance) && v1.isUnit(tolerance) && v2.isUnit(tolerance));
 }
 
-bool Vector2::Parallel(const Vector2 & v1, const Vector2 & v2, float tolerance)
+bool Vector2::parallel(const Vector2 & v1, const Vector2 & v2, float tolerance)
 {
-	float absDotProd = Abs(DotProduct(v1, v2));
-	float lengthProd = v1.GetLength()*v2.GetLength();
+	float absDotProd = Abs(dotProduct(v1, v2));
+	float lengthProd = v1.getLength()*v2.getLength();
 	return (Abs(absDotProd - lengthProd) < tolerance);
 }
 
-Vector2 Vector2::ProjectOnTo(const Vector2 & v) const
+Vector2 Vector2::projectOnTo(const Vector2 & v) const
 {
-	float length = v.GetLength();
+	float length = v.getLength();
 	return Vector2(
 		v * ((*this * v) / (length * length))
 	);
 }
 
-void Vector2::Normalize()
+void Vector2::normalize()
 {
-	*this = this->GetNormalized();
+	*this = this->getNormalized();
 }
 
 
-void Vector2::Print() const
+void Vector2::print() const
 {
 	std::cout << x << " " << y << " ";
 }

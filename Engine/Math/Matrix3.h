@@ -78,16 +78,16 @@ public:
 	/* ADDITIONAL ARITHMETICS */
 
 	//Multiply m1 by m2 componentwise.
-	static Matrix3 CompMult(const Matrix3& m1, const Matrix3& m2);
+	static Matrix3 compMult(const Matrix3& m1, const Matrix3& m2);
 
 	//Divide m1 by m2 componentwise.
-	static Matrix3 CompDiv(const Matrix3& m1, const Matrix3& m2);
+	static Matrix3 compDiv(const Matrix3& m1, const Matrix3& m2);
 
 
 	/* PROPERTIES */
 
 	//Check wheter the matrix is equal to another matrix (within a given tolerance).
-	bool NearlyEqual(const Matrix3& m, float tolerance = EPSILON_EQUAL) const;
+	bool isEqualTo(const Matrix3& m, float tolerance = EPSILON_EQUAL) const;
 
 
 	/* GETTERS */
@@ -156,7 +156,7 @@ public:
 	void SetColumn(int col, float x, float y, float z);
 
 	//TODO Remove or make it print to log
-	void Print() const;
+	void print() const;
 
 
 	~Matrix3();

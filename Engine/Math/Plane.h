@@ -73,7 +73,7 @@ public:
 	*/
 	Plane TransformFast(const Matrix3& rotation, const Vector3& translation) const;
 
-	void Normalize();
+	void normalize();
 
 	~Plane();
 };

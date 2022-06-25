@@ -63,68 +63,68 @@ public:
 
 	/* ADDITIONAL ARITHMETICS */
 
-	static float DotProduct(const Vector2& v1, const Vector2& v2);
+	static float dotProduct(const Vector2& v1, const Vector2& v2);
 	float operator*(const Vector2& v) const;
 
 	//Multiply v1 by v2 componentwise.
-	static Vector2 CompMult(const Vector2& v1, const Vector2& v2);
+	static Vector2 compMult(const Vector2& v1, const Vector2& v2);
 
 	//Devide v1 by v2 componentwise.
-	static Vector2 CompDiv(const Vector2& v1, const Vector2& v2);
+	static Vector2 compDiv(const Vector2& v1, const Vector2& v2);
 
 
 	/* GETTERS */
 
 	//Get a vector with unit length pointing in the same direction.
-	Vector2 GetNormalized() const;
+	Vector2 getNormalized() const;
 
 	//Calculate the magnitude of the vector.
-	float GetLength() const;
+	float getLength() const;
 
 	//Calculate the squared magnitude of the vector.
-	float GetLengthSquared() const;
+	float getLengthSquared() const;
 
 	//Calculate the distance between v1 and v2 (as a scalar).
-	static float GetDistance(const Vector2& v1, const Vector2& v2);
+	static float getDistance(const Vector2& v1, const Vector2& v2);
 
 	//Calculate the squared distance between v1 and v2 (as a scalar).
-	static float GetDistanceSquared(const Vector2& v1, const Vector2& v2);
+	static float getDistanceSquared(const Vector2& v1, const Vector2& v2);
 
 	/*
 	 Calculate the angle(in radians) between v1 and v2.
 	 v1 and v2 need not be normalized.
 	*/
-	static float GetAngle(const Vector2& v1, const Vector2& v2);
+	static float getAngle(const Vector2& v1, const Vector2& v2);
 	
 
 	/* PROPERTIES */
 
 	//Check whether the vector has a magnitude of 1.
-	bool IsUnit(float tolerance = EPSILON_VECTOR_UNIT) const;
+	bool isUnit(float tolerance = EPSILON_VECTOR_UNIT) const;
 
 	//Check wheter the vector is equal to another vector (within a given tolerance).
-	bool NearlyEqual(const Vector2& v, float tolerance = EPSILON_EQUAL) const;
+	bool isEqualTo(const Vector2& v, float tolerance = EPSILON_EQUAL) const;
 
 	//Check whether v1 and v2 are orthogonal
-	static bool Orthogonal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHOGONAL);
+	static bool orthogonal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHOGONAL);
 
 	//Check whether v1 and v2 are orthonormal (have unit length and are orthogonal).
-	static bool Orthonormal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHONORMAL);
+	static bool orthonormal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHONORMAL);
 
 	//Check whether v1 and v2 are parallel
-	static bool Parallel(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_PARALLEL);
+	static bool parallel(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_PARALLEL);
 
 
 	/* ADDITIONAL OPERATIONS */
 
 	//Get the projection of this vector onto v.
-	Vector2 ProjectOnTo(const Vector2& v) const;
+	Vector2 projectOnTo(const Vector2& v) const;
 
-	//Normalize the vector (resize it to a magnitude of 1.0 without changing its direction).
-	void Normalize();
+	//normalize the vector (resize it to a magnitude of 1.0 without changing its direction).
+	void normalize();
 
 	//TODO remove or make it print to log
-	void Print() const;
+	void print() const;
 
 	~Vector2();
 };

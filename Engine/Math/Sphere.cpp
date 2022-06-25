@@ -50,7 +50,7 @@ Sphere Sphere::Transform(const Matrix3 & rotation, const Vector3 & translation, 
 
 bool Sphere::Contains(const Vector3 & point)
 {
-	return (center - point).GetLengthSquared() <= radius * radius;
+	return (center - point).getLengthSquared() <= radius * radius;
 }
 
 bool Sphere::Contains(const Sphere & sphere)
@@ -60,7 +60,7 @@ bool Sphere::Contains(const Sphere & sphere)
 	{
 		return false;
 	}
-	return (center - sphere.GetCenter()).GetLengthSquared() <= radiusDiff*radiusDiff;
+	return (center - sphere.GetCenter()).getLengthSquared() <= radiusDiff*radiusDiff;
 }
 
 Sphere::~Sphere()

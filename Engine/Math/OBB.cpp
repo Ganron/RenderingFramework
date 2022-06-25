@@ -31,5 +31,5 @@ bool OBB::Contains(const Vector3 & point) const
 
 OBB OBB::Transform(const Matrix3 & rotation, const Vector3 & translation, const Vector3 scaleFactors) const
 {
-	return OBB(center+translation, Vector3::CompMult(extents,scaleFactors),localAxes*rotation);
+	return OBB(center+translation, extents.compMult(scaleFactors),localAxes*rotation);
 }

@@ -260,7 +260,7 @@ bool Matrix3::operator!=(const Matrix3 & m) const
 	return !(*this == m);
 }
 
-Matrix3 Matrix3::CompMult(const Matrix3 & m1, const Matrix3 & m2)
+Matrix3 Matrix3::compMult(const Matrix3 & m1, const Matrix3 & m2)
 {
 	Matrix3 result;
 
@@ -272,7 +272,7 @@ Matrix3 Matrix3::CompMult(const Matrix3 & m1, const Matrix3 & m2)
 	return result;
 }
 
-Matrix3 Matrix3::CompDiv(const Matrix3 & m1, const Matrix3 & m2)
+Matrix3 Matrix3::compDiv(const Matrix3 & m1, const Matrix3 & m2)
 {
 	Matrix3 result;
 
@@ -284,7 +284,7 @@ Matrix3 Matrix3::CompDiv(const Matrix3 & m1, const Matrix3 & m2)
 	return result;
 }
 
-bool Matrix3::NearlyEqual(const Matrix3 & m, float tolerance) const
+bool Matrix3::isEqualTo(const Matrix3 & m, float tolerance) const
 {
 	for (int i = 0; i < 9; i++)
 	{
@@ -406,7 +406,7 @@ Matrix3 Matrix3::CreateScale(const Vector3 & scaleFactors, const Vector3 & axisX
 Matrix3 Matrix3::CreateRotation(float angle, float x, float y, float z)
 {
 	Vector3 a = { x,y,z };
-	a.Normalize();
+	a.normalize();
 
 	float s = Sin(angle);
 	float c = Cos(angle);
@@ -478,7 +478,7 @@ void Matrix3::SetColumn(int col, float x, float y, float z)
 	matrixEntry[col * 3 + 2] = z;
 }
 
-void Matrix3::Print() const
+void Matrix3::print() const
 {
 	for (int r = 0; r < 3; r++)
 	{

@@ -15,11 +15,12 @@ const float TO_RAD_CONST = 0.01745329251f;
 
 //tolerance constants
 const float EPSILON_EQUAL = 0.0000001f;
-const float EPSILON_VECTOR_UNIT = 0.0000001f;
+//TODO remove vector-specific epsilon constants
+const float EPSILON_VECTOR_UNIT = 0.0000002f; //set to 2*eps_equal to account for the length squared in isUnit()
 const float EPSILON_VECTOR_ORTHOGONAL = 0.0000001f;
 const float EPSILON_VECTOR_ORTHONORMAL = 0.0000001f;
 const float EPSILON_VECTOR_PARALLEL = 0.0000001f;
-const float EPSILON_NEAR_ZERO_SQUARED = 0.0000001f;
+const float EPSILON_NEAR_ZERO_SQUARED = 0.0000002f; //set to 2*eps_new_zero to account for the length squared
 const float EPSILON_NEAR_ZERO = 0.0000001f;
 const float EPSILON_QUAT_SLERP_TO_LERP = 0.1f;
 
@@ -113,7 +114,7 @@ template<class T>
 T Min(T a, T b, T c);
 
 //Compare the two numbers within a given tolerance.
-bool NearlyEqual(float a, float b, float tolerance=EPSILON_EQUAL);
+bool isEqualTo(float a, float b, float tolerance=EPSILON_EQUAL);
 
 //Check whether a number is close to zero (within a given tolerance).
 bool NearlyZero(float a, float tolerance=EPSILON_NEAR_ZERO);

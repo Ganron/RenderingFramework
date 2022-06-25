@@ -29,7 +29,7 @@ Plane::Plane(const Vector3 & inNormal, const Vector3 & inPoint)
 
 Plane::Plane(const Vector3 & point0, const Vector3 & point1, const Vector3 & point2)
 {
-	normal = (Vector3::CrossProduct(point1 - point0, point2 - point0)).GetNormalized();
+	normal = (Vector3::crossProduct(point1 - point0, point2 - point0)).getNormalized();
 }
 
 Plane & Plane::operator=(const Plane & plane)
@@ -64,11 +64,11 @@ float Plane::Distance(const Vector3 & point) const
 	return normal*point + offset;
 }
 
-//TODO make a faster version of GetNormalized or use LengthSquared
+//TODO make a faster version of getNormalized or use LengthSquared
 Vector3 Plane::ProjectVector(const Vector3 & vector) const
 {
-	Vector3 n = normal.GetNormalized();
-	return vector - vector.ProjectOnTo(n);
+	Vector3 n = normal.getNormalized();
+	return vector - vector.projectOnTo(n);
 }
 
 Plane Plane::Transform(const Matrix3 & rotation, const Vector3& translation) const
@@ -86,9 +86,9 @@ Plane Plane::TransformFast(const Matrix3& rotation, const Vector3& translation) 
 	return (Plane)(transform*plane);
 }
 
-void Plane::Normalize()
+void Plane::normalize()
 {
-	normal.Normalize();
+	normal.normalize();
 }
 
 Plane::~Plane()
