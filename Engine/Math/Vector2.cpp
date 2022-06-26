@@ -1,5 +1,6 @@
 #include "Vector2.h"
 #include<iostream>
+#include<assert.h>
 
 Vector2::Vector2() : x(0.0f), y(0.0f) {}
 
@@ -16,33 +17,24 @@ Vector2& Vector2::operator=(const Vector2 & v)
 	return *this;
 }
 
-Vector2 & Vector2::operator=(float scalar)
-{
-	x = scalar;
-	y = scalar;
-	return *this;
-}
-
 float & Vector2::operator[](int n)
 {
-	Clamp<int>(n, 0, 1);
+	assert(n == 0 || n == 1);
 
-	if (n == 0) return x;
+	if (n == 0) 
+		return x;
 	else
-	{
 		return y;
-	}
 }
 
 const float & Vector2::operator[](int n) const
 {
-	Clamp<int>(n, 0, 1);
+	assert(n == 0 || n == 1);
 
-	if (n == 0) return x;
+	if (n == 0)
+		return x;
 	else
-	{
 		return y;
-	}
 }
 
 Vector2 Vector2::operator-() const
@@ -98,14 +90,9 @@ Vector2 & Vector2::operator/=(float scalar)
 	return *this;
 }
 
-bool Vector2::operator==(const Vector2 & v) const
+float Vector2::dot(const Vector2& v) const
 {
-	return (x == v.x && y == v.y);
-}
-
-bool Vector2::operator!=(const Vector2 & v) const
-{
-	return (x != v.x || y != v.y);
+	return x * v.x + y * v.y;
 }
 
 float Vector2::dotProduct(const Vector2 & v1, const Vector2 & v2)
@@ -118,24 +105,24 @@ float Vector2::operator*(const Vector2 & v) const
 	return (x*v.x + y * v.y);
 }
 
-Vector2 Vector2::compMult(const Vector2 & v1, const Vector2 & v2)
+Vector2 Vector2::compMult(const Vector2& v) const
 {
-	return Vector2(v1.x*v2.x, v1.y*v2.y);
+	return Vector2(x * v.x, y * v.y);
 }
 
-Vector2 Vector2::compDiv(const Vector2 & v1, const Vector2 & v2)
+Vector2 Vector2::compDiv(const Vector2& v) const
 {
-	return Vector2(v1.x / v2.x, v1.y / v2.y);
+	//Division by zero not allowed - raise assertion.
+	assert(!(NearlyZero(v.x) || NearlyZero(v.y)));
+	return Vector2(x / v.x, y / v.y);
 }
 
 Vector2 Vector2::getNormalized() const
 {
 	float length = getLength();
-	if (length != 0.0f)
-	{
-		return (*this / length);
-	}
-	else return Vector2();
+	//Raise assertion in case of zero vector.
+	assert(!NearlyZero(length));
+	return (*this / length);
 }
 
 float Vector2::getLength() const
@@ -146,6 +133,35 @@ float Vector2::getLength() const
 float Vector2::getLengthSquared() const
 {
 	return(x*x + y*y);
+}
+
+float Vector2::getDistanceTo(const Vector2& v) const
+{
+	return (v - *this).getLength();
+}
+
+float Vector2::getDistanceSquaredTo(const Vector2& v) const
+{
+	return (v - *this).getLengthSquared();
+}
+
+float Vector2::getAngleTo(const Vector2& v) const
+{
+	//By properties of the dot product:
+	//	a dot b = len(a) * len(b) * cos(angle)
+	//Ensuring normal vectors, we have:
+	//	angle = acos(a dot b)
+
+	Vector2 a = this->getNormalized();
+	Vector2 b = v.getNormalized();
+
+	return Acos(a.dot(b));
+}
+
+float Vector2::getAngleToUnit(const Vector2& v) const
+{
+	//In case of unit vectors, we can avoid calculating the length (eq to 1.0).
+	return Acos(this->dot(v));
 }
 
 
@@ -169,12 +185,39 @@ float Vector2::getAngle(const Vector2 & v1, const Vector2 & v2)
 
 bool Vector2::isUnit(float tolerance) const
 {
-	return Abs(getLength() - 1.0f) < tolerance;
+	//Here we use the squared length to gain performance.
+	//The difference in the result is negligible, but to nevertheless account for the change,
+	//we use double tolerance (encoded in the constant itself).
+	return NearlyZero(getLengthSquared() - 1.0f, tolerance);
 }
 
 bool Vector2::isEqualTo(const Vector2 & v, float tolerance) const
 {
 	return (Abs(x - v.x) <= tolerance && Abs(y - v.y) <= tolerance);
+}
+
+bool Vector2::isOrthogonalTo(const Vector2& v, float tolerance) const
+{
+	//The two vectors are orthogonal if their dot prouct is zero.
+	//We perform the comparison with some tolerance to account for floating point error.
+	float dotProd = this->dot(v);
+	return NearlyZero(dotProd, tolerance);
+}
+
+bool Vector2::isOrthonormalTo(const Vector2& v, float tolerance)
+{
+	//Two vectors are orthonormal if they are orthogonal and they are both unit vectors.
+	return (this->isOrthogonalTo(v, tolerance) && this->isUnit() && v.isUnit());
+}
+
+bool Vector2::isParallelTo(const Vector2& v, float tolerance)
+{
+	//Assuming the angle between the two vectors is 'alpha', then the two vectors are parallel when cos(alpha)=1.
+	//Therefore, |a dot b| = len(a) * len (b)
+	//We perform the comparison with some tolerance to account for floating point error.
+	float absDotProd = Abs(this->dot(v));
+	float lengthProd = this->getLength() * v.getLength();
+	return NearlyZero(absDotProd - lengthProd, tolerance);
 }
 
 bool Vector2::orthogonal(const Vector2 & v1, const Vector2 & v2, float tolerance)
@@ -195,12 +238,24 @@ bool Vector2::parallel(const Vector2 & v1, const Vector2 & v2, float tolerance)
 	return (Abs(absDotProd - lengthProd) < tolerance);
 }
 
+Vector2 Vector2::projectOnToUnit(const Vector2& v) const
+{
+	//Assuming unit length vectors, projection formula becomes:
+	//proj_a_onto_b = proj_length * b = a.dot(b) * b
+	return v * this->dot(v);
+}
+
 Vector2 Vector2::projectOnTo(const Vector2 & v) const
 {
-	float length = v.getLength();
-	return Vector2(
-		v * ((*this * v) / (length * length))
-	);
+	//Projection formula:
+	//proj_a_onto_b = proj_length * b_unit = a.dot(b) * b/len(b)
+
+	float lengthSq = v.getLengthSquared();
+	//In case of zero vector, an assertion is raised.
+	//Note the use of the appropriate constant for comparison with length squared.
+	assert(!NearlyZero(lengthSq, EPSILON_NEAR_ZERO_SQUARED));
+
+	return v * (this->dot(v) / (lengthSq));
 }
 
 void Vector2::normalize()

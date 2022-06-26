@@ -2,6 +2,7 @@
 
 #include"Math.h"
 
+//Forward declarations
 class Vector2;
 class Vector4;
 
@@ -11,7 +12,7 @@ class Vector4;
 class Vector3
 {
 public:
-	//x,y, and z elements are made public to allow for easy manipulation.
+	//x,y, and z components are made public to allow for easy manipulation.
 	//This is permissible, since encapsulation is not critical here 
 	//(the vector may have been represented as a struct as well).
 
@@ -31,7 +32,7 @@ public:
 
 	//Initialize the components of the vector to a single value.
 	//Vector initialized to: <scalar, scalar, scalar>
-	Vector3(float scalar);
+	explicit Vector3(float scalar);
 
 	//Initialize the components of the vector.
 	//Vector initialized to: <inX, inY, inZ>
@@ -96,7 +97,7 @@ public:
 	//NOTE: The operator modifies the current object.
 	Vector3& operator-= (const Vector3& v);
 
-	Vector3 operator* (float scalar) const;
+	Vector3 operator* (float scalar) const; //Opposite direction, i.e scalar*vector, is handled by a non-member operator.
 
 	//NOTE: The operator modifies the current object.
 	Vector3& operator*= (float scalar);
@@ -105,8 +106,6 @@ public:
 
 	//NOTE: The operator modifies the current object.
 	Vector3& operator/= (float scalar);
-	
-	//Opposite direction, i.e scalar*vector, is handled by a non-member operator function.
 
 
 	  /*********************************/
@@ -162,6 +161,10 @@ public:
 
 	//Calculate the angle (in radians) between the current vector and the input vector 'v'.
 	float getAngleTo(const Vector3& v) const;
+
+	//Calculate the angle (in radians) between the current unit vector and the input unit vector 'v'.
+	//ASSUMPTION: Both vectors must be unit vectors, otherwise the results will be incorrect.
+	float getAngleToUnit(const Vector3& v) const;
 
 	//Calculate the distance between v1 and v2 (as a scalar).
 	//TODO: Remove!

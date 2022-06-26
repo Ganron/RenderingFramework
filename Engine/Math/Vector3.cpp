@@ -154,7 +154,7 @@ Vector3 Vector3::getNormalized() const
 {
 	float length = getLength();
 	//Raise assertion in case of zero vector.
-	assert(!isEqualTo(length, 0.0f));
+	assert(!NearlyZero(length));
 	return (*this / length);
 }
 
@@ -191,6 +191,12 @@ float Vector3::getAngleTo(const Vector3& v) const
 	return Acos(a.dot(b));
 }
 
+float Vector3::getAngleToUnit(const Vector3& v) const
+{
+	//In case of unit vectors, we can avoid calculating the length (eq to 1.0).
+	return Acos(this->dot(v));
+}
+
 
 float Vector3::getDistance(const Vector3 & v1, const Vector3 & v2)
 {
@@ -224,7 +230,7 @@ Vector2 Vector3::yz()
 bool Vector3::isUnit(float tolerance) const
 {
 	//Here we use the squared length to gain performance.
-	//The difference is negligible, but to nevertheless account for the change,
+	//The difference in the result is negligible, but to nevertheless account for the change,
 	//we use double tolerance (encoded in the constant itself).
 	return NearlyZero(getLengthSquared() - 1.0f, tolerance);
 }

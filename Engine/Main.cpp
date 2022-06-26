@@ -168,24 +168,24 @@ int main()
 	};
 
 	Graphics::DirectionalLight dirLight;
-	dirLight.direction = (0.0f, -1.0f, -1.0f);
+	dirLight.direction = { 0.0f, -1.0f, -1.0f };
 	dirLight.ambientColor = Vector3(0.7f, 0.8f, 1.0f) * 0.3f;
 	dirLight.diffuseColor = Vector3(1.0f, 0.9f, 0.7f);
 	dirLight.specularColor = Vector3(1.0f, 0.9f, 0.7f);
 	//dirLight.SetInShader(blinnPhong);
 
 	Graphics::DirectionalLight dirLight2;
-	dirLight.direction = (0.0f, -1.0f, -1.0f);
-	dirLight.ambientColor = 0.15f;
+	dirLight.direction = { 0.0f, -1.0f, -1.0f };
+	dirLight.ambientColor = Vector3(0.15f);
 	dirLight.diffuseColor = Vector3(0.337f, 0.7f, 0.984f) * 0.15f;
 	dirLight.specularColor = Vector3(0.337f, 0.7f, 0.984f) * 0.15f;
 	//dirLight.SetInShader(blinnPhong);
 
 	Graphics::PointLight pointLight1;
 	pointLight1.position = lightPositions[0];
-	pointLight1.ambientColor = 0.35f;
+	pointLight1.ambientColor = Vector3(0.35f);
 	pointLight1.diffuseColor = Vector3(0.337f, 0.7f, 0.984f);
-	pointLight1.specularColor = 1.0f;
+	pointLight1.specularColor = Vector3(1.0f);
 	pointLight1.constCoeff = 1.0f;
 	pointLight1.linearCoeff = 0.14f;
 	pointLight1.quadraticCoeff = 0.07f;
@@ -207,9 +207,9 @@ int main()
 
 
 	Graphics::SpotLight spotLight;
-	spotLight.ambientColor = 0.5f;
+	spotLight.ambientColor = Vector3(0.5f);
 	spotLight.diffuseColor = Vector3(0.9f, 1.0f, 0.8f) * 1.3;
-	spotLight.specularColor = 1.0f;
+	spotLight.specularColor = Vector3(1.0f);
 	spotLight.constCoeff = 1.0f;
 	spotLight.linearCoeff = 0.14f;
 	spotLight.quadraticCoeff = 0.07f;
@@ -219,9 +219,9 @@ int main()
 	Graphics::SpotLight spotLight1;
 	spotLight1.position = lightPositions[1];
 	spotLight1.direction = Vector3(0.0f, -1.0f, 0.0f);
-	spotLight1.ambientColor = 1.0f;
+	spotLight1.ambientColor = Vector3(1.0f);
 	spotLight1.diffuseColor = Vector3(1, 0.784, 0.019);
-	spotLight1.specularColor = 1.0f;
+	spotLight1.specularColor = Vector3(1.0f);
 	spotLight1.constCoeff = 1.0f;
 	spotLight1.linearCoeff = 0.7f;
 	spotLight1.quadraticCoeff = 1.8f;
