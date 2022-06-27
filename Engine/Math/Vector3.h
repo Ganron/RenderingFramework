@@ -7,7 +7,7 @@ class Vector2;
 class Vector4;
 
 /*
-* A vector in 3D space.
+* A vector in R^3 (3-dimensional space).
 */
 class Vector3
 {
@@ -215,6 +215,7 @@ public:
 	static bool orthonormal(const Vector3& v1, const Vector3& v2, float tolerance = EPSILON_NEAR_ZERO);
 
 	//Check whether v1 and v2 are parallel
+	//TODO: Remove
 	static bool parallel(const Vector3& v1, const Vector3& v2, float tolerance = EPSILON_NEAR_ZERO);
 
 

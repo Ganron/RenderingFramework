@@ -272,3 +272,8 @@ void Vector2::print() const
 Vector2::~Vector2()
 {
 }
+
+Vector2 operator*(const float scalar, const Vector2& v)
+{
+	return v*scalar;
+}

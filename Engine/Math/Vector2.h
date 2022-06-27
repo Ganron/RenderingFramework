@@ -3,7 +3,7 @@
 #include "Math.h"
 
 /*
-* A vector in 3D space.
+* A vector in R^2 (2-dimensional space).
 */
 class Vector2
 {
@@ -180,6 +180,7 @@ public:
 	static bool orthonormal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHONORMAL);
 
 	//Check whether v1 and v2 are parallel
+	//TODO: Remove
 	static bool parallel(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_PARALLEL);
 
 
@@ -206,3 +207,5 @@ public:
 	~Vector2();
 };
 
+//A non-member operator to handle scalar * vector multiplication.
+Vector2 operator*(const float scalar, const Vector2& v);
