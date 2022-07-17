@@ -120,6 +120,9 @@
     <ClCompile Include="Engine\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\VectorBase.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Window.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Graphics\ResourceLoader.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\VectorBase.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

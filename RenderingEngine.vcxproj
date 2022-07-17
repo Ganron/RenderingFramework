@@ -153,6 +153,7 @@
     <ClCompile Include="Engine\Graphics\Material.cpp" />
     <ClCompile Include="Engine\Graphics\ResourceLoader.cpp" />
     <ClCompile Include="Engine\Graphics\Scene.cpp" />
+    <ClCompile Include="Engine\Math\VectorBase.cpp" />
     <ClCompile Include="Engine\Utilities\FileSystem.cpp" />
     <ClCompile Include="Engine\Graphics\Camera.cpp" />
     <ClCompile Include="Engine\Math\AABB.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Engine\Graphics\Material.h" />
     <ClInclude Include="Engine\Graphics\ResourceLoader.h" />
     <ClInclude Include="Engine\Graphics\Scene.h" />
+    <ClInclude Include="Engine\Math\VectorBase.h" />
     <ClInclude Include="Engine\Utilities\FileSystem.h" />
     <ClInclude Include="Engine\Graphics\Camera.h" />
     <ClInclude Include="Engine\Math\AABB.h" />
