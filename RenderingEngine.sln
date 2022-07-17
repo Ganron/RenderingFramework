@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2036
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RenderingEngine", "RenderingEngine.vcxproj", "{2361BE3E-15AE-4206-BAE0-BBBCB3D8FE07}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{CFA2A45D-96E0-4989-8EA4-37BD146E0108}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{2361BE3E-15AE-4206-BAE0-BBBCB3D8FE07}.Release|x64.Build.0 = Release|x64
 		{2361BE3E-15AE-4206-BAE0-BBBCB3D8FE07}.Release|x86.ActiveCfg = Release|Win32
 		{2361BE3E-15AE-4206-BAE0-BBBCB3D8FE07}.Release|x86.Build.0 = Release|Win32
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Debug|x64.ActiveCfg = Debug|x64
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Debug|x64.Build.0 = Debug|x64
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Debug|x86.ActiveCfg = Debug|Win32
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Debug|x86.Build.0 = Debug|Win32
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Release|x64.ActiveCfg = Release|x64
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Release|x64.Build.0 = Release|x64
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Release|x86.ActiveCfg = Release|Win32
+		{CFA2A45D-96E0-4989-8EA4-37BD146E0108}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
