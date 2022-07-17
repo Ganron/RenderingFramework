@@ -16,8 +16,6 @@ Vector3::Vector3(float inX, const Vector2 & v) : x(inX), y(v.x), z(v.y) {}
 
 Vector3::Vector3(const Vector3 & v) : x(v.x), y(v.y), z(v.z) {}
 
-Vector3::Vector3(const Vector4 & v) : x(v.x), y(v.y), z(v.z) {}
-
 Vector3 & Vector3::operator=(const Vector3 & v)
 {
 	x = v.x;
@@ -112,30 +110,12 @@ float Vector3::dot(const Vector3& v) const
 	return x*v.x + y*v.y + z*v.z;
 }
 
-float Vector3::dotProduct(const Vector3 & v1, const Vector3 & v2)
-{
-	return (v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
-}
-
-float Vector3::operator*(const Vector3 & v) const
-{
-	return (x*v.x + y*v.y + z*v.z);
-}
-
 Vector3 Vector3::cross(const Vector3& v) const
 {
 	return Vector3(
 		y * v.z - z * v.y,
 		z * v.x - x * v.z,
 		x * v.y - y * v.x);
-}
-
-Vector3 Vector3::crossProduct(const Vector3 & v1, const Vector3 & v2)
-{
-	return Vector3(
-		v1.y*v2.z - v1.z*v2.y,
-		v1.z*v2.x - v1.x*v2.z,
-		v1.x*v2.y - v1.y*v2.x);
 }
 
 Vector3 Vector3::compMult(const Vector3& v) const
@@ -197,26 +177,6 @@ float Vector3::getAngleToUnit(const Vector3& v) const
 	return Acos(this->dot(v));
 }
 
-
-float Vector3::getDistance(const Vector3 & v1, const Vector3 & v2)
-{
-	return (v2 - v1).getLength();
-}
-
-float Vector3::getDistanceSquared(const Vector3 & v1, const Vector3 & v2)
-{
-	return (v2 - v1).getLengthSquared();
-}
-
-float Vector3::getAngle(const Vector3 & v1, const Vector3 & v2)
-{
-	Vector3 a = v1.getNormalized();
-	Vector3 b = v2.getNormalized();
-
-	return Acos(dotProduct(a, b));
-
-}
-
 Vector2 Vector3::xy()
 {
 	return Vector2(x, y);
@@ -264,24 +224,6 @@ bool Vector3::isParallelTo(const Vector3& v, float tolerance)
 	return NearlyZero(absDotProd - lengthProd, tolerance);
 }
 
-bool Vector3::orthogonal(const Vector3 & v1, const Vector3 & v2, float tolerance)
-{
-	float dotProd = dotProduct(v1, v2);
-	return (Abs(dotProd) < tolerance);
-}
-
-bool Vector3::orthonormal(const Vector3 & v1, const Vector3 & v2, float tolerance)
-{
-	return (orthogonal(v1, v2, tolerance) && v1.isUnit(tolerance) && v2.isUnit(tolerance));
-}
-
-bool Vector3::parallel(const Vector3 & v1, const Vector3 & v2, float tolerance)
-{
-	float absDotProd = Abs(dotProduct(v1, v2));
-	float lengthProd = v1.getLength()*v2.getLength();
-	return (Abs(absDotProd - lengthProd) < tolerance);
-}
-
 Vector3 Vector3::projectOnToUnit(const Vector3 & v) const
 {
 	//Assuming unit length vectors, projection formula becomes:
@@ -315,7 +257,7 @@ Vector3 Vector3::refract(const Vector3 & light, const Vector3 & normal, float et
 	Vector3 n = normal.getNormalized();
 
 	float eta = etaLeaving / etaEntering;
-	float cos = dotProduct(l, n);
+	float cos = l.dot(n);
 	float k = 1 - eta * eta * (1 - cos * cos);
 
 	if (k < 0.0f)

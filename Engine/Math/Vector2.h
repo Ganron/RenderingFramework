@@ -95,11 +95,6 @@ public:
 	//Calculates the dot product of the current vector and the input vector 'v'.
 	float dot(const Vector2& v) const;
 
-	//A static function to calculate the dot product of two vectors.
-	//TODO: Remove!
-	static float dotProduct(const Vector2& v1, const Vector2& v2);
-	float operator*(const Vector2& v) const;
-
 	//Multiply the current vector by the input vector 'v' componentwise, i.e.
 	//x = this.x * x, etc.
 	Vector2 compMult(const Vector2& v) const;
@@ -136,18 +131,6 @@ public:
 	//Calculate the angle (in radians) between the current unit vector and the input unit vector 'v'.
 	//ASSUMPTION: Both vectors must be unit vectors, otherwise the results will be incorrect.
 	float getAngleToUnit(const Vector2& v) const;
-
-	//Calculate the distance between v1 and v2 (as a scalar).
-	//TODO: Remove!
-	static float getDistance(const Vector2& v1, const Vector2& v2);
-
-	//Calculate the squared distance between v1 and v2 (as a scalar).
-	//TODO: Remove!
-	static float getDistanceSquared(const Vector2& v1, const Vector2& v2);
-
-	//Calculate the angle(in radians) between v1 and v2.
-	//TODO Remove!
-	static float getAngle(const Vector2& v1, const Vector2& v2);
 	
 
 		/**************/
@@ -170,18 +153,6 @@ public:
 
 	//Check whether the current vector is parallel to the input vector 'v'.
 	bool isParallelTo(const Vector2& v, float tolerance = EPSILON_NEAR_ZERO);
-
-	//Check whether v1 and v2 are orthogonal
-	//TODO: Remove
-	static bool orthogonal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHOGONAL);
-
-	//Check whether v1 and v2 are orthonormal (have unit length and are orthogonal).
-	//TODO: Remove
-	static bool orthonormal(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_ORTHONORMAL);
-
-	//Check whether v1 and v2 are parallel
-	//TODO: Remove
-	static bool parallel(const Vector2& v1, const Vector2& v2, float tolerance = EPSILON_VECTOR_PARALLEL);
 
 
 		/*************************/

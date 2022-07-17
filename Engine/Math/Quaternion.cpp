@@ -160,7 +160,7 @@ bool Quaternion::isEqualTo(const Quaternion & q, float tolerance) const
 
 Quaternion Quaternion::CreateFromTwoVectors(const Vector3 & v1, const Vector3 & v2)
 {
-	float scalarPart = Vector3::dotProduct(v1, v2);
+	float scalarPart = v1.dot(v2);
 	Vector3 vectorPart;
 	if (Abs(scalarPart) < EPSILON_NEAR_ZERO)
 	{
@@ -168,7 +168,7 @@ Quaternion Quaternion::CreateFromTwoVectors(const Vector3 & v1, const Vector3 & 
 		vectorPart = Abs(v1.x) > Abs(v1.z) ? Vector3(-v1.y, v1.x, 0.0f) : Vector3(0.0f, -v1.z, v1.y);
 	}
 	else
-		vectorPart = Vector3::crossProduct(v1, v2);
+		vectorPart = v1.cross(v2);
 	return Quaternion(scalarPart,vectorPart).getNormalized();
 }
 
@@ -271,8 +271,8 @@ Quaternion Quaternion::Slerp(const Quaternion & q1, const Quaternion & q2, float
 Vector3 Quaternion::RotateVector(const Vector3 & v) const
 {
 	Vector3 xyz(x, y, z);
-	Vector3 t = Vector3::crossProduct(xyz, v) * 2;
-	return v + t * w + Vector3::crossProduct(xyz, t);
+	Vector3 t = (xyz.cross(v)) * 2;
+	return v + t * w + xyz.cross(t);
 }
 
 void Quaternion::normalize()

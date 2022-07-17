@@ -110,9 +110,9 @@ FrustumCullResult Frustum::CullTest(const OBB & obb)
 	for (int i = 0; i < 6; i++)
 	{
 		Vector3 normal = planes[i].GetNormal();
-		float u = Abs(obb.localAxes[0] * normal)*obb.extents[0];
-		float v = Abs(obb.localAxes[1] * normal)*obb.extents[1];
-		float w = Abs(obb.localAxes[2] * normal)*obb.extents[2];
+		float u = Abs(obb.localAxes[0].dot(normal))*obb.extents[0];
+		float v = Abs(obb.localAxes[1].dot(normal))*obb.extents[1];
+		float w = Abs(obb.localAxes[2].dot(normal))*obb.extents[2];
 		float effectiveRadius = u + v + w;
 
 		float distance = planes[i].Distance(obb.center);

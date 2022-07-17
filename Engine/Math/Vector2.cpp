@@ -95,16 +95,6 @@ float Vector2::dot(const Vector2& v) const
 	return x * v.x + y * v.y;
 }
 
-float Vector2::dotProduct(const Vector2 & v1, const Vector2 & v2)
-{
-	return (v1.x*v2.x + v1.y*v2.y);
-}
-
-float Vector2::operator*(const Vector2 & v) const
-{
-	return (x*v.x + y * v.y);
-}
-
 Vector2 Vector2::compMult(const Vector2& v) const
 {
 	return Vector2(x * v.x, y * v.y);
@@ -164,25 +154,6 @@ float Vector2::getAngleToUnit(const Vector2& v) const
 	return Acos(this->dot(v));
 }
 
-
-float Vector2::getDistance(const Vector2 & v1, const Vector2 & v2)
-{
-	return (v2 - v1).getLength();
-}
-
-float Vector2::getDistanceSquared(const Vector2 & v1, const Vector2 & v2)
-{
-	return (v2 - v1).getLengthSquared();
-}
-
-float Vector2::getAngle(const Vector2 & v1, const Vector2 & v2)
-{
-	Vector2 a = v1.getNormalized();
-	Vector2 b = v2.getNormalized();
-
-	return Acos(dotProduct(a, b));
-}
-
 bool Vector2::isUnit(float tolerance) const
 {
 	//Here we use the squared length to gain performance.
@@ -218,24 +189,6 @@ bool Vector2::isParallelTo(const Vector2& v, float tolerance)
 	float absDotProd = Abs(this->dot(v));
 	float lengthProd = this->getLength() * v.getLength();
 	return NearlyZero(absDotProd - lengthProd, tolerance);
-}
-
-bool Vector2::orthogonal(const Vector2 & v1, const Vector2 & v2, float tolerance)
-{
-	float dotProd = dotProduct(v1, v2);
-	return (Abs(dotProd) < tolerance);
-}
-
-bool Vector2::orthonormal(const Vector2 & v1, const Vector2 & v2, float tolerance)
-{
-	return (orthogonal(v1, v2, tolerance) && v1.isUnit(tolerance) && v2.isUnit(tolerance));
-}
-
-bool Vector2::parallel(const Vector2 & v1, const Vector2 & v2, float tolerance)
-{
-	float absDotProd = Abs(dotProduct(v1, v2));
-	float lengthProd = v1.getLength()*v2.getLength();
-	return (Abs(absDotProd - lengthProd) < tolerance);
 }
 
 Vector2 Vector2::projectOnToUnit(const Vector2& v) const

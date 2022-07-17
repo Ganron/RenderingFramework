@@ -49,12 +49,6 @@ public:
 	//Initialize the vector to another 3D vector. (Copy constructor)
 	Vector3(const Vector3& v);
 
-	//Initialize the components of the vector to the x, y and z components of a 4D vector.
-	//Vector initialized to: <v.x, v.y, v.z>
-	//NOTE: v.w is simply dropped, i.e. no projection is performed (no division by v.w)
-	//TODO: Remove!
-	Vector3(const Vector4& v);
-
 
 	  /************************/
    /* ASSIGNMENT OPERATORS */
@@ -115,19 +109,8 @@ public:
 	//Calculates the dot product of the current vector and the input vector 'v'.
 	float dot(const Vector3& v) const;
 
-	//A static function to calculate the dot product of two vectors.
-	//TODO: Remove!
-	static float dotProduct(const Vector3& v1, const Vector3& v2);
-	//An shorthand operator for the dot product operation.
-	//TODO: Remove!
-	float operator*(const Vector3& v)const;
-
 	//Calculates the cross product of the current vector and the input vector 'v'.
 	Vector3 cross(const Vector3& v) const;
-
-	//A static function to caluclate the cross product of two vectors.
-	//TODO: Remove!
-	static Vector3 crossProduct(const Vector3& v1, const Vector3& v2);
 
 	//Multiply the current vector by the input vector 'v' componentwise, i.e.
 	//x = this.x * x, etc.
@@ -166,18 +149,6 @@ public:
 	//ASSUMPTION: Both vectors must be unit vectors, otherwise the results will be incorrect.
 	float getAngleToUnit(const Vector3& v) const;
 
-	//Calculate the distance between v1 and v2 (as a scalar).
-	//TODO: Remove!
-	static float getDistance(const Vector3& v1, const Vector3& v2);
-
-	//Calculate the squared distance between v1 and v2 (as a scalar).
-	//TODO: Remove!
-	static float getDistanceSquared(const Vector3& v1, const Vector3& v2);
-
-	//Calculate the angle(in radians) between v1 and v2.
-	//TODO Remove!
-	static float getAngle(const Vector3& v1, const Vector3& v2);
-
 	//Get a 2D vector (Vector2), composed of the x and y components of the current vector.
 	Vector2 xy();
 
@@ -205,18 +176,6 @@ public:
 
 	//Check whether the current vector is parallel to the input vector 'v'.
 	bool isParallelTo(const Vector3& v, float tolerance = EPSILON_NEAR_ZERO);
-
-	//Check whether v1 and v2 are orthogonal
-	//TODO: Remove
-	static bool orthogonal(const Vector3& v1, const Vector3& v2, float tolerance = EPSILON_NEAR_ZERO);
-
-	//Check whether v1 and v2 are orthonormal (have unit length and are orthogonal).
-	//TODO: Remove
-	static bool orthonormal(const Vector3& v1, const Vector3& v2, float tolerance = EPSILON_NEAR_ZERO);
-
-	//Check whether v1 and v2 are parallel
-	//TODO: Remove
-	static bool parallel(const Vector3& v1, const Vector3& v2, float tolerance = EPSILON_NEAR_ZERO);
 
 
 	  /*************************/

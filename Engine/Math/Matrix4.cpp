@@ -565,17 +565,17 @@ Matrix4 Matrix4::CreateLookAtPOI(const Vector3 & cameraPos, const Vector3 & POI,
 {
 	Vector3 forward = (cameraPos - POI).getNormalized();
 	Vector3 upN = up.getNormalized();
-	Vector3 left = Vector3::crossProduct(upN, forward);
-	upN = Vector3::crossProduct(forward, left);
+	Vector3 left = upN.cross(forward);
+	upN = forward.cross(left);
 
 	return Matrix4(
 		Vector4(left.x, upN.x, forward.x, 0.0f),
 		Vector4(left.y, upN.y, forward.y, 0.0f),
 		Vector4(left.z, upN.z, forward.z, 0.0f),
 		Vector4(
-			-Vector3::dotProduct(left, cameraPos),
-			-Vector3::dotProduct(upN, cameraPos),
-			-Vector3::dotProduct(forward, cameraPos),
+			-left.dot(cameraPos),
+			-upN.dot(cameraPos),
+			-forward.dot(cameraPos),
 			1.0f
 		)
 	);
@@ -585,17 +585,17 @@ Matrix4 Matrix4::CreateLookAtForward(const Vector3 & cameraPos, const Vector3 & 
 {
 	Vector3 forward = -forwardDir.getNormalized();
 	Vector3 upN = up.getNormalized();
-	Vector3 left = Vector3::crossProduct(up, forward);
-	upN = Vector3::crossProduct(forward, left);
+	Vector3 left = up.cross(forward);
+	upN = forward.cross(left);
 
 	return Matrix4(
 		Vector4(left.x, upN.x, forward.x, 0.0f),
 		Vector4(left.y, upN.y, forward.y, 0.0f),
 		Vector4(left.z, upN.z, forward.z, 0.0f),
 		Vector4(
-			-Vector3::dotProduct(left, cameraPos),
-			-Vector3::dotProduct(upN, cameraPos),
-			-Vector3::dotProduct(forward, cameraPos),
+			-left.dot(cameraPos),
+			-upN.dot(cameraPos),
+			-forward.dot(cameraPos),
 			1.0f
 		)
 	);

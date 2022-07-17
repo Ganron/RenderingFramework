@@ -23,9 +23,9 @@ OBB & OBB::operator=(const OBB & obb)
 bool OBB::Contains(const Vector3 & point) const
 {
 	Vector3 centerToPoint = point - center;
-	float uProjected = Abs(centerToPoint*localAxes[0]);
-	float vProjected = Abs(centerToPoint*localAxes[1]);
-	float wProjected = Abs(centerToPoint*localAxes[2]);
+	float uProjected = Abs(centerToPoint.dot(localAxes[0]));
+	float vProjected = Abs(centerToPoint.dot(localAxes[1]));
+	float wProjected = Abs(centerToPoint.dot(localAxes[2]));
 	return uProjected <= extents.x && vProjected <= extents.y && wProjected <= extents.z;
 }
 

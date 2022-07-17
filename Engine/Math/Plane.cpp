@@ -24,12 +24,12 @@ Plane::Plane(const Plane & inPlane)
 Plane::Plane(const Vector3 & inNormal, const Vector3 & inPoint)
 {
 	normal = inNormal;
-	offset = -inNormal * inPoint;
+	offset = -inNormal.dot(inPoint);
 }
 
 Plane::Plane(const Vector3 & point0, const Vector3 & point1, const Vector3 & point2)
 {
-	normal = (Vector3::crossProduct(point1 - point0, point2 - point0)).getNormalized();
+	normal = ((point1 - point0).cross(point2 - point0)).getNormalized();
 }
 
 Plane & Plane::operator=(const Plane & plane)
@@ -61,7 +61,7 @@ void Plane::SetOffset(float inOffset)
 
 float Plane::Distance(const Vector3 & point) const
 {
-	return normal*point + offset;
+	return normal.dot(point) + offset;
 }
 
 //TODO make a faster version of getNormalized or use LengthSquared

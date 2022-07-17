@@ -127,16 +127,6 @@ float Vector4::dot(const Vector4& v) const
 	return x * v.x + y * v.y + z * v.z + w * v.w;
 }
 
-float Vector4::dotProduct(const Vector4 & v1, const Vector4 & v2)
-{
-	return (v1.x*v2.x + v1.y*v2.y + v1.z*v2.z + v1.w*v2.w);
-}
-
-float Vector4::operator*(const Vector4 & v) const
-{
-	return (x*v.x + y*v.y + z*v.z + w*v.w);
-}
-
 Vector4 Vector4::compMult(const Vector4& v)
 {
 	return Vector4(x * v.x, y * v.y, z * v.z, w * v.w);
@@ -184,8 +174,8 @@ float Vector4::getAngleTo(const Vector4& v) const
 	//Ensuring normal vectors, we have:
 	//	angle = acos(a dot b)
 
-	Vector3 a = this->getNormalized();
-	Vector3 b = v.getNormalized();
+	Vector4 a = this->getNormalized();
+	Vector4 b = v.getNormalized();
 
 	return Acos(a.dot(b));
 }
@@ -194,17 +184,6 @@ float Vector4::getAngleToUnit(const Vector4& v) const
 {
 	//In case of unit vectors, we can avoid calculating the length (= to 1.0).
 	return Acos(this->dot(v));
-}
-
-
-float Vector4::getDistance(const Vector4 & v1, const Vector4 & v2)
-{
-	return (v2 - v1).getLength();
-}
-
-float Vector4::getDistanceSquared(const Vector4 & v1, const Vector4 & v2)
-{
-	return (v2 - v1).getLengthSquared();
 }
 
 Vector2 Vector4::xy() const
@@ -267,24 +246,6 @@ bool Vector4::isParallelTo(const Vector4& v, float tolerance)
 	float absDotProd = Abs(this->dot(v));
 	float lengthProd = this->getLength() * v.getLength();
 	return NearlyZero(absDotProd - lengthProd, tolerance);
-}
-
-bool Vector4::orthogonal(const Vector4 & v1, const Vector4 & v2, float tolerance)
-{
-	float dotProd = dotProduct(v1, v2);
-	return (Abs(dotProd) < tolerance);
-}
-
-bool Vector4::orthonormal(const Vector4 & v1, const Vector4 & v2, float tolerance)
-{
-	return (orthogonal(v1, v2, tolerance) && v1.isUnit(tolerance) && v2.isUnit(tolerance));
-}
-
-bool Vector4::parallel(const Vector4 & v1, const Vector4 & v2, float tolerance)
-{
-	float absDotProd = Abs(dotProduct(v1, v2));
-	float lengthProd = v1.getLength()*v2.getLength();
-	return (Abs(absDotProd - lengthProd) < tolerance);
 }
 
 Vector4 Vector4::projectOnToUnit(const Vector4& v) const
