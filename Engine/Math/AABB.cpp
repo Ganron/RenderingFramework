@@ -1,5 +1,4 @@
 #include"AABB.h"
-#include"Math.h"
 #include"Matrix3.h"
 
 AABB::AABB() : min(-0.5f, -0.5f, -0.5f), max(0.5f, 0.5f, 0.5f)

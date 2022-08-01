@@ -1,5 +1,6 @@
 #include"Camera.h"
 #include"../Math/Math.h"
+#include"../Math/MathUtils.h"
 #include"../Math/Matrix4.h"
 #include<GLFW/glfw3.h>
 #include<iostream>

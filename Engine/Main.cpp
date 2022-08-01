@@ -3,6 +3,8 @@
 #include"Math/Vector2.h"
 #include"Math//Matrix4.h"
 #include"Math/Matrix3.h"
+#include"Math/Math.h"
+#include"Math/MathUtils.h"
 #include"Utilities/FileSystem.h"
 #include"Graphics/Window.h"
 #include"Graphics/Camera.h"
@@ -44,7 +46,7 @@ double lastFrame = 0.0;
 
 void UpdateTimer();
 
-int main()
+int main2()
 {
 	/*
 	 * WINDOW SETUP
@@ -68,7 +70,7 @@ int main()
 	/*
 	 * GEOMETRY SETUP
 	 */
-	
+
 	Graphics::TextureList texList;
 	Graphics::MaterialList matList(texList);
 	Graphics::MeshList meshList;

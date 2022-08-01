@@ -111,6 +111,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,7 +154,9 @@
     <ClCompile Include="Engine\Graphics\Material.cpp" />
     <ClCompile Include="Engine\Graphics\ResourceLoader.cpp" />
     <ClCompile Include="Engine\Graphics\Scene.cpp" />
-    <ClCompile Include="Engine\Math\VectorBase.cpp" />
+    <ClCompile Include="Engine\Main.cpp" />
+    <ClCompile Include="Engine\Math\MathUtils.cpp" />
+    <ClCompile Include="Engine\Test.cpp" />
     <ClCompile Include="Engine\Utilities\FileSystem.cpp" />
     <ClCompile Include="Engine\Graphics\Camera.cpp" />
     <ClCompile Include="Engine\Math\AABB.cpp" />
@@ -176,13 +179,14 @@
     <ClCompile Include="Engine\Graphics\Buffer.cpp" />
     <ClCompile Include="Engine\Graphics\VertexArrayObject.cpp" />
     <ClCompile Include="Engine\Graphics\Window.cpp" />
-    <ClCompile Include="Engine\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Graphics\Lights.h" />
     <ClInclude Include="Engine\Graphics\Material.h" />
     <ClInclude Include="Engine\Graphics\ResourceLoader.h" />
     <ClInclude Include="Engine\Graphics\Scene.h" />
+    <ClInclude Include="Engine\Math\MathUtils.h" />
+    <ClInclude Include="Engine\Math\Vector.h" />
     <ClInclude Include="Engine\Math\VectorBase.h" />
     <ClInclude Include="Engine\Utilities\FileSystem.h" />
     <ClInclude Include="Engine\Graphics\Camera.h" />
