@@ -2,36 +2,34 @@
 #include"Math.h"
 #include<assert.h>
 
-/*
-* This is the base class for an N-space Vector. This base class
-* contains the vector interface/implementation that is common for all N (all vector sizes).
-* The size-specific interface is specified through specializing the derived Vector<N> class.
-* 
-* To realize this design, we use CRTP (Cursiously Recurring Template Pattern):
-* https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
-* 
-* NOTE: 
-* This class cannot be instantiated - use the derived Vector class instead! 
-* The sole purpose of this class is to gather the common vector code in one place to allow for generality 
-* (the same code works for all vector sizes) and ease of maintenance (code must be changed in one place only). 
-* It is not intended to be used for direct manipulation!
-*/
+  //-----------------------//
+ // TEMPLATE DECLARATIONS //
+//-----------------------//
+
+// This is the base class for an N-space Vector. This base class
+// contains the vector interface/implementation that is common for all N (all vector sizes).
+// The size-specific interface is specified through specializing the derived Vector<N> class.
+//
+// To realize this design, we use CRTP (Cursiously Recurring Template Pattern):
+// https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
+//
+// NOTE: 
+// This class cannot be instantiated - use the derived Vector class instead! 
+// The sole purpose of this class is to gather the common vector code in one place to allow for generality 
+// (the same code works for all vector sizes) and ease of maintenance (code must be changed in one place only). 
+// It is not intended to be used for direct manipulation!
 template<int N, class VectorDerived>
 class VectorBase
 {
-  /*************************/
- /* TEMPLATE DECLARATIONS */
-/*************************/
-
 protected:
   //A static array of N vector elements. It must be visible to derived classes only.
   //Users can access these elements only through a dedicated interface.
   float elements[N];
 
 protected:
-    /****************/
-   /* CONSTRUCTORS */
-  /****************/
+    //--------------//
+   // CONSTRUCTORS //
+  //--------------//
 
   //All base class constructors are defined 'protected' with the following purpose:
   // - to explicitly forbid base class object instantiation;
@@ -59,16 +57,16 @@ protected:
 
 
 public:
-    /************************/
-   /* ASSIGNMENT OPERATORS */
-  /************************/
+    //----------------------//
+   // ASSIGNMENT OPERATORS //
+  //----------------------//
 
   VectorDerived& operator = (const VectorDerived& v);
 
 
-    /*******************/
-   /* UNARY OPERATORS */
-  /*******************/
+    //-----------------//
+   // UNARY OPERATORS //
+  //-----------------//
 
   //Return the n-th vector component, counting from 0.
   //NOTE: Index must be between 0 and N. If index is out of bounds, an assertion is raised.
@@ -84,9 +82,9 @@ public:
   VectorDerived operator-() const;
 
 
-    /************************/
-   /* ARITHMETIC OPERATORS */
-  /************************/
+    //----------------------//
+   // ARITHMETIC OPERATORS //
+  //----------------------//
 
   VectorDerived operator+ (const VectorDerived& v) const;
 
@@ -111,9 +109,9 @@ public:
   VectorDerived& operator/= (float scalar);
 
 
-    /*********************************/
-   /* ADDITIONAL VECTOR ARITHMETICS */
-  /*********************************/
+    //-------------------------------//
+   // ADDITIONAL VECTOR ARITHMETICS //
+  //-------------------------------//
 
   //Calculate the dot product of the current vector and the input vector 'v'.
   float dot(const VectorDerived& v) const;
@@ -128,9 +126,9 @@ public:
   VectorDerived compDiv(const VectorDerived& v) const;
 
 
-    /***********/
-   /* GETTERS */
-  /***********/
+    //---------//
+   // GETTERS //
+  //---------//
 
   //Calculate the magnitude of the vector.
   float getLength() const;
@@ -156,9 +154,9 @@ public:
   float getAngleToUnit(const VectorDerived& v) const;
 
 
-    /**************/
-   /* PROPERTIES */
-  /**************/
+    //------------//
+   // PROPERTIES //
+  //------------//
 
   //Check whether the vector is a unit vector (i.e., has a magnitude of 1).
   //NOTE: Compares to length squared. Take in mind when choosing tolerance.
@@ -178,9 +176,9 @@ public:
   bool isParallelTo(const VectorDerived& v, float tolerance = EPSILON_NEAR_ZERO) const;
 
 
-    /*************************/
-   /* ADDITIONAL OPERATIONS */
-  /*************************/
+    //-----------------------//
+   // ADDITIONAL OPERATIONS //
+  //-----------------------//
 
   //Get the projection of this vector onto the unit vector 'v'.
   //Quicker than the ordinary projection function.
@@ -197,12 +195,12 @@ public:
 };
 
 
-  /************************/
- /* TEMPLATE DEFINITIONS */
-/************************/
+  //----------------------//
+ // TEMPLATE DEFINITIONS //
+//----------------------//
 
 template<int N, class VectorDerived>
-VectorBase<N, VectorDerived>::VectorBase()
+inline VectorBase<N, VectorDerived>::VectorBase()
 {
   for (int i = 0; i < N; i++)
   {
@@ -211,7 +209,7 @@ VectorBase<N, VectorDerived>::VectorBase()
 }
 
 template<int N, class VectorDerived>
-VectorBase<N, VectorDerived>::VectorBase(const VectorBase& v)
+inline VectorBase<N, VectorDerived>::VectorBase(const VectorBase& v)
 {
   for (int i = 0; i < N; i++)
   {
@@ -220,7 +218,7 @@ VectorBase<N, VectorDerived>::VectorBase(const VectorBase& v)
 }
 
 template<int N, class VectorDerived>
-VectorBase<N, VectorDerived>::VectorBase(float arr[N])
+inline VectorBase<N, VectorDerived>::VectorBase(float arr[N])
 {
   for (int i = 0; i < N; i++)
   {
@@ -240,7 +238,7 @@ VectorDerived& VectorBase<N, VectorDerived>::operator=(const VectorDerived& v)
 }
 
 template<int N, class VectorDerived>
-float& VectorBase<N, VectorDerived>::operator[](int n)
+inline float& VectorBase<N, VectorDerived>::operator[](int n)
 {
   assert(n >= 0 && n < N);
 
@@ -248,7 +246,7 @@ float& VectorBase<N, VectorDerived>::operator[](int n)
 }
 
 template<int N, class VectorDerived>
-const float& VectorBase<N, VectorDerived>::operator[](int n) const
+inline const float& VectorBase<N, VectorDerived>::operator[](int n) const
 {
   assert(n >= 0 && n < N);
 
@@ -286,7 +284,7 @@ VectorDerived VectorBase<N, VectorDerived>::operator+(const VectorDerived& v) co
 }
 
 template<int N, class VectorDerived>
-VectorDerived& VectorBase<N, VectorDerived>::operator+=(const VectorDerived& v)
+inline VectorDerived& VectorBase<N, VectorDerived>::operator+=(const VectorDerived& v)
 {
   //Interface of VectorDerived implicitly declared
   for (int i = 0; i < N; i++)
@@ -311,7 +309,7 @@ VectorDerived VectorBase<N, VectorDerived>::operator-(const VectorDerived& v) co
 }
 
 template<int N, class VectorDerived>
-VectorDerived& VectorBase<N, VectorDerived>::operator-=(const VectorDerived& v)
+inline VectorDerived& VectorBase<N, VectorDerived>::operator-=(const VectorDerived& v)
 {
   //Interface of VectorDerived implicitly declared
   for (int i = 0; i < N; i++)
@@ -336,7 +334,7 @@ VectorDerived VectorBase<N, VectorDerived>::operator*(float scalar) const
 }
 
 template<int N, class VectorDerived>
-VectorDerived& VectorBase<N, VectorDerived>::operator*=(float scalar)
+inline VectorDerived& VectorBase<N, VectorDerived>::operator*=(float scalar)
 {
   //Interface of VectorDerived implicitly declared
   for (int i = 0; i < N; i++)
@@ -363,7 +361,7 @@ VectorDerived VectorBase<N, VectorDerived>::operator/(float scalar) const
 }
 
 template<int N, class VectorDerived>
-VectorDerived& VectorBase<N, VectorDerived>::operator/=(float scalar)
+inline VectorDerived& VectorBase<N, VectorDerived>::operator/=(float scalar)
 {
   //Interface of VectorDerived implicitly declared
   for (int i = 0; i < N; i++)
@@ -422,19 +420,19 @@ VectorDerived VectorBase<N, VectorDerived>::compDiv(const VectorDerived& v) cons
 }
 
 template<int N, class VectorDerived>
-float VectorBase<N, VectorDerived>::getLength() const
+inline float VectorBase<N, VectorDerived>::getLength() const
 {
   return Sqrt(this->getLength());
 }
 
 template<int N, class VectorDerived>
-float VectorBase<N, VectorDerived>::getLengthSquared() const
+inline float VectorBase<N, VectorDerived>::getLengthSquared() const
 {
   return this->dot(*this);
 }
 
 template<int N, class VectorDerived>
-VectorDerived VectorBase<N, VectorDerived>::getNormalized() const
+inline VectorDerived VectorBase<N, VectorDerived>::getNormalized() const
 {
   float length = getLength();
   assert(!NearlyZero(length));
@@ -442,19 +440,19 @@ VectorDerived VectorBase<N, VectorDerived>::getNormalized() const
 }
 
 template<int N, class VectorDerived>
-float VectorBase<N, VectorDerived>::getDistanceTo(const VectorDerived& v) const
+inline float VectorBase<N, VectorDerived>::getDistanceTo(const VectorDerived& v) const
 {
   return (v - static_cast<VectorDerived&>(*this)).getLength();
 }
 
 template<int N, class VectorDerived>
-float VectorBase<N, VectorDerived>::getDistanceSquaredTo(const VectorDerived& v) const
+inline float VectorBase<N, VectorDerived>::getDistanceSquaredTo(const VectorDerived& v) const
 {
   return (v - static_cast<VectorDerived&>(*this)).getLengthSquared();
 }
 
 template<int N, class VectorDerived>
-float VectorBase<N, VectorDerived>::getAngleTo(const VectorDerived& v) const
+inline float VectorBase<N, VectorDerived>::getAngleTo(const VectorDerived& v) const
 {
   //By properties of the dot product:
   //	a dot b = len(a) * len(b) * cos(angle)
@@ -468,14 +466,14 @@ float VectorBase<N, VectorDerived>::getAngleTo(const VectorDerived& v) const
 }
 
 template<int N, class VectorDerived>
-float VectorBase<N, VectorDerived>::getAngleToUnit(const VectorDerived& v) const
+inline float VectorBase<N, VectorDerived>::getAngleToUnit(const VectorDerived& v) const
 {
   //In case of unit vectors, we can avoid calculating the length (eq to 1.0).
   return Acos(this->dot(v));
 }
 
 template<int N, class VectorDerived>
-bool VectorBase<N, VectorDerived>::isUnit(float tolerance) const
+inline bool VectorBase<N, VectorDerived>::isUnit(float tolerance) const
 {
   //Here we use the squared length to avoid costly sqrt operation.
   //The difference in the result is negligible, but to nevertheless account for the change,
@@ -484,7 +482,7 @@ bool VectorBase<N, VectorDerived>::isUnit(float tolerance) const
 }
 
 template<int N, class VectorDerived>
-bool VectorBase<N, VectorDerived>::isEqualTo(const VectorDerived& v, float tolerance) const
+inline bool VectorBase<N, VectorDerived>::isEqualTo(const VectorDerived& v, float tolerance) const
 {
   for (int i = 0; i < N; i++)
   {
@@ -495,7 +493,7 @@ bool VectorBase<N, VectorDerived>::isEqualTo(const VectorDerived& v, float toler
 }
 
 template<int N, class VectorDerived>
-bool VectorBase<N, VectorDerived>::isOrthogonalTo(const VectorDerived& v, float tolerance) const
+inline bool VectorBase<N, VectorDerived>::isOrthogonalTo(const VectorDerived& v, float tolerance) const
 {
   //The two vectors are orthogonal if their dot prouct is zero.
   //We perform the comparison with some tolerance to account for floating point error.
@@ -504,14 +502,14 @@ bool VectorBase<N, VectorDerived>::isOrthogonalTo(const VectorDerived& v, float 
 }
 
 template<int N, class VectorDerived>
-bool VectorBase<N, VectorDerived>::isOrthonormalTo(const VectorDerived& v, float tolerance) const
+inline bool VectorBase<N, VectorDerived>::isOrthonormalTo(const VectorDerived& v, float tolerance) const
 {
   //Two vectors are orthonormal if they are orthogonal and they are both unit vectors.
   return (this->isOrthogonalTo(v, tolerance) && this->isUnit() && v.isUnit());
 }
 
 template<int N, class VectorDerived>
-bool VectorBase<N, VectorDerived>::isParallelTo(const VectorDerived& v, float tolerance) const
+inline bool VectorBase<N, VectorDerived>::isParallelTo(const VectorDerived& v, float tolerance) const
 {
   //Assuming the angle between the two vectors is 'alpha', then the two vectors are parallel when cos(alpha)=1.
   //Therefore, |a dot b| = len(a) * len (b)
@@ -522,7 +520,7 @@ bool VectorBase<N, VectorDerived>::isParallelTo(const VectorDerived& v, float to
 }
 
 template<int N, class VectorDerived>
-VectorDerived VectorBase<N, VectorDerived>::projectOnToUnit(const VectorDerived& v) const
+inline VectorDerived VectorBase<N, VectorDerived>::projectOnToUnit(const VectorDerived& v) const
 {
   //Assuming unit length vectors, projection formula becomes:
   //proj_a_onto_b = proj_length * b = a.dot(b) * b
@@ -544,7 +542,7 @@ VectorDerived VectorBase<N, VectorDerived>::projectOnTo(const VectorDerived& v) 
 }
 
 template<int N, class VectorDerived>
-void VectorBase<N, VectorDerived>::normalize()
+inline void VectorBase<N, VectorDerived>::normalize()
 {
   *this = this->getNormalized();
 }

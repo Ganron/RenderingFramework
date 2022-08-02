@@ -2,23 +2,21 @@
 #include"VectorBase.h"
 #include<assert.h>
 
-/*
-* A vector of arbitrary size N. The interface that is common for all vector sizes is derived from VectorBase.
-* The specialised interface for vectors of size 2, 3, and 4 is achieved through template specialization.
-*/
+// A vector of arbitrary size N. The interface that is common for all vector sizes is derived from VectorBase.
+// The specialised interface for vectors of size 2, 3, and 4 is achieved through template specialization.
 template <int N>
 class Vector : public VectorBase<N, Vector<N>>
 {
   //inherits the 'float elements[N]' data member
-
+  
 public:
-    /****************/
-   /* CONSTRUCTORS */
-  /****************/
+    //--------------//
+   // CONSTRUCTORS //
+  //--------------//
 
   //Default constructor. Initialise all elements to zero.
   Vector() {};
-
+  
   //Static array constructor. Initialise the vector elements from a static array of floating point numbers.
   Vector(float arr[N]) : VectorBase(arr) {}
 
@@ -59,9 +57,8 @@ Vector<N> operator*(float scalar, const Vector<N>& v)
   return v * scalar;
 }
 
-/*
-* Specialised interface for a vector of size 1, i.e. a scalar.
-*/
+
+// Specialised interface for a vector of size 1, i.e. a scalar.
 template<>
 class Vector<1> : public VectorBase<1, Vector<1>>
 {
@@ -82,22 +79,20 @@ public:
 };
 
 
-/*
-* Specialised interface for a vector of size 2.
-* Here we call the two vector elements 'x' and 'y'.
-*/
+
+// Specialised interface for a vector of size 2.
+// Here we call the two vector elements 'x' and 'y'.
 template<>
 class Vector<2> : public VectorBase<2, Vector<2>>
 {
   //inherits a 'float elements[2]' data member
 
 public:
+    //--------------//
+   // CONSTRUCTORS //
+  //--------------//
 
-  /****************/
- /* CONSTRUCTORS */
-/****************/
-
-//Default constructor. Initialise all elements to zero.
+  //Default constructor. Initialise all elements to zero.
   Vector<2>() {}
 
   //Static array constructor. Initialise the vector elements from a static array of 2 floating point numbers.
@@ -114,30 +109,28 @@ public:
   Vector<2>(const Vector<2>& v) : VectorBase(v) {}
 
 
-  /*****************/
- /* MEMBER ACCESS */
-/*****************/
+    //---------------//
+   // MEMBER ACCESS //
+  //---------------//
 
   float x() const { return this->elements[0]; }
   float y() const { return this->elements[1]; }
 };
 
 
-/*
-* Specialised interface for a vector of size 3.
-* Here we call the three vector elements 'x', 'y', and 'z'.
-*/
+ // Specialised interface for a vector of size 3.
+ // Here we call the three vector elements 'x', 'y', and 'z'.
 template<>
 class Vector<3> : public VectorBase<3, Vector<3>>
 {
   //inherits a 'float elements[3]' data member
 
 public:
-  /****************/
- /* CONSTRUCTORS */
-/****************/
+    //--------------//
+   // CONSTRUCTORS //
+  //--------------//
 
-//Default constructor. Initialise all elements to zero.
+  //Default constructor. Initialise all elements to zero.
   Vector<3>() {}
 
   //Static array constructor. Initialise the vector elements from a static array of 2 floating point numbers.
@@ -172,9 +165,9 @@ public:
   //Copy constructor. Initialise all elements to be equal to the elements of the input vector 'v'.
   Vector<3>(const Vector<3>& v) : VectorBase(v) {}
 
-  /*****************/
- /* MEMBER ACCESS */
-/*****************/
+    //---------------//
+   // MEMBER ACCESS //
+  //---------------//
 
   float x() const { return this->elements[0]; }
   float y() const { return this->elements[1]; }
@@ -184,11 +177,12 @@ public:
   //Get a 2D vector, composed of the y and z coponents of the current vector.
   Vector<2> yz() const { return Vector<2>{y(), z()}; }
 
-  /**************/
- /* ADDITIONAL */
-/**************/
 
-//Calculates the cross product of the current vector and the input vector 'v'.
+    //------------//
+   // ADDITIONAL //
+  //------------//
+
+  //Calculate the cross product of the current vector and the input vector 'v'.
   Vector<3> cross(const Vector<3>& v) const
   {
     return Vector<3>(
@@ -198,21 +192,20 @@ public:
   }
 };
 
-/*
-* Specialised interface for a vector of size 4.
-* Here we call the three vector elements 'x', 'y', 'z', and 'w'.
-*/
+
+ // Specialised interface for a vector of size 4.
+ // Here we call the three vector elements 'x', 'y', 'z', and 'w'.
 template<>
 class Vector<4> : public VectorBase<4, Vector<4>>
 {
   //inherits a 'float elements[4]' data member
 
 public:
-  /****************/
- /* CONSTRUCTORS */
-/****************/
+    //--------------//
+   // CONSTRUCTORS //
+  //--------------//
 
-//Default constructor. Initialise all elements to zero.
+  //Default constructor. Initialise all elements to zero.
   Vector<4>() {}
 
   //Static array constructor. Initialise the vector elements from a static array of 2 floating point numbers.
@@ -291,9 +284,9 @@ public:
   }
 
 
-  /*****************/
- /* MEMBER ACCESS */
-/*****************/
+    //---------------//
+   // MEMBER ACCESS //
+  //---------------//
 
   float x() const { return this->elements[0]; }
   float y() const { return this->elements[1]; }
