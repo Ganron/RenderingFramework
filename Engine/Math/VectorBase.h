@@ -257,7 +257,7 @@ template<int N, class VectorDerived>
 VectorDerived VectorBase<N, VectorDerived>::operator-() const
 {
   //copy ctor
-  VectorDerived v(*this);
+  VectorDerived v(static_cast<const VectorDerived&>(*this));
 
   //Interface of VectorDerived implicitly declared
   for (int i = 0; i < N; i++)
@@ -314,7 +314,7 @@ inline VectorDerived& VectorBase<N, VectorDerived>::operator-=(const VectorDeriv
   //Interface of VectorDerived implicitly declared
   for (int i = 0; i < N; i++)
   {
-    this->elements[i] += v.elements[i];
+    this->elements[i] -= v.elements[i];
   }
   return static_cast<VectorDerived&>(*this);
 }
@@ -422,13 +422,13 @@ VectorDerived VectorBase<N, VectorDerived>::compDiv(const VectorDerived& v) cons
 template<int N, class VectorDerived>
 inline float VectorBase<N, VectorDerived>::getLength() const
 {
-  return Sqrt(this->getLength());
+  return Sqrt(this->getLengthSquared());
 }
 
 template<int N, class VectorDerived>
 inline float VectorBase<N, VectorDerived>::getLengthSquared() const
 {
-  return this->dot(*this);
+  return this->dot(static_cast<const VectorDerived&>(*this));
 }
 
 template<int N, class VectorDerived>
@@ -442,13 +442,13 @@ inline VectorDerived VectorBase<N, VectorDerived>::getNormalized() const
 template<int N, class VectorDerived>
 inline float VectorBase<N, VectorDerived>::getDistanceTo(const VectorDerived& v) const
 {
-  return (v - static_cast<VectorDerived&>(*this)).getLength();
+  return (v - static_cast<const VectorDerived&>(*this)).getLength();
 }
 
 template<int N, class VectorDerived>
 inline float VectorBase<N, VectorDerived>::getDistanceSquaredTo(const VectorDerived& v) const
 {
-  return (v - static_cast<VectorDerived&>(*this)).getLengthSquared();
+  return (v - static_cast<const VectorDerived&>(*this)).getLengthSquared();
 }
 
 template<int N, class VectorDerived>

@@ -18,10 +18,10 @@ public:
   Vector() {};
   
   //Static array constructor. Initialise the vector elements from a static array of floating point numbers.
-  Vector(float arr[N]) : VectorBase(arr) {}
+  Vector(float arr[N]) : VectorBase<N,Vector<N>>(arr) {}
 
   //Copy constructor. Initialise all elements to be equal to the elements of the input vector 'v'.
-  Vector(const Vector& v) : VectorBase(v) {}
+  Vector(const Vector& v) : VectorBase<N,Vector<N>>(v) {}
 
   //Generic constructor for constructing the vector out of two smaller vectors.
   //Requirement: the dimension of 'v1' + the dimension of 'v2' must be equal to N.
@@ -72,7 +72,7 @@ public:
   Vector<1>(float scalar) {}
 
   //Copy constructor.
-  Vector<1>(const Vector<1>& v) : VectorBase(v) {}
+  Vector<1>(const Vector<1>& v) : VectorBase<1,Vector<1>>(v) {}
 
   //Conversion to float.
   operator float() const { return this->elements[0]; }
@@ -96,7 +96,7 @@ public:
   Vector<2>() {}
 
   //Static array constructor. Initialise the vector elements from a static array of 2 floating point numbers.
-  Vector<2>(float arr[2]) : VectorBase(arr) {}
+  Vector<2>(float arr[2]) : VectorBase<2,Vector<2>>(arr) {}
 
   //Initialise all the 'x' and 'y' vector elements separately.
   Vector<2>(float inX, float inY)
@@ -106,7 +106,7 @@ public:
   }
 
   //Copy constructor. Initialise all elements to be equal to the elements of the input vector 'v'.
-  Vector<2>(const Vector<2>& v) : VectorBase(v) {}
+  Vector<2>(const Vector<2>& v) : VectorBase<2,Vector<2>>(v) {}
 
 
     //---------------//
@@ -134,7 +134,7 @@ public:
   Vector<3>() {}
 
   //Static array constructor. Initialise the vector elements from a static array of 2 floating point numbers.
-  Vector<3>(float arr[3]) : VectorBase(arr) {}
+  Vector<3>(float arr[3]) : VectorBase<3,Vector<3>>(arr) {}
 
   //Initialise all the 'x', 'y', and 'z' vector elements separately.
   Vector<3>(float inX, float inY, float inZ)
@@ -163,7 +163,7 @@ public:
   }
 
   //Copy constructor. Initialise all elements to be equal to the elements of the input vector 'v'.
-  Vector<3>(const Vector<3>& v) : VectorBase(v) {}
+  Vector<3>(const Vector<3>& v) : VectorBase<3,Vector<3>>(v) {}
 
     //---------------//
    // MEMBER ACCESS //
@@ -209,7 +209,7 @@ public:
   Vector<4>() {}
 
   //Static array constructor. Initialise the vector elements from a static array of 2 floating point numbers.
-  Vector<4>(float arr[4]) : VectorBase(arr) {}
+  Vector<4>(float arr[4]) : VectorBase<4,Vector<4>>(arr) {}
 
   //Initialise all the 'x', 'y', 'z', and 'w' vector elements separately.
   Vector<4>(float inX, float inY, float inZ, float inW = 1.0f)
@@ -221,7 +221,7 @@ public:
   }
 
   //Copy constructor. Initialise all elements to be equal to the elements of the input vector 'v'.
-  Vector<4>(const Vector<4>& v) : VectorBase(v) {}
+  Vector<4>(const Vector<4>& v) : VectorBase<4,Vector<4>>(v) {}
 
   //Initialize the components of the vector to a 3D vector and a w value.
   //Vector initialized to: <inXYZ, inW> = <inXYZ.x(), inXYZ.y(), inXYZ.z(), inW>
